@@ -417,6 +417,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-collapsible@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@radix-ui/react-collapsible@npm:1.0.2"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@radix-ui/primitive": 1.0.0
+    "@radix-ui/react-compose-refs": 1.0.0
+    "@radix-ui/react-context": 1.0.0
+    "@radix-ui/react-id": 1.0.0
+    "@radix-ui/react-presence": 1.0.0
+    "@radix-ui/react-primitive": 1.0.2
+    "@radix-ui/react-use-controllable-state": 1.0.0
+    "@radix-ui/react-use-layout-effect": 1.0.0
+  peerDependencies:
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+  checksum: a0fcfd3aad5159e1fb6fc54fd09210d7de9c1ee1e19739a5a82af81d3f2233e4e5eb204da326f32e2f2a4740aa4c3b42530b61e36b7ced9f857801809d1d3527
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-compose-refs@npm:1.0.0":
   version: 1.0.0
   resolution: "@radix-ui/react-compose-refs@npm:1.0.0"
@@ -5115,6 +5135,7 @@ __metadata:
   dependencies:
     "@radix-ui/react-alert-dialog": ^1.0.3
     "@radix-ui/react-checkbox": ^1.0.3
+    "@radix-ui/react-collapsible": ^1.0.2
     "@radix-ui/react-dialog": ^1.0.3
     "@radix-ui/react-hover-card": ^1.0.5
     "@types/proj4": ^2.5.2
@@ -5272,6 +5293,7 @@ __metadata:
     "@types/react-dom": ^18.0.7
     autoprefixer: ^10.4.14
     eslint-config-custom: "*"
+    lucide-react: ^0.193.0
     next: latest
     postcss: ^8.4.23
     react: ^18.2.0

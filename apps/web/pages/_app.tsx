@@ -1,4 +1,4 @@
-import { Layout } from "@/layout";
+import { Layout } from "@/templates";
 import { Jost } from "next/font/google";
 import { cn } from "ui";
 import "../styles/globals.css";
