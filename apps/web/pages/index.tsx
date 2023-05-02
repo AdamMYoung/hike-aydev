@@ -1,10 +1,11 @@
-import { Button } from "ui";
+import { Map, Pin, PinGroup } from "ui";
 
 export default function Web() {
   return (
-    <div>
-      <h1>Web</h1>
-      <Button>Super cool button</Button>
-    </div>
+    <Map>
+      <PinGroup>
+        <Pin coordinates={[-0.549316, 54.175297]} />
+      </PinGroup>
+    </Map>
   );
 }
