@@ -1,19 +1,38 @@
 {
   "name": "ui",
   "version": "0.0.0",
-  "main": "./index.tsx",
-  "types": "./index.tsx",
+  "main": "./src/index.ts",
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.ts*\""
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./styles/globals.css"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
-    "react": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "tsconfig": "*",
     "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.0.3",
+    "@radix-ui/react-checkbox": "^1.0.3",
+    "@radix-ui/react-dialog": "^1.0.3",
+    "@radix-ui/react-hover-card": "^1.0.5",
+    "class-variance-authority": "^0.6.0",
+    "clsx": "^1.2.1",
+    "date-fns": "^2.30.0",
+    "lucide-react": "^0.193.0",
+    "ol": "^7.3.0",
+    "react-day-picker": "^8.7.1",
+    "tailwind-config": "*",
+    "tailwind-merge": "^1.12.0",
+    "tailwindcss-animate": "^1.0.5"
   }
 }

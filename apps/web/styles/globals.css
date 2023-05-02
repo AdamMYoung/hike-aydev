@@ -1,0 +1,6 @@
+@import "ui/styles.css";
+
+.section-container {
+  @apply container max-w-5xl mx-auto px-8;
+}
+
