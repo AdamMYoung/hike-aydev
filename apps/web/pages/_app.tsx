@@ -7,7 +7,7 @@ const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
 
 const App = ({ Component, pageProps }) => {
   return (
-    <Layout className={cn(jost.variable, "flex flex-col pt-16")}>
+    <Layout className={cn(jost.variable)}>
       <Component {...pageProps} />
     </Layout>
   );
