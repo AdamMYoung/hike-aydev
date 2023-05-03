@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, ElementProps } from "../../lib";
+import { cn, ElementProps, toOSMCoordinates, toWGSCoordinates } from "../../lib";
 import OLMap from "ol/Map.js";
 import OSM from "ol/source/OSM.js";
 import TileLayer from "ol/layer/Tile.js";
@@ -26,8 +26,8 @@ export const Map = ({ children, className, ...rest }: ElementProps<"div">) => {
             }),
           ],
           view: new View({
-            center: [0, 0],
-            zoom: 2,
+            center: toOSMCoordinates([-2.5478, 54.0039]),
+            zoom: 6,
           }),
         })
       );

@@ -13,21 +13,27 @@ datasource db {
 }
 
 model FellGroup {
-  id       Int    @id @default(autoincrement())
-  name     String
-  imageUrl String
-  fells    Fell[]
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  imageUrl    String
+  fells       Fell[]
 }
 
 model Fell {
-  id          Int         @id @default(autoincrement())
-  name        String
-  imageUrl    String?
-  description String?
-  height      Int
-  FellGroups  FellGroup[]
-  User        User?       @relation(fields: [userId], references: [id])
-  userId      Int?
+  id             Int         @id @default(autoincrement())
+  name           String
+  description    String?
+  imageUrl       String?
+  metres         Int
+  feet           Int
+  xCoord         Float
+  yCoord         Float
+  gridReference  String
+  hillBaggingUrl String
+  FellGroups     FellGroup[]
+  User           User?       @relation(fields: [userId], references: [id])
+  userId         Int?
 }
 
 model User {

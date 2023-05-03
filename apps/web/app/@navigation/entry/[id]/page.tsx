@@ -1,5 +1,5 @@
 import { prisma } from "@/libs/prisma";
-import { PeakEntry } from "@/organisms";
+import { PeakEntry } from "@/components/organisms";
 import Link from "next/link";
 import { Button, Separator } from "ui";
 

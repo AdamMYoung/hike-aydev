@@ -1,4 +1,4 @@
-import { SideNavigation, TopNavigation } from "@/templates";
+import { SideNavigation, TopNavigation } from "@templates/index";
 import { Jost } from "next/font/google";
 
 import "../styles/globals.css";

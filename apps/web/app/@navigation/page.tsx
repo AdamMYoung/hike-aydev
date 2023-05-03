@@ -1,4 +1,4 @@
-import { PeakEntry } from "@/organisms";
+import { PeakEntry } from "@/components/organisms";
 import { prisma } from "@/libs/prisma";
 
 const PeaksNavigation = async () => {
