@@ -1,7 +1,7 @@
-import { ElementProps, cn } from "ui";
+import { Avatar, AvatarFallback, AvatarImage, ElementProps, cn } from "ui";
 
 export const TopNavigation = ({ className, ...rest }: Omit<ElementProps<"div">, "children">) => {
-  const _className = cn("w-full flex px-8 py-4 items-center border-b", className);
+  const _className = cn("w-full justify-between shadow flex p-4 items-center border-b", className);
 
   return (
     <div className={_className} {...rest}>
@@ -9,6 +9,11 @@ export const TopNavigation = ({ className, ...rest }: Omit<ElementProps<"div">, 
         <span className="font-semibold">Hike</span>
         <span className="font-light">.aydev</span>
       </span>
+
+      <Avatar>
+        <AvatarImage src="https://github.com/adammyoung.png" alt="@adammyoung" />
+        <AvatarFallback>AY</AvatarFallback>
+      </Avatar>
     </div>
   );
 };
