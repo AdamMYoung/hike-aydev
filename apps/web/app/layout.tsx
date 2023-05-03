@@ -1,6 +1,6 @@
 import { SideNavigation, TopNavigation } from "@/templates";
 import { Jost } from "next/font/google";
-import { cn } from "ui";
+
 import "../styles/globals.css";
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
@@ -17,7 +17,7 @@ export const metadata = {
 
 export default function Layout({ children, navigation }: LayoutProps) {
   return (
-    <html lang="en" className={cn("", jost.variable)}>
+    <html lang="en" className={jost.variable}>
       <body className="font-sans flex flex-col h-screen">
         <TopNavigation />
         <div className="grid grid-cols-[400px_1fr] shrink grow">

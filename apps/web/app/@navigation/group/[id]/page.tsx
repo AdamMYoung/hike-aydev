@@ -1,20 +1,30 @@
+import { prisma } from "@/libs/prisma";
 import { PeakEntry } from "@/organisms";
 import Link from "next/link";
 import { Button, Separator, Label, Input, Checkbox } from "ui";
 
-const PeakDetailNavigation = () => {
+const PeakDetailNavigation = async ({ params: { id } }: { params: { id: string } }) => {
+  const fellGroup = await prisma.fellGroup.findUnique({
+    where: { id: parseInt(id) },
+    include: {
+      fells: {
+        select: {
+          id: true,
+          name: true,
+          imageUrl: true,
+          height: true,
+        },
+      },
+    },
+  });
+
   return (
     <div className="py-4 space-y-4 h-full">
       <div className="px-4 space-y-4">
         <Link href="/">
           <Button>Back</Button>
         </Link>
-        <PeakEntry
-          src="https://images.unsplash.com/photo-1632910508004-dea023f29b94?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-          title="Wainwrights"
-          completedCount={4}
-          totalCount={214}
-        />
+        <PeakEntry src={fellGroup.imageUrl} title={fellGroup.name} />
       </div>
 
       <Separator />
@@ -33,13 +43,15 @@ const PeakDetailNavigation = () => {
         </div>
 
         <div className="px-4 py-2">
-          {new Array(214).fill("").map((_, index) => (
-            <div key={index} className="flex group py-1 items-center justify-between">
+          {fellGroup.fells.map((fell) => (
+            <div key={fell.id} className="flex group py-1 items-center justify-between">
               <div className="flex gap-2 items-center">
                 <Checkbox className="h-6 w-6 border-gray-400" />
-                <label>Lorem Ipsum (768m)</label>
+                <label>
+                  {fell.name} ({fell.height}m)
+                </label>
               </div>
-              <Link href={`/entry/${index}`}>
+              <Link href={`/entry/${fell.id}`}>
                 <Button className="font-light transition-opacity group-hover:opacity-100 md:opacity-20" variant="ghost">
                   View
                 </Button>

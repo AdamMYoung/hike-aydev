@@ -1,20 +1,18 @@
+import { prisma } from "@/libs/prisma";
 import { PeakEntry } from "@/organisms";
 import Link from "next/link";
-import { ElementProps, Button, Separator, Label, Input, Checkbox } from "ui";
+import { Button, Separator } from "ui";
 
-const EntryDetailNavigation = () => {
+const EntryDetailNavigation = async ({ params: { id } }: { params: { id: string } }) => {
+  const entry = await prisma.fell.findUnique({ where: { id: parseInt(id) } });
+
   return (
     <div className="py-4 space-y-4 h-full">
       <div className="px-4 space-y-4">
         <Link href="/">
           <Button>Back</Button>
         </Link>
-        <PeakEntry
-          src="https://images.unsplash.com/photo-1632910508004-dea023f29b94?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-          title="Wainwrights"
-          completedCount={4}
-          totalCount={214}
-        />
+        <PeakEntry src={entry.imageUrl} title={entry.name} />
       </div>
 
       <Separator />

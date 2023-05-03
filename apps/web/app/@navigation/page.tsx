@@ -1,17 +1,17 @@
 import { PeakEntry } from "@/organisms";
+import { prisma } from "@/libs/prisma";
 
-const PeaksNavigation = () => {
+const PeaksNavigation = async () => {
+  const entries = await prisma.fellGroup.findMany({
+    include: {
+      _count: { select: { fells: true } },
+    },
+  });
+
   return (
     <div className="py-2 space-y-4 h-full">
-      {new Array(20).fill("").map((_, index) => (
-        <PeakEntry
-          key={index}
-          href={`/group/${index}`}
-          src="https://images.unsplash.com/photo-1632910508004-dea023f29b94?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-          title="Wainwrights"
-          completedCount={4}
-          totalCount={214}
-        />
+      {entries.map((entry) => (
+        <PeakEntry key={entry.id} href={`/group/${entry.id}`} src={entry.imageUrl} title={entry.name} />
       ))}
     </div>
   );
