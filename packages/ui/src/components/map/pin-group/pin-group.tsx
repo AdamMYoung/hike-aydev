@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 import VectorSource from "ol/source/Vector.js";
 import { Vector as VectorLayer } from "ol/layer.js";

@@ -1,3 +1,5 @@
+"use client";
+
 import { cn, ElementProps } from "../../lib";
 import OLMap from "ol/Map.js";
 import OSM from "ol/source/OSM.js";

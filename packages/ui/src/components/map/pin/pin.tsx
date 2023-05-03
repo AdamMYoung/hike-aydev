@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 import Feature from "ol/Feature.js";
 import Point from "ol/geom/Point.js";

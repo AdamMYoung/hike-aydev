@@ -1,3 +1,3 @@
-export * from "./map";
-export * from "./pin";
-export * from "./pin-group";
+export { Map } from "./map";
+export { Pin } from "./pin";
+export { PinGroup } from "./pin-group";

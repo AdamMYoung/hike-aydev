@@ -1,16 +1,14 @@
 import { PeakEntry } from "@/organisms";
-import { useState } from "react";
-import { Button, Checkbox, ElementProps, Input, Label, Separator } from "ui";
+import Link from "next/link";
+import { Button, Separator, Label, Input, Checkbox } from "ui";
 
-type PeaksDetailProps = Omit<ElementProps<"div">, "children"> & {
-  onBackClick: () => void;
-};
-
-const PeaksDetail = ({ onBackClick, className, ...rest }: PeaksDetailProps) => {
+const PeakDetailNavigation = () => {
   return (
-    <div className=" py-2 space-y-4 h-full" {...rest}>
+    <div className="py-4 space-y-4 h-full">
       <div className="px-4 space-y-4">
-        <Button onClick={onBackClick}>Back</Button>
+        <Link href="/">
+          <Button>Back</Button>
+        </Link>
         <PeakEntry
           src="https://images.unsplash.com/photo-1632910508004-dea023f29b94?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
           title="Wainwrights"
@@ -41,9 +39,11 @@ const PeaksDetail = ({ onBackClick, className, ...rest }: PeaksDetailProps) => {
                 <Checkbox className="h-6 w-6 border-gray-400" />
                 <label>Lorem Ipsum (768m)</label>
               </div>
-              <Button className="font-light transition-opacity group-hover:opacity-100 md:opacity-20" variant="ghost">
-                View
-              </Button>
+              <Link href={`/entry/${index}`}>
+                <Button className="font-light transition-opacity group-hover:opacity-100 md:opacity-20" variant="ghost">
+                  View
+                </Button>
+              </Link>
             </div>
           ))}
         </div>
@@ -52,25 +52,4 @@ const PeaksDetail = ({ onBackClick, className, ...rest }: PeaksDetailProps) => {
   );
 };
 
-export const PeaksNavigation = () => {
-  const [selectedPeak, setSelectedPeak] = useState<number | null>(null);
-
-  if (selectedPeak !== null) {
-    return <PeaksDetail onBackClick={() => setSelectedPeak(null)} />;
-  }
-
-  return (
-    <>
-      {new Array(20).fill("").map((_, index) => (
-        <PeakEntry
-          onClick={() => setSelectedPeak(index)}
-          key={index}
-          src="https://images.unsplash.com/photo-1632910508004-dea023f29b94?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-          title="Wainwrights"
-          completedCount={4}
-          totalCount={214}
-        />
-      ))}
-    </>
-  );
-};
+export default PeakDetailNavigation;
