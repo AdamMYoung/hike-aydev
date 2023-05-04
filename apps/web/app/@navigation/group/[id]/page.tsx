@@ -2,21 +2,10 @@ import { prisma } from "@/libs/prisma";
 import { PeakEntry } from "@/components/organisms";
 import Link from "next/link";
 import { Button, Separator, Label, Input, Checkbox } from "ui";
+import { getFellGroup } from "@/libs/requests";
 
 const PeakDetailNavigation = async ({ params: { id } }: { params: { id: string } }) => {
-  const fellGroup = await prisma.fellGroup.findUnique({
-    where: { id: parseInt(id) },
-    include: {
-      fells: {
-        select: {
-          id: true,
-          name: true,
-          imageUrl: true,
-          metres: true,
-        },
-      },
-    },
-  });
+  const fellGroup = await getFellGroup(id);
 
   return (
     <div className="py-4 space-y-4 h-full">

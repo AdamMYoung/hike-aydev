@@ -1,12 +1,9 @@
 import { PeakEntry } from "@/components/organisms";
 import { prisma } from "@/libs/prisma";
+import { getFells } from "@/libs/requests";
 
 const PeaksNavigation = async () => {
-  const entries = await prisma.fellGroup.findMany({
-    include: {
-      _count: { select: { fells: true } },
-    },
-  });
+  const entries = await getFells();
 
   return (
     <div className="py-2 space-y-4 h-full">

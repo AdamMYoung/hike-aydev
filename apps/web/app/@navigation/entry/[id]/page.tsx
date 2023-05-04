@@ -2,9 +2,10 @@ import { prisma } from "@/libs/prisma";
 import { PeakEntry } from "@/components/organisms";
 import Link from "next/link";
 import { Button, Separator } from "ui";
+import { getFellEntry } from "@/libs/requests";
 
 const EntryDetailNavigation = async ({ params: { id } }: { params: { id: string } }) => {
-  const entry = await prisma.fell.findUnique({ where: { id: parseInt(id) } });
+  const entry = await getFellEntry(id);
 
   return (
     <div className="py-4 space-y-4 h-full">
