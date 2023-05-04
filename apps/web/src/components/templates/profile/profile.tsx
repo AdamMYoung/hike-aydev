@@ -1,4 +1,3 @@
-import { SignOutButton } from "@/components/organisms/sign-out-button";
 import { getCurrentUser } from "@/libs/session";
 import Link from "next/link";
 import { Button, Separator } from "ui";
@@ -9,7 +8,7 @@ export const Profile = async () => {
   if (!user) {
     return (
       <Link href="/login">
-        <Button variant="outline">Login</Button>
+        <Button>Login</Button>
       </Link>
     );
   }
