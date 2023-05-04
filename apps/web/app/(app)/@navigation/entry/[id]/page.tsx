@@ -2,9 +2,14 @@ import { PeakEntry } from "@/components/organisms";
 import Link from "next/link";
 import { Button, Separator } from "ui";
 import { getFellEntry } from "@/libs/requests";
+import { notFound } from "next/navigation";
 
 const EntryDetailNavigation = async ({ params: { id } }: { params: { id: string } }) => {
   const entry = await getFellEntry(id);
+
+  if (!entry) {
+    notFound();
+  }
 
   return (
     <div className="py-4 space-y-4 h-full">
@@ -12,7 +17,7 @@ const EntryDetailNavigation = async ({ params: { id } }: { params: { id: string 
         <Link href="/">
           <Button>Back</Button>
         </Link>
-        <PeakEntry src={entry.imageUrl} title={entry.name} />
+        <PeakEntry src={entry.imageUrl ?? ""} title={entry.name} />
       </div>
 
       <Separator />

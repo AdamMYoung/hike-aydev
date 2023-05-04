@@ -2,9 +2,14 @@ import { PeakEntry } from "@/components/organisms";
 import Link from "next/link";
 import { Button, Separator, Label, Input, Checkbox } from "ui";
 import { getFellGroup } from "@/libs/requests";
+import { notFound } from "next/navigation";
 
 const PeakDetailNavigation = async ({ params: { id } }: { params: { id: string } }) => {
   const fellGroup = await getFellGroup(id);
+
+  if (!fellGroup) {
+    notFound();
+  }
 
   return (
     <div className="py-4 space-y-4 h-full">
@@ -12,7 +17,7 @@ const PeakDetailNavigation = async ({ params: { id } }: { params: { id: string }
         <Link href="/">
           <Button>Back</Button>
         </Link>
-        <PeakEntry src={fellGroup.imageUrl} title={fellGroup.name} />
+        <PeakEntry src={fellGroup.imageUrl ?? ""} title={fellGroup.name} />
       </div>
 
       <Separator />
