@@ -11,6 +11,7 @@ export const TopNavigation = ({ className, ...rest }: Omit<ElementProps<"div">, 
         <span className="font-light">.aydev</span>
       </span>
 
+      {/* @ts-expect-error Server Component */}
       <Profile />
     </div>
   );

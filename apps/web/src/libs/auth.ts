@@ -40,7 +40,8 @@ export const authOptions: NextAuthOptions = {
       return baseUrl;
     },
     async session({ token, session }) {
-      if (token) {
+      if (token && session.user) {
+        //@ts-ignore
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;

@@ -9,7 +9,7 @@ const PeaksNavigation = async () => {
       {entries
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((entry) => (
-          <PeakEntry key={entry.id} href={`/group/${entry.id}`} src={entry.imageUrl} title={entry.name}>
+          <PeakEntry key={entry.id} href={`/group/${entry.id}`} src={entry.imageUrl ?? ""} title={entry.name}>
             <p className="text-sm">{entry._count.fells} fells</p>
           </PeakEntry>
         ))}
