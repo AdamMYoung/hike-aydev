@@ -1,9 +1,5 @@
-import { PinGroup, Pin, Map } from "ui";
+import { toOSMCoordinates, ZoomPoint } from "ui";
 
 export default function Home() {
-  return (
-    <div className="flex flex-col w-full h-full">
-      <Map />
-    </div>
-  );
+  return <ZoomPoint coordinates={toOSMCoordinates([-2.5478, 54.0039])} />;
 }

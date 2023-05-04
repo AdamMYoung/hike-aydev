@@ -1,13 +1,16 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import VectorSource from "ol/source/Vector.js";
 import { Vector as VectorLayer } from "ol/layer.js";
 import { useMapContext } from "../map.context";
 import { PinGroupContextProvider } from "./pin-group.context";
 import { Feature } from "ol";
+import debounce from "lodash.debounce";
+import { easeIn } from "ol/easing";
 
 export const PinGroup = ({ children }: React.PropsWithChildren) => {
+  const [isZoomed, setIsZoomed] = useState(false);
   const vectorSource = useRef(new VectorSource());
   const { map } = useMapContext();
 
@@ -27,6 +30,23 @@ export const PinGroup = ({ children }: React.PropsWithChildren) => {
     };
   }, [map]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const adjustToView = useCallback(
+    debounce(() => {
+      if (!map) {
+        return;
+      }
+
+      map.getView().fit(vectorSource.current.getExtent(), {
+        size: map.getSize(),
+        maxZoom: 16,
+        padding: [100, 100, 100, 100],
+        duration: 1500,
+      });
+    }),
+    [map]
+  );
+
   const addFeature = useCallback(
     (feature: Feature) => {
       if (!map) {
@@ -34,14 +54,9 @@ export const PinGroup = ({ children }: React.PropsWithChildren) => {
       }
 
       vectorSource.current.addFeature(feature);
-
-      map.getView().fit(vectorSource.current.getExtent(), {
-        size: map.getSize(),
-        maxZoom: 16,
-        padding: [100, 100, 100, 100],
-      });
+      adjustToView();
     },
-    [map]
+    [map, adjustToView]
   );
 
   const removeFeature = useCallback((feature: Feature) => {

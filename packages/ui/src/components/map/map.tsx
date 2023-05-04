@@ -25,10 +25,6 @@ export const Map = ({ children, className, ...rest }: ElementProps<"div">) => {
               source: new OSM(),
             }),
           ],
-          view: new View({
-            center: toOSMCoordinates([-2.5478, 54.0039]),
-            zoom: 6,
-          }),
         })
       );
     }

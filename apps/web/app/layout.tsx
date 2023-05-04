@@ -1,3 +1,4 @@
+import { Map } from "ui";
 import { SideNavigation, TopNavigation } from "@templates/index";
 import { Jost } from "next/font/google";
 
@@ -26,7 +27,9 @@ export default function Layout({ children, navigation }: LayoutProps) {
               <SideNavigation>{navigation}</SideNavigation>
             </div>
           </div>
-          <main>{children}</main>
+          <main className="flex flex-col w-full h-full">
+            <Map>{children}</Map>
+          </main>
         </div>
       </body>
     </html>

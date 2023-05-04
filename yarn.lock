@@ -977,6 +977,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash.debounce@npm:^4.0.7":
+  version: 4.0.7
+  resolution: "@types/lodash.debounce@npm:4.0.7"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: e873b2d77f89010876baba3437ef826b17221b98948e00b5590828334a481dea1c8f9d28543210e564adc53199584f42c3cb171f8b6c3614fefc0b4e0888679c
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.14.194
+  resolution: "@types/lodash@npm:4.14.194"
+  checksum: 113f34831c461469d91feca2dde737f88487732898b4d25e9eb23b087bb193985f864d1e1e0f3b777edc5022e460443588b6000a3b2348c966f72d17eedc35ea
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^17.0.12":
   version: 17.0.45
   resolution: "@types/node@npm:17.0.45"
@@ -3611,6 +3627,13 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
+"lodash.debounce@npm:^4.0.8":
+  version: 4.0.8
+  resolution: "lodash.debounce@npm:4.0.8"
+  checksum: a3f527d22c548f43ae31c861ada88b2637eb48ac6aa3eb56e82d44917971b8aa96fbb37aa60efea674dc4ee8c42074f90f7b1f772e9db375435f6c83a19b3bc6
+  languageName: node
+  linkType: hard
+
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
@@ -5564,6 +5587,7 @@ eslint-config-turbo@latest:
     "@radix-ui/react-scroll-area": ^1.0.3
     "@radix-ui/react-separator": ^1.0.2
     "@radix-ui/react-tabs": ^1.0.3
+    "@types/lodash.debounce": ^4.0.7
     "@types/proj4": ^2.5.2
     "@types/react": ^18.2.0
     "@types/react-dom": ^18.2.0
@@ -5572,6 +5596,7 @@ eslint-config-turbo@latest:
     date-fns: ^2.30.0
     eslint: ^7.32.0
     eslint-config-custom: "*"
+    lodash.debounce: ^4.0.8
     lucide-react: ^0.193.0
     ol: ^7.3.0
     proj4: ^2.9.0
