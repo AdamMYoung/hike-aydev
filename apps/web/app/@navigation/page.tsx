@@ -1,13 +1,7 @@
 import { PeakEntry } from "@/components/organisms";
-import { prisma } from "@/libs/prisma";
 import { getFells } from "@/libs/requests";
 
-const preload = () => {
-  void getFells();
-};
-
 const PeaksNavigation = async () => {
-  preload();
   const entries = await getFells();
 
   return (
