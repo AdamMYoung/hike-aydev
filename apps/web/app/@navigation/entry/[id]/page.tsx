@@ -4,7 +4,12 @@ import Link from "next/link";
 import { Button, Separator } from "ui";
 import { getFellEntry } from "@/libs/requests";
 
+export const preload = (id: string) => {
+  void getFellEntry(id);
+};
+
 const EntryDetailNavigation = async ({ params: { id } }: { params: { id: string } }) => {
+  preload(id);
   const entry = await getFellEntry(id);
 
   return (

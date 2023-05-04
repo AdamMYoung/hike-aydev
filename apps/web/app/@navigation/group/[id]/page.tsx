@@ -4,7 +4,12 @@ import Link from "next/link";
 import { Button, Separator, Label, Input, Checkbox } from "ui";
 import { getFellGroup } from "@/libs/requests";
 
+export const preload = (id: string) => {
+  void getFellGroup(id);
+};
+
 const PeakDetailNavigation = async ({ params: { id } }: { params: { id: string } }) => {
+  preload(id);
   const fellGroup = await getFellGroup(id);
 
   return (
