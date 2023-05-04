@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ElementProps, cn } from "ui";
 
 type PeakEntryProps = ElementProps<"div"> & {
-  src: string;
+  src?: string;
   title: string;
 };
 
@@ -11,7 +11,7 @@ const InternalPeakEntry = ({ className, src, title, children, ...rest }: PeakEnt
 
   return (
     <div className={_className} {...rest}>
-      <img className="rounded-lg" alt="" src={src} />
+      {src ? <img className="rounded-lg" alt="" src={src} /> : null}
       <div>
         <h2 className="text-2xl">{title}</h2>
         {children}

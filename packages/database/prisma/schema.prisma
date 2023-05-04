@@ -13,10 +13,10 @@ datasource db {
 }
 
 model FellGroup {
-  id          Int    @id @default(autoincrement())
-  name        String
-  description String
-  imageUrl    String
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+  imageUrl    String?
   fells       Fell[]
 }
 
@@ -27,18 +27,29 @@ model Fell {
   imageUrl       String?
   metres         Int
   feet           Int
-  xCoord         Float
-  yCoord         Float
+  lat            Float
+  lng            Float
   gridReference  String
   hillBaggingUrl String
-  FellGroups     FellGroup[]
-  User           User?       @relation(fields: [userId], references: [id])
-  userId         Int?
+  fellGroups     FellGroup[]
+  logEntries     LogEntry[]
+}
+
+model LogEntry {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  fell      Fell     @relation(fields: [fellId], references: [id])
+  date      DateTime @default(now())
+  comments  String?
+  isClimbed Boolean  @default(false)
+  isCamped  Boolean  @default(false)
+  userId    Int
+  fellId    Int
 }
 
 model User {
-  id             Int     @id @default(autoincrement())
-  oAuthUid       String
-  profileUrl     String?
-  completedFells Fell[]
+  id         Int        @id @default(autoincrement())
+  oAuthUid   String
+  imageUrl   String?
+  logEntries LogEntry[]
 }

@@ -12,7 +12,7 @@ const PeakDetailNavigation = async ({ params: { id } }: { params: { id: string }
           id: true,
           name: true,
           imageUrl: true,
-          height: true,
+          metres: true,
         },
       },
     },
@@ -43,21 +43,26 @@ const PeakDetailNavigation = async ({ params: { id } }: { params: { id: string }
         </div>
 
         <div className="px-4 py-2">
-          {fellGroup.fells.map((fell) => (
-            <div key={fell.id} className="flex group py-1 items-center justify-between">
-              <div className="flex gap-2 items-center">
-                <Checkbox className="h-6 w-6 border-gray-400" />
-                <label>
-                  {fell.name} ({fell.height}m)
-                </label>
+          {fellGroup.fells
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((fell) => (
+              <div key={fell.id} className="flex group py-1 items-center justify-between">
+                <div className="flex gap-2 items-center">
+                  <Checkbox className="h-6 w-6 border-gray-400" />
+                  <label>
+                    {fell.name} ({fell.metres}m)
+                  </label>
+                </div>
+                <Link href={`/entry/${fell.id}`}>
+                  <Button
+                    className="font-light transition-opacity group-hover:opacity-100 md:opacity-20"
+                    variant="ghost"
+                  >
+                    View
+                  </Button>
+                </Link>
               </div>
-              <Link href={`/entry/${fell.id}`}>
-                <Button className="font-light transition-opacity group-hover:opacity-100 md:opacity-20" variant="ghost">
-                  View
-                </Button>
-              </Link>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </div>
