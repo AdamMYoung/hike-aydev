@@ -10,12 +10,13 @@ import { usePinGroupContext } from "../pin-group/pin-group.context";
 import { toOSMCoordinates } from "../../../lib";
 
 type PinProps = {
+  iconSrc: string;
   coordinates: Coordinate;
 };
 
-export const Pin = ({ coordinates }: PinProps) => {
+export const Pin = ({ coordinates, iconSrc }: PinProps) => {
   const { map } = useMapContext();
-  const { layer } = usePinGroupContext();
+  const { addFeature, removeFeature } = usePinGroupContext();
 
   useEffect(() => {
     if (!map) {
@@ -28,17 +29,18 @@ export const Pin = ({ coordinates }: PinProps) => {
 
     const iconStyle = new Style({
       image: new Icon({
-        src: "/data/icon.png",
+        scale: 0.8,
+        src: iconSrc,
       }),
     });
 
     iconFeature.setStyle(iconStyle);
-    layer.addFeature(iconFeature);
+    addFeature(iconFeature);
 
     return () => {
-      layer.removeFeature(iconFeature);
+      removeFeature(iconFeature);
     };
-  }, [map, layer, coordinates]);
+  }, [map, addFeature, removeFeature, coordinates, iconSrc]);
 
   return null;
 };

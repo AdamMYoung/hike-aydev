@@ -17,6 +17,8 @@ export const getFellGroup = cache(async (id: string) => {
           name: true,
           imageUrl: true,
           metres: true,
+          lat: true,
+          lng: true,
         },
       },
     },
