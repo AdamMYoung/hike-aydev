@@ -9,7 +9,7 @@ export {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./alert-dialog";
-export { Button } from "./button";
+export { Button, buttonVariants } from "./button";
 export { Calendar } from "./calendar";
 export { Checkbox } from "./checkbox";
 export { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
@@ -21,3 +21,6 @@ export { ScrollArea, ScrollBar } from "./scroll-area";
 export { Separator } from "./separator";
 export { Input } from "./input";
 export { Label } from "./label";
+export { Toast, ToastAction } from "./toast";
+export { Toaster } from "./toaster";
+export { useToast, toast } from "./use-toast";

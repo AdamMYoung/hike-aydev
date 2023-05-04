@@ -10,7 +10,6 @@ import debounce from "lodash.debounce";
 import { easeIn } from "ol/easing";
 
 export const PinGroup = ({ children }: React.PropsWithChildren) => {
-  const [isZoomed, setIsZoomed] = useState(false);
   const vectorSource = useRef(new VectorSource());
   const { map } = useMapContext();
 

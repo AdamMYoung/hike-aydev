@@ -12,16 +12,42 @@ datasource db {
   shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
 }
 
+model Account {
+  id                String   @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?  @db.Text
+  session_state     String?
+  createdAt         DateTime @default(now()) @map(name: "created_at")
+  updatedAt         DateTime @default(now()) @map(name: "updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map(name: "accounts")
+}
+
 model FellGroup {
   id          Int     @id @default(autoincrement())
   name        String  @unique
   description String?
   imageUrl    String?
-  fells       Fell[]
+  published   Boolean @default(true)
+
+  fells Fell[]
+
+  @@map(name: "fell_groups")
 }
 
 model Fell {
-  id             Int         @id @default(autoincrement())
+  id             Int     @id @default(autoincrement())
   name           String
   description    String?
   imageUrl       String?
@@ -31,25 +57,60 @@ model Fell {
   lng            Float
   gridReference  String
   hillBaggingUrl String
-  fellGroups     FellGroup[]
-  logEntries     LogEntry[]
+  published      Boolean @default(true)
+
+  fellGroups FellGroup[]
+  logEntries LogEntry[]
+
+  @@map(name: "fells")
 }
 
 model LogEntry {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
-  fell      Fell     @relation(fields: [fellId], references: [id])
-  date      DateTime @default(now())
-  comments  String?
-  isClimbed Boolean  @default(false)
-  isCamped  Boolean  @default(false)
-  userId    Int
-  fellId    Int
+  id       String   @id @default(cuid())
+  date     DateTime @default(now())
+  comments String?
+  climbed  Boolean  @default(false)
+  camped   Boolean  @default(false)
+  userUid  String
+  fellId   Int
+
+  author User @relation(fields: [userUid], references: [id])
+  fell   Fell @relation(fields: [fellId], references: [id])
+
+  @@map(name: "log_entries")
 }
 
 model User {
-  id         Int        @id @default(autoincrement())
-  oAuthUid   String
-  imageUrl   String?
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+
   logEntries LogEntry[]
+  Account    Account[]
+  Session    Session[]
+
+  @@map(name: "users")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map(name: "verification_tokens")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map(name: "sessions")
 }

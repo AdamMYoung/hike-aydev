@@ -10,5 +10,6 @@
       "cache": false,
       "persistent": true
     }
-  }
+  },
+  "globalEnv": ["STRAVA_CLIENT_ID", "STRAVA_CLIENT_SECRET", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]
 }

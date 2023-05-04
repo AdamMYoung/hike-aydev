@@ -1,4 +1,4 @@
-import Page from "./page";
+import Page from "./(app)/page";
 
 export default async function Default() {
   return <Page />;
