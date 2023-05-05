@@ -1,4 +1,4 @@
-import { getFellGroup, getMapFellGroup, getUserLogEntries } from "@/libs/requests";
+import { getMapFellGroup, getUserLogEntries } from "@/libs/requests";
 import { getCurrentUser } from "@/libs/session";
 import { LogEntry } from "database";
 import { notFound } from "next/navigation";

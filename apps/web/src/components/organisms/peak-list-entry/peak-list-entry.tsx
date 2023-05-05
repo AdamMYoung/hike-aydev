@@ -1,13 +1,16 @@
 "use client";
 
 import { setFellStatus } from "@/libs/actions";
-import { Fell } from "database";
 import Link from "next/link";
 import { useTransition } from "react";
 import { Button, Checkbox, cn, ElementProps } from "ui";
 
 type PeakListEntryProps = ElementProps<"div"> & {
-  fell: Fell;
+  fell: {
+    id: number;
+    name: string;
+    metres: number;
+  };
   disabled: boolean;
   checked: boolean;
   userId: string | null;

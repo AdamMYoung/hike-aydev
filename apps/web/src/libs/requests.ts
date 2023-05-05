@@ -12,11 +12,15 @@ export const getFellGroup = cache(async (id: string, searchTerm?: string) => {
   return await prisma.fellGroup.findUnique({
     where: { id: parseInt(id) },
     select: {
+      id: true,
+      name: true,
+      imageUrl: true,
       fells: {
         select: {
           id: true,
           name: true,
           metres: true,
+          imageUrl: true,
         },
         where: {
           published: true,
