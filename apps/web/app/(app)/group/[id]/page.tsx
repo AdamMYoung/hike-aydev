@@ -1,4 +1,4 @@
-import { getFellGroup, getUserLogEntries } from "@/libs/requests";
+import { getFellGroup, getMapFellGroup, getUserLogEntries } from "@/libs/requests";
 import { getCurrentUser } from "@/libs/session";
 import { LogEntry } from "database";
 import { notFound } from "next/navigation";
@@ -20,7 +20,7 @@ export default async function Group({
   let logEntries: LogEntry[] = [];
 
   const user = await getCurrentUser();
-  const fellGroup = await getFellGroup(id);
+  const fellGroup = await getMapFellGroup(id, searchTerm);
 
   if (!fellGroup) {
     notFound();
@@ -32,22 +32,20 @@ export default async function Group({
 
   return (
     <PinGroup>
-      {fellGroup.fells
-        .filter((f) => (!searchTerm ? true : f.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())))
-        .map((fell) => {
-          const isCompleted = !!logEntries.find((e) => e.climbed && e.fellId === fell.id);
+      {fellGroup.fells.map((fell) => {
+        const isCompleted = !!logEntries.find((e) => e.climbed && e.fellId === fell.id);
 
-          if (hideComplete === "true" && isCompleted && user) {
-            return null;
-          }
+        if (hideComplete === "true" && isCompleted && user) {
+          return null;
+        }
 
-          if (hideIncomplete === "true" && !isCompleted && user) {
-            return null;
-          }
+        if (hideIncomplete === "true" && !isCompleted && user) {
+          return null;
+        }
 
-          const iconSrc = isCompleted ? "/data/check-circle.svg" : "/data/cross-circle.svg";
-          return <Pin key={fell.id} coordinates={[fell.lng, fell.lat]} iconSrc={iconSrc} />;
-        })}
+        const iconSrc = isCompleted ? "/data/check-circle.svg" : "/data/cross-circle.svg";
+        return <Pin key={fell.id} coordinates={[fell.lng, fell.lat]} iconSrc={iconSrc} />;
+      })}
     </PinGroup>
   );
 }

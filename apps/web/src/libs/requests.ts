@@ -8,13 +8,34 @@ export const getFellEntry = cache(async (id: string) => {
   return await prisma.fell.findUnique({ where: { id: parseInt(id) } });
 });
 
-export const getFellGroup = cache(async (id: string) => {
+export const getFellGroup = cache(async (id: string, searchTerm?: string) => {
   return await prisma.fellGroup.findUnique({
     where: { id: parseInt(id) },
-    include: {
+    select: {
       fells: {
+        select: {
+          id: true,
+          name: true,
+          metres: true,
+        },
         where: {
           published: true,
+          ...(searchTerm ? { name: { contains: searchTerm, mode: "insensitive" } } : {}),
+        },
+      },
+    },
+  });
+});
+
+export const getMapFellGroup = cache(async (id: string, searchTerm?: string) => {
+  return await prisma.fellGroup.findUnique({
+    where: { id: parseInt(id) },
+    select: {
+      fells: {
+        select: { id: true, lat: true, lng: true },
+        where: {
+          published: true,
+          ...(searchTerm ? { name: { contains: searchTerm, mode: "insensitive" } } : {}),
         },
       },
     },
@@ -26,7 +47,10 @@ export const getFellGroups = cache(async () => {
     where: {
       published: true,
     },
-    include: {
+    select: {
+      name: true,
+      id: true,
+      imageUrl: true,
       _count: { select: { fells: true } },
     },
   });
@@ -38,7 +62,7 @@ export const getUserFellGroupCompletion = cache(async (user: User | null) => {
   }
 
   return await prisma.logEntry.findMany({
-    include: {
+    select: {
       fell: {
         select: {
           fellGroups: {
