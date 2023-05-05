@@ -1,19 +1,53 @@
-import { getFellGroup } from "@/libs/requests";
+import { getFellGroup, getUserLogEntries } from "@/libs/requests";
+import { getCurrentUser } from "@/libs/session";
+import { LogEntry } from "database";
 import { notFound } from "next/navigation";
-import { PinGroup, Pin, Map } from "ui";
+import { PinGroup, Pin } from "ui";
 
-export default async function Group({ params: { id } }: { params: { id: string } }) {
+type GroupProps = {
+  params: { id: string };
+  searchParams: {
+    hideComplete: string;
+    hideIncomplete: string;
+    searchTerm: string;
+  };
+};
+
+export default async function Group({
+  params: { id },
+  searchParams: { hideComplete, hideIncomplete, searchTerm },
+}: GroupProps) {
+  let logEntries: LogEntry[] = [];
+
+  const user = await getCurrentUser();
   const fellGroup = await getFellGroup(id);
 
   if (!fellGroup) {
     notFound();
   }
 
+  if (user) {
+    logEntries = await getUserLogEntries(user.id);
+  }
+
   return (
     <PinGroup>
-      {fellGroup.fells.map((fell) => (
-        <Pin key={fell.id} coordinates={[fell.lng, fell.lat]} iconSrc="/data/cross-circle.svg" />
-      ))}
+      {fellGroup.fells
+        .filter((f) => (!searchTerm ? true : f.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())))
+        .map((fell) => {
+          const isCompleted = !!logEntries.find((e) => e.climbed && e.fellId === fell.id);
+
+          if (hideComplete === "true" && isCompleted && user) {
+            return null;
+          }
+
+          if (hideIncomplete === "true" && !isCompleted && user) {
+            return null;
+          }
+
+          const iconSrc = isCompleted ? "/data/check-circle.svg" : "/data/cross-circle.svg";
+          return <Pin key={fell.id} coordinates={[fell.lng, fell.lat]} iconSrc={iconSrc} />;
+        })}
     </PinGroup>
   );
 }

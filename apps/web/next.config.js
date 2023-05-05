@@ -3,5 +3,6 @@ module.exports = {
   transpilePackages: ["ui"],
   experimental: {
     appDir: true,
+    serverActions: true,
   },
 };

@@ -1,5 +1,6 @@
 import { Map } from "ui";
 import { SideNavigation, TopNavigation } from "@templates/index";
+import { getCurrentUser } from "@/libs/session";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -11,14 +12,16 @@ export const metadata = {
   description: "Track and manage your hiking achievements, across the UK and worldwide.",
 };
 
-export default function Layout({ children, navigation }: LayoutProps) {
+export default async function Layout({ children, navigation }: LayoutProps) {
+  const user = await getCurrentUser();
+
   return (
     <div className="flex flex-col h-screen">
       <TopNavigation />
       <div className="grid grid-cols-[400px_1fr] shrink grow">
         <div className="relative w-full">
           <div className="absolute top-0 bottom-0 left-0 right-0">
-            <SideNavigation>{navigation}</SideNavigation>
+            <SideNavigation isUserAuthenticated={!!user}>{navigation}</SideNavigation>
           </div>
         </div>
         <main className="flex flex-col w-full h-full">

@@ -71,12 +71,13 @@ model LogEntry {
   comments String?
   climbed  Boolean  @default(false)
   camped   Boolean  @default(false)
-  userUid  String
+  authorId String
   fellId   Int
 
-  author User @relation(fields: [userUid], references: [id])
+  author User @relation(fields: [authorId], references: [id])
   fell   Fell @relation(fields: [fellId], references: [id])
 
+  @@unique([authorId, fellId])
   @@map(name: "log_entries")
 }
 

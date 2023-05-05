@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import VectorSource from "ol/source/Vector.js";
 import { Vector as VectorLayer } from "ol/layer.js";
 import { useMapContext } from "../map.context";
 import { PinGroupContextProvider } from "./pin-group.context";
 import { Feature } from "ol";
 import debounce from "lodash.debounce";
-import { easeIn } from "ol/easing";
 
 export const PinGroup = ({ children }: React.PropsWithChildren) => {
   const vectorSource = useRef(new VectorSource());

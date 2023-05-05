@@ -1,18 +1,32 @@
 import { PeakEntry } from "@/components/organisms";
-import { getFells } from "@/libs/requests";
+import { getFellGroups, getUserFellGroupCompletion } from "@/libs/requests";
+import { getCurrentUser } from "@/libs/session";
 
 const PeaksNavigation = async () => {
-  const entries = await getFells();
+  const user = await getCurrentUser();
+  const entries = await getFellGroups();
+
+  const logEntries = await getUserFellGroupCompletion(user);
 
   return (
     <div className="py-2 space-y-4 h-full">
       {entries
         .sort((a, b) => a.name.localeCompare(b.name))
-        .map((entry) => (
-          <PeakEntry key={entry.id} href={`/group/${entry.id}`} src={entry.imageUrl ?? ""} title={entry.name}>
-            <p className="text-sm">{entry._count.fells} fells</p>
-          </PeakEntry>
-        ))}
+        .map((entry) => {
+          const completedEntries = logEntries.filter((e) => e.fell.fellGroups.find((g) => g.id === entry.id)).length;
+
+          return (
+            <PeakEntry key={entry.id} href={`/group/${entry.id}`} src={entry.imageUrl ?? ""} title={entry.name}>
+              {user ? (
+                <p className="text-sm">
+                  {completedEntries}/{entry._count.fells} complete
+                </p>
+              ) : (
+                <p className="text-sm">{entry._count.fells} fells</p>
+              )}
+            </PeakEntry>
+          );
+        })}
     </div>
   );
 };

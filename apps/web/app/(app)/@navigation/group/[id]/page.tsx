@@ -1,14 +1,38 @@
 import { PeakEntry } from "@/components/organisms";
 import Link from "next/link";
 import { Button, Separator, Label, Input, Checkbox } from "ui";
-import { getFellGroup } from "@/libs/requests";
+import { getFellGroup, getUserLogEntries } from "@/libs/requests";
 import { notFound } from "next/navigation";
+import { getCurrentUser } from "@/libs/session";
+import { LogEntry } from "database";
+import { PeakListEntry } from "@/components/organisms/peak-list-entry";
+import { string } from "zod";
+import { GroupSearchFilters } from "@templates/group-search-filters";
 
-const PeakDetailNavigation = async ({ params: { id } }: { params: { id: string } }) => {
+type PeakDetailNavigationProps = {
+  params: { id: string };
+  searchParams: {
+    hideComplete: string;
+    hideIncomplete: string;
+    searchTerm: string;
+  };
+};
+
+const PeakDetailNavigation = async ({
+  params: { id },
+  searchParams: { hideComplete, hideIncomplete, searchTerm },
+}: PeakDetailNavigationProps) => {
+  let logEntries: LogEntry[] = [];
+
+  const user = await getCurrentUser();
   const fellGroup = await getFellGroup(id);
 
   if (!fellGroup) {
     notFound();
+  }
+
+  if (user) {
+    logEntries = await getUserLogEntries(user.id);
   }
 
   return (
@@ -23,39 +47,34 @@ const PeakDetailNavigation = async ({ params: { id } }: { params: { id: string }
       <Separator />
 
       <div className="relative w-full space-y-4">
-        <div className="sticky top-14 z-10 p-4 shadow bg-white space-y-4">
-          <div className="grid w-full max-w-sm items-center gap-2  ">
-            <Label htmlFor="search">Search</Label>
-            <Input id="search" placeholder="Scafell Pike" />
-          </div>
-
-          <div className="flex w-full items-center gap-2">
-            <Checkbox></Checkbox>
-            <Label htmlFor="search">Hide completed</Label>
-          </div>
-        </div>
+        <GroupSearchFilters isUserAuthenticated={!!user} />
 
         <div className="px-4 py-2">
           {fellGroup.fells
             .sort((a, b) => a.name.localeCompare(b.name))
-            .map((fell) => (
-              <div key={fell.id} className="flex group py-1 items-center justify-between">
-                <div className="flex gap-2 items-center">
-                  <Checkbox className="h-6 w-6 border-gray-400" />
-                  <label>
-                    {fell.name} ({fell.metres}m)
-                  </label>
-                </div>
-                <Link href={`/entry/${fell.id}`}>
-                  <Button
-                    className="font-light transition-opacity group-hover:opacity-100 md:opacity-20"
-                    variant="ghost"
-                  >
-                    View
-                  </Button>
-                </Link>
-              </div>
-            ))}
+            .filter((f) => (!searchTerm ? true : f.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())))
+            .map((fell) => {
+              const isCompleted = !!logEntries.find((e) => e.climbed && e.fellId === fell.id);
+
+              if (hideComplete === "true" && isCompleted && user) {
+                return null;
+              }
+
+              if (hideIncomplete === "true" && !isCompleted && user) {
+                return null;
+              }
+
+              return (
+                <PeakListEntry
+                  key={fell.id}
+                  fell={fell}
+                  fellGroupId={fellGroup.id}
+                  userId={user?.id}
+                  checked={isCompleted}
+                  disabled={!user}
+                />
+              );
+            })}
         </div>
       </div>
     </div>
