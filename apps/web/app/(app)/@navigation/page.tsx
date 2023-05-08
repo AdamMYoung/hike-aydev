@@ -6,9 +6,7 @@ const PeaksNavigation = async () => {
   const user = await getCurrentUser();
   const entries = await getFellGroups();
 
-  const logEntries = await getUserFellGroupCompletion(user);
-
-  console.log(logEntries);
+  const logEntries = await getUserFellGroupCompletion(user?.id);
 
   return (
     <div className="py-2 space-y-4 h-full">

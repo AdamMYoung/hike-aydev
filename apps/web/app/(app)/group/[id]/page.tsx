@@ -17,18 +17,14 @@ export default async function Group({
   params: { id },
   searchParams: { hideComplete, hideIncomplete, searchTerm },
 }: GroupProps) {
-  let logEntries: LogEntry[] = [];
-
-  const user = await getCurrentUser();
   const fellGroup = await getMapFellGroup(id);
 
   if (!fellGroup) {
     notFound();
   }
 
-  if (user) {
-    logEntries = await getUserLogEntries(user.id);
-  }
+  const user = await getCurrentUser();
+  const logEntries = await getUserLogEntries(user.id);
 
   return (
     <PinGroup>

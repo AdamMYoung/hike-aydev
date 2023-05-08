@@ -14,9 +14,13 @@ const Timeline = async () => {
 
   return (
     <div className="p-4 divide-y">
-      {userEntries.map((e) => {
-        return <TimelineCard key={e.id} logId={e.id} name={e.fell.name} date={e.date} comments={e.comments} />;
-      })}
+      {userEntries.length > 0 ? (
+        userEntries.map((e) => {
+          return <TimelineCard key={e.id} logId={e.id} name={e.fell.name} date={e.date} comments={e.comments} />;
+        })
+      ) : (
+        <p>No entries yet. Start checking peaks off to see them here!</p>
+      )}
     </div>
   );
 };

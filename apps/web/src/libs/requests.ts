@@ -65,8 +65,8 @@ export const getFellGroups = cache(async () => {
   );
 });
 
-export const getUserFellGroupCompletion = async (user: User | null) => {
-  if (!user || !user.id) {
+export const getUserFellGroupCompletion = async (userId: string | null) => {
+  if (!userId) {
     return [];
   }
 
@@ -75,7 +75,7 @@ export const getUserFellGroupCompletion = async (user: User | null) => {
       fellId: true,
     },
     where: {
-      authorId: user.id,
+      authorId: userId,
       climbed: true,
     },
   });

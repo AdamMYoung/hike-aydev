@@ -6,7 +6,7 @@ export default async function Home() {
   const user = await getCurrentUser();
 
   if (!user) {
-    <ZoomPoint coordinates={toOSMCoordinates([-2.5478, 54.0039])} />;
+    return <ZoomPoint coordinates={toOSMCoordinates([-2.5478, 54.0039])} />;
   }
 
   const timeline = await getMapUserTimeline(user.id);
