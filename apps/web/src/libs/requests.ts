@@ -70,21 +70,29 @@ export const getUserFellGroupCompletion = async (user: User | null) => {
     return [];
   }
 
-  return await prisma.logEntry.findMany({
+  const completedIds = await prisma.logEntry.findMany({
     select: {
-      fell: {
-        select: {
-          fellGroups: {
-            select: {
-              id: true,
-            },
-          },
-        },
-      },
+      fellId: true,
     },
     where: {
       authorId: user.id,
       climbed: true,
+    },
+  });
+
+  return prisma.fellGroup.findMany({
+    where: {
+      published: true,
+    },
+    select: {
+      id: true,
+      _count: {
+        select: {
+          fells: {
+            where: { id: { in: completedIds.map((i) => i.fellId) } },
+          },
+        },
+      },
     },
   });
 };
@@ -94,7 +102,7 @@ export const getUserLogEntries = async (userId: string | null) => {
     return [];
   }
 
-  return await prisma.logEntry.findMany({
+  return prisma.logEntry.findMany({
     where: {
       authorId: userId,
     },
@@ -109,7 +117,7 @@ export const getUserTimeline = async (userId: string | null) => {
     return [];
   }
 
-  return await prisma.logEntry.findMany({
+  return prisma.logEntry.findMany({
     select: {
       id: true,
       date: true,
@@ -137,7 +145,7 @@ export const getMapUserTimeline = async (userId: string | null) => {
     return [];
   }
 
-  return await prisma.logEntry.findMany({
+  return prisma.logEntry.findMany({
     select: {
       fell: {
         select: {

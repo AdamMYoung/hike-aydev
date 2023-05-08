@@ -8,18 +8,20 @@ const PeaksNavigation = async () => {
 
   const logEntries = await getUserFellGroupCompletion(user);
 
+  console.log(logEntries);
+
   return (
     <div className="py-2 space-y-4 h-full">
       {entries
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((entry) => {
-          const completedEntries = logEntries.filter((e) => !!e.fell.fellGroups.find((g) => g.id === entry.id)).length;
+          const completedEntries = logEntries.find((e) => e.id === entry.id);
 
           return (
             <PeakEntry key={entry.id} href={`/group/${entry.id}`} src={entry.imageUrl ?? ""} title={entry.name}>
               {user ? (
                 <p className="text-sm">
-                  {completedEntries}/{entry._count.fells} complete
+                  {completedEntries?._count.fells}/{entry._count.fells} complete
                 </p>
               ) : (
                 <p className="text-sm">{entry._count.fells} fells</p>

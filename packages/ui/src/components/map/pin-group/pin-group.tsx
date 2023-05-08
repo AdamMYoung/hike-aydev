@@ -47,7 +47,7 @@ export const PinGroup = ({ children, disableAnimation }: PinGroupProps) => {
         size: map.getSize(),
         maxZoom: 16,
         padding: [100, 100, 100, 100],
-        duration: 1500,
+        duration: 1000,
       });
     }),
     [map]
