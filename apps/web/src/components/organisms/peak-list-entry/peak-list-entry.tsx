@@ -1,9 +1,8 @@
 "use client";
 
 import { setFellStatus } from "@/libs/actions";
-import Link from "next/link";
 import { useTransition } from "react";
-import { Button, Checkbox, cn, ElementProps } from "ui";
+import { Checkbox, cn, ElementProps } from "ui";
 
 type PeakListEntryProps = ElementProps<"div"> & {
   fell: {
@@ -32,7 +31,7 @@ export const PeakListEntry = ({
 
   return (
     <div className={_className} {...rest}>
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 py-2 items-center">
         <Checkbox
           disabled={disabled || isPending}
           checked={checked}
@@ -44,15 +43,6 @@ export const PeakListEntry = ({
           {fell.name} ({fell.metres}m)
         </label>
       </div>
-      <Link legacyBehavior href={`/entry/${fell.id}`}>
-        <Button
-          disabled
-          className="font-light transition-opacity group-hover:opacity-100 md:opacity-20"
-          variant="ghost"
-        >
-          View
-        </Button>
-      </Link>
     </div>
   );
 };

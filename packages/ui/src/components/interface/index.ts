@@ -24,3 +24,4 @@ export { Label } from "./label";
 export { Toast, ToastAction } from "./toast";
 export { Toaster } from "./toaster";
 export { useToast, toast } from "./use-toast";
+export { Textarea } from "./textarea";

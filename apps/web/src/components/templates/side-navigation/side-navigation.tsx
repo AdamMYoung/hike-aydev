@@ -1,15 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useCallback, useState } from "react";
-import { Button, Tabs, TabsList, TabsTrigger } from "ui";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useCallback, useMemo, useState } from "react";
+import { Tabs, TabsList, TabsTrigger } from "ui";
 
 type SideNavigationProps = React.PropsWithChildren & {
   isUserAuthenticated: boolean;
 };
 
 export const SideNavigation = ({ children, isUserAuthenticated }: SideNavigationProps) => {
+  const pathname = usePathname();
   const { push } = useRouter();
 
   const handleValueChange = useCallback(
@@ -19,8 +20,22 @@ export const SideNavigation = ({ children, isUserAuthenticated }: SideNavigation
     [push]
   );
 
+  console.log(pathname);
+
+  const tabsValue = useMemo(() => {
+    if (pathname === "/timeline") {
+      return "timeline";
+    }
+
+    if (pathname === "/integrations") {
+      return "integrations";
+    }
+
+    return "";
+  }, [pathname]);
+
   return (
-    <Tabs defaultValue="" onValueChange={handleValueChange} className="relative h-full overflow-y-auto">
+    <Tabs value={tabsValue} onValueChange={handleValueChange} className="relative h-full overflow-y-auto">
       <div className="px-4 py-2 z-10 sticky top-0 bg-white shadow">
         <TabsList>
           <Link href="/" legacyBehavior>

@@ -13,7 +13,7 @@ const PeaksNavigation = async () => {
       {entries
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((entry) => {
-          const completedEntries = logEntries.filter((e) => e.fell.fellGroups.find((g) => g.id === entry.id)).length;
+          const completedEntries = logEntries.filter((e) => !!e.fell.fellGroups.find((g) => g.id === entry.id)).length;
 
           return (
             <PeakEntry key={entry.id} href={`/group/${entry.id}`} src={entry.imageUrl ?? ""} title={entry.name}>

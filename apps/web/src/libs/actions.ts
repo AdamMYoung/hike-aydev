@@ -29,3 +29,16 @@ export const setFellStatus = async (fell: Fell, fellGroupId: number, userId: str
   revalidatePath(`/group/${fellGroupId}`);
   revalidatePath(`/`);
 };
+
+export const setComment = async (logId: string, comment: string) => {
+  await prisma.logEntry.update({
+    where: {
+      id: logId,
+    },
+    data: {
+      comments: comment,
+    },
+  });
+
+  revalidatePath(`/timeline`);
+};

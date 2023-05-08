@@ -8,7 +8,11 @@ import { PinGroupContextProvider } from "./pin-group.context";
 import { Feature } from "ol";
 import debounce from "lodash.debounce";
 
-export const PinGroup = ({ children }: React.PropsWithChildren) => {
+type PinGroupProps = React.PropsWithChildren & {
+  disableAnimation?: boolean;
+};
+
+export const PinGroup = ({ children, disableAnimation }: PinGroupProps) => {
   const vectorSource = useRef(new VectorSource());
   const { map } = useMapContext();
 
@@ -32,6 +36,10 @@ export const PinGroup = ({ children }: React.PropsWithChildren) => {
   const adjustToView = useCallback(
     debounce(() => {
       if (!map) {
+        return;
+      }
+
+      if (disableAnimation) {
         return;
       }
 

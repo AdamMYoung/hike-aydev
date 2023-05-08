@@ -4,7 +4,6 @@ import { cache } from "react";
 import { prisma } from "./prisma";
 import { User } from "./session";
 import { getCachedEntry } from "./kv";
-import { string } from "zod";
 
 export const getFellEntry = cache(async (id: string) => {
   return getCachedEntry(`get-fell-entry-${id}`, () => prisma.fell.findUnique({ where: { id: parseInt(id) } }));
@@ -66,7 +65,7 @@ export const getFellGroups = cache(async () => {
   );
 });
 
-export const getUserFellGroupCompletion = cache(async (user: User | null) => {
+export const getUserFellGroupCompletion = async (user: User | null) => {
   if (!user || !user.id) {
     return [];
   }
@@ -88,9 +87,9 @@ export const getUserFellGroupCompletion = cache(async (user: User | null) => {
       climbed: true,
     },
   });
-});
+};
 
-export const getUserLogEntries = cache(async (userId: string | null) => {
+export const getUserLogEntries = async (userId: string | null) => {
   if (!userId) {
     return [];
   }
@@ -99,5 +98,62 @@ export const getUserLogEntries = cache(async (userId: string | null) => {
     where: {
       authorId: userId,
     },
+    orderBy: {
+      date: "desc",
+    },
   });
-});
+};
+
+export const getUserTimeline = async (userId: string | null) => {
+  if (!userId) {
+    return [];
+  }
+
+  return await prisma.logEntry.findMany({
+    select: {
+      id: true,
+      date: true,
+      camped: true,
+      comments: true,
+      fell: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+    where: {
+      authorId: userId,
+      climbed: true,
+    },
+    orderBy: {
+      date: "desc",
+    },
+  });
+};
+
+export const getMapUserTimeline = async (userId: string | null) => {
+  if (!userId) {
+    return [];
+  }
+
+  return await prisma.logEntry.findMany({
+    select: {
+      fell: {
+        select: {
+          id: true,
+          name: true,
+          lat: true,
+          lng: true,
+        },
+      },
+    },
+    where: {
+      authorId: userId,
+      climbed: true,
+    },
+    orderBy: {
+      date: "desc",
+    },
+  });
+};

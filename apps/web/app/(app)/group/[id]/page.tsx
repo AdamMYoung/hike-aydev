@@ -33,7 +33,7 @@ export default async function Group({
   return (
     <PinGroup>
       {fellGroup.fells
-        .filter((f) => (!searchTerm ? true : f.name.toLowerCase().localeCompare(searchTerm.toLowerCase())))
+        .filter((f) => (!searchTerm ? true : f.name.toLowerCase().includes(searchTerm.toLowerCase())))
         .map((fell) => {
           const isCompleted = !!logEntries.find((e) => e.climbed && e.fellId === fell.id);
 
