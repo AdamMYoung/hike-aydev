@@ -19,7 +19,7 @@ const Timeline = async () => {
           return <TimelineCard key={e.id} logId={e.id} name={e.fell.name} date={e.date} comments={e.comments} />;
         })
       ) : (
-        <p>No entries yet. Start checking peaks off to see them here!</p>
+        <p className="w-full text-center">Start ticking peaks off to see them here!</p>
       )}
     </div>
   );
