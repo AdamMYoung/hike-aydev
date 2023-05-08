@@ -1,4 +1,5 @@
 import { Map } from "ui";
+
 import { SideNavigation, TopNavigation } from "@templates/index";
 import { getCurrentUser } from "@/libs/session";
 

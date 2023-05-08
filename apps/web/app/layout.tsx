@@ -1,4 +1,5 @@
 import { Toaster } from "ui";
+import { Analytics } from "@vercel/analytics/react";
 import { Jost } from "next/font/google";
 
 import "../styles/globals.css";
@@ -20,6 +21,7 @@ export default function Layout({ children }: LayoutProps) {
       <body className="font-sans">
         {children}
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
