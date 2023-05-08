@@ -1,12 +1,11 @@
 import { PeakEntry } from "@/components/organisms";
 import Link from "next/link";
-import { Button, Separator, Label, Input, Checkbox } from "ui";
+import { Button, Separator } from "ui";
 import { getFellGroup, getUserLogEntries } from "@/libs/requests";
 import { notFound } from "next/navigation";
 import { getCurrentUser } from "@/libs/session";
 import { LogEntry } from "database";
 import { PeakListEntry } from "@/components/organisms/peak-list-entry";
-import { string } from "zod";
 import { GroupSearchFilters } from "@templates/group-search-filters";
 
 type PeakDetailNavigationProps = {
