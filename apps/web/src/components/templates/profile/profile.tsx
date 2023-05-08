@@ -15,7 +15,7 @@ export const Profile = async () => {
 
   return (
     <div className="flex gap-2 items-center">
-      {user.name ? <p className="whitespace-nowrap font-medium text-xl">Hi, {user.name}!</p> : null}
+      {user.name ? <p className="whitespace-nowrap font-medium text-xl hidden md:block">Hi, {user.name}!</p> : null}
 
       <Separator orientation="vertical" />
 

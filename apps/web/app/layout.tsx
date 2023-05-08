@@ -1,5 +1,4 @@
-import { Map, Toaster } from "ui";
-import { SideNavigation, TopNavigation } from "@templates/index";
+import { Toaster } from "ui";
 import { Jost } from "next/font/google";
 
 import "../styles/globals.css";

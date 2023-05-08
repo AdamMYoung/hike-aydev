@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useCallback } from "react";
-import { Tabs, TabsList, TabsTrigger } from "ui";
+import React, { useCallback, useState } from "react";
+import { Button, Tabs, TabsList, TabsTrigger } from "ui";
 
 type SideNavigationProps = React.PropsWithChildren & {
   isUserAuthenticated: boolean;
