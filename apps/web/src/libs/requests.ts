@@ -4,12 +4,13 @@ import { cache } from "react";
 import { prisma } from "./prisma";
 import { User } from "./session";
 import { getCachedEntry } from "./kv";
+import { string } from "zod";
 
 export const getFellEntry = cache(async (id: string) => {
   return getCachedEntry(`get-fell-entry-${id}`, () => prisma.fell.findUnique({ where: { id: parseInt(id) } }));
 });
 
-export const getFellGroup = cache(async (id: string, searchTerm?: string) => {
+export const getFellGroup = cache(async (id: string) => {
   return getCachedEntry(`get-fell-group-${id}`, () =>
     prisma.fellGroup.findUnique({
       where: { id: parseInt(id) },
@@ -26,7 +27,6 @@ export const getFellGroup = cache(async (id: string, searchTerm?: string) => {
           },
           where: {
             published: true,
-            ...(searchTerm ? { name: { contains: searchTerm, mode: "insensitive" } } : {}),
           },
         },
       },
@@ -34,16 +34,15 @@ export const getFellGroup = cache(async (id: string, searchTerm?: string) => {
   );
 });
 
-export const getMapFellGroup = cache(async (id: string, searchTerm?: string) => {
+export const getMapFellGroup = cache(async (id: string) => {
   return getCachedEntry(`get-map-fell-group-${id}`, () =>
     prisma.fellGroup.findUnique({
       where: { id: parseInt(id) },
       select: {
         fells: {
-          select: { id: true, lat: true, lng: true },
+          select: { id: true, name: true, lat: true, lng: true },
           where: {
             published: true,
-            ...(searchTerm ? { name: { contains: searchTerm, mode: "insensitive" } } : {}),
           },
         },
       },

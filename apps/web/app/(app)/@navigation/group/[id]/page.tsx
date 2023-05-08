@@ -24,7 +24,7 @@ const PeakDetailNavigation = async ({
   let logEntries: LogEntry[] = [];
 
   const user = await getCurrentUser();
-  const fellGroup = await getFellGroup(id, searchTerm);
+  const fellGroup = await getFellGroup(id);
 
   if (!fellGroup) {
     notFound();
@@ -51,7 +51,7 @@ const PeakDetailNavigation = async ({
         <div className="px-4 py-2">
           {fellGroup.fells
             .sort((a, b) => a.name.localeCompare(b.name))
-
+            .filter((f) => (searchTerm ? true : f.name.toLowerCase().localeCompare(searchTerm.toLowerCase())))
             .map((fell) => {
               const isCompleted = !!logEntries.find((e) => e.climbed && e.fellId === fell.id);
 
