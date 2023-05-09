@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   const points = await getFellPoints();
 
   const line = lineString(decodedPolyline);
-  const circles = points.map((c) => circle([c.lat, c.lng], 0.5, { properties: { id: c.id } }));
+  const circles = points.map((c) => circle([c.lng, c.lat], 0.5, { properties: { id: c.id } }));
 
   const intersectingCircles = circles.filter((c) => lineIntersect(c, line).features.length > 0);
   const intersectingIds = intersectingCircles.map((c) => c.properties.id);
