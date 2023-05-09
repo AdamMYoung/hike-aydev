@@ -42,3 +42,16 @@ export const setComment = async (logId: string, comment: string) => {
 
   revalidatePath(`/timeline`);
 };
+
+export const setDate = async (logId: string, date: Date) => {
+  await prisma.logEntry.update({
+    where: {
+      id: logId,
+    },
+    data: {
+      date,
+    },
+  });
+
+  revalidatePath(`/timeline`);
+};
