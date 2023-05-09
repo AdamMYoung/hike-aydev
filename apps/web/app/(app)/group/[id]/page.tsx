@@ -24,7 +24,7 @@ export default async function Group({
   }
 
   const user = await getCurrentUser();
-  const logEntries = await getUserLogEntries(user.id);
+  const logEntries = await getUserLogEntries(user?.id);
 
   return (
     <PinGroup>

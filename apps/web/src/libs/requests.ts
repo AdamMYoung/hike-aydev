@@ -65,7 +65,7 @@ export const getFellGroups = cache(async () => {
   );
 });
 
-export const getUserFellGroupCompletion = async (userId: string | null) => {
+export const getUserFellGroupCompletion = async (userId?: string | null) => {
   if (!userId) {
     return [];
   }
@@ -97,7 +97,7 @@ export const getUserFellGroupCompletion = async (userId: string | null) => {
   });
 };
 
-export const getUserLogEntries = async (userId: string | null) => {
+export const getUserLogEntries = async (userId?: string | null) => {
   if (!userId) {
     return [];
   }
@@ -112,7 +112,7 @@ export const getUserLogEntries = async (userId: string | null) => {
   });
 };
 
-export const getUserTimeline = async (userId: string | null) => {
+export const getUserTimeline = async (userId?: string | null) => {
   if (!userId) {
     return [];
   }
@@ -140,7 +140,7 @@ export const getUserTimeline = async (userId: string | null) => {
   });
 };
 
-export const getMapUserTimeline = async (userId: string | null) => {
+export const getMapUserTimeline = async (userId?: string | null) => {
   if (!userId) {
     return [];
   }

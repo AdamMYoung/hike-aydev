@@ -9,8 +9,8 @@ export type User = {
   id: string | null;
 };
 
-export async function getCurrentUser(): Promise<User> {
+export async function getCurrentUser(): Promise<User | undefined> {
   const session = await getServerSession(authOptions);
 
-  return session?.user as User;
+  return session?.user as User | undefined;
 }

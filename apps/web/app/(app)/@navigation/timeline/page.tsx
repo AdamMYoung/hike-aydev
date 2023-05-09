@@ -10,7 +10,7 @@ const Timeline = async () => {
     notFound();
   }
 
-  const userEntries = await getUserTimeline(user.id);
+  const userEntries = await getUserTimeline(user?.id);
 
   return (
     <div className="p-4 divide-y">
