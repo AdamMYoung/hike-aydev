@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   });
 
   if (!stravaAccount) {
-    return NextResponse.next();
+    return new Response("", { status: 200 });
   }
 
   const decodedPolyline = decode(polyline);
@@ -46,5 +46,5 @@ export async function POST(request: Request) {
     })),
   });
 
-  return NextResponse.next();
+  return new Response("", { status: 200 });
 }

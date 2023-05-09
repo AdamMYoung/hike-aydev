@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
   if (searchParams.get("hub.verify_token") !== process.env.STRAVA_VERIFY_TOKEN) {
-    return NextResponse.next();
+    return new Response("Invalid token", { status: 403 });
   }
 
   return NextResponse.json({
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   const { owner_id, object_id, object_type, aspect_type } = await request.json();
 
   if (object_type !== "activity" || aspect_type !== "create") {
-    return NextResponse.next();
+    return new Response("", { status: 200 });
   }
 
   const stravaAccount = await prisma.account.findUnique({
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
   });
 
   if (!stravaAccount) {
-    return NextResponse.next();
+    return new Response("", { status: 200 });
   }
 
   const activity = await fetch(`https://www.strava.com/api/v3/activities/${object_id}?include_all_efforts=`, {
@@ -45,5 +45,5 @@ export async function POST(request: Request) {
 
   fetch("/api/strava/activity", { method: "POST", body: JSON.stringify(internalActivity) });
 
-  return NextResponse.next();
+  return new Response("", { status: 200 });
 }
