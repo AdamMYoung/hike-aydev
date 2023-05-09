@@ -47,7 +47,7 @@ export const SideNavigation = ({ children, isUserAuthenticated }: SideNavigation
             </TabsTrigger>
           </Link>
           <Link href="/integrations" legacyBehavior>
-            <TabsTrigger disabled value="integrations">
+            <TabsTrigger disabled={!isUserAuthenticated} value="integrations">
               Integrations
             </TabsTrigger>
           </Link>

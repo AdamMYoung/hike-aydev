@@ -2,14 +2,12 @@
 
 import * as React from "react";
 import { useSearchParams } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { BsStrava, BsGoogle } from "react-icons/bs";
 
 import { userAuthSchema } from "@/libs/validations/auth";
-import { toast, cn, Label, Input, buttonVariants } from "ui";
+import { toast, cn, buttonVariants } from "ui";
 import { Loader } from "lucide-react";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -17,13 +15,6 @@ interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 type FormData = z.infer<typeof userAuthSchema>;
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(userAuthSchema),
-  });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isStravaLoading, setIsStravaLoading] = React.useState<boolean>(false);
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
@@ -65,18 +56,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <button
-          type="button"
-          className={cn(buttonVariants({ variant: "outline" }))}
-          onClick={() => {
-            setIsGoogleLoading(true);
-            signIn("google");
-          }}
-          disabled={isLoading || isStravaLoading || isGoogleLoading}
-        >
-          {isGoogleLoading ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : <BsGoogle className="mr-2 h-4 w-4" />}{" "}
-          Google
-        </button>
+        <p className="text-xs text-center">
+          <i>Recommended</i>: Allows automatic Strava activity tracking.
+        </p>
         <button
           type="button"
           className={cn(buttonVariants({ variant: "outline" }))}
@@ -88,6 +70,18 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         >
           {isStravaLoading ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : <BsStrava className="mr-2 h-4 w-4" />}{" "}
           Strava
+        </button>
+        <button
+          type="button"
+          className={cn(buttonVariants({ variant: "outline" }))}
+          onClick={() => {
+            setIsGoogleLoading(true);
+            signIn("google");
+          }}
+          disabled={isLoading || isStravaLoading || isGoogleLoading}
+        >
+          {isGoogleLoading ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : <BsGoogle className="mr-2 h-4 w-4" />}{" "}
+          Google
         </button>
       </div>
     </div>

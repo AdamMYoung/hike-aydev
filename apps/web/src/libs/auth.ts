@@ -17,6 +17,11 @@ export const authOptions: NextAuthOptions = {
     StravaProvider({
       clientId: process.env.STRAVA_CLIENT_ID ?? "",
       clientSecret: process.env.STRAVA_CLIENT_SECRET ?? "",
+      authorization: {
+        params: {
+          scope: "activity:read_all",
+        },
+      },
       token: {
         async request({ client, params, checks, provider }) {
           const { token_type, expires_at, refresh_token, access_token } = await client.oauthCallback(

@@ -36,7 +36,7 @@ const PeakDetailNavigation = async ({
         <Link href="/">
           <Button>Back</Button>
         </Link>
-        <PeakEntry src={fellGroup.imageUrl ?? ""} title={fellGroup.name} />
+        <h2 className="text-xl font-medium">{fellGroup.name}</h2>
       </div>
 
       <Separator />

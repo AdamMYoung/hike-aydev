@@ -2,7 +2,6 @@ import "server-only";
 
 import { cache } from "react";
 import { prisma } from "./prisma";
-import { User } from "./session";
 import { getCachedEntry } from "./kv";
 
 export const getFellEntry = cache(async (id: string) => {
@@ -64,6 +63,18 @@ export const getFellGroups = cache(async () => {
     })
   );
 });
+
+export const getFellPoints = () => {
+  return getCachedEntry("get-fell-points", () =>
+    prisma.fell.findMany({
+      select: {
+        id: true,
+        lat: true,
+        lng: true,
+      },
+    })
+  );
+};
 
 export const getUserFellGroupCompletion = async (userId?: string | null) => {
   if (!userId) {
@@ -164,4 +175,28 @@ export const getMapUserTimeline = async (userId?: string | null) => {
       date: "desc",
     },
   });
+};
+
+export const getIsStravaLinked = async (userId?: string | null) => {
+  if (!userId) {
+    return false;
+  }
+
+  const userOauthToken = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      Account: {
+        where: {
+          provider: "strava",
+        },
+        select: {
+          access_token: true,
+        },
+      },
+    },
+  });
+
+  return !!userOauthToken?.Account[0]?.access_token;
 };
