@@ -20,8 +20,6 @@ export const SideNavigation = ({ children, isUserAuthenticated }: SideNavigation
     [push]
   );
 
-  console.log(pathname);
-
   const tabsValue = useMemo(() => {
     if (pathname === "/timeline") {
       return "timeline";
