@@ -23,7 +23,10 @@ export async function POST(request: Request) {
 
   const stravaAccount = await prisma.account.findUnique({
     where: {
-      provider_providerAccountId: owner_id,
+      provider_providerAccountId: {
+        providerAccountId: owner_id.toString(),
+        provider: "strava",
+      },
     },
     select: {
       access_token: true,
@@ -43,7 +46,7 @@ export async function POST(request: Request) {
   const activityData = await activity.json();
   const internalActivity = { polyline: activityData.map.polyline, owner_id };
 
-  fetch("/api/strava/activity", { method: "POST", body: JSON.stringify(internalActivity) });
+  fetch("https://hike.aydev.uk/api/strava/activity", { method: "POST", body: JSON.stringify(internalActivity) });
 
   return new Response("", { status: 200 });
 }

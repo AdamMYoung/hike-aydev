@@ -1040,13 +1040,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@turf/bbox@npm:*":
+"@turf/bbox@npm:*, @turf/bbox@npm:^6.5.0":
   version: 6.5.0
   resolution: "@turf/bbox@npm:6.5.0"
   dependencies:
     "@turf/helpers": ^6.5.0
     "@turf/meta": ^6.5.0
   checksum: 537be56ae0c5ad44e71a691717b35745e947e19a6bd9f20fdac2ab4318caf98cd88472d7dbf576e8b32ead5da034d273ffb3f4559d6d386820ddcb88a1f7fedd
+  languageName: node
+  linkType: hard
+
+"@turf/bearing@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@turf/bearing@npm:6.5.0"
+  dependencies:
+    "@turf/helpers": ^6.5.0
+    "@turf/invariant": ^6.5.0
+  checksum: f2883fb56d3017f9d0190937a92a2dae174e48f5165ea5540a5032caa03dd7980e5a95d298fd25e6bcc74cdf812d411af0e0c146112518ed3cd0d19795a1b645
+  languageName: node
+  linkType: hard
+
+"@turf/boolean-point-on-line@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@turf/boolean-point-on-line@npm:6.5.0"
+  dependencies:
+    "@turf/helpers": ^6.5.0
+    "@turf/invariant": ^6.5.0
+  checksum: 469bc39dfe8cdd50be654d3dc1ed94c130e27d5724461333edc6d32352d31c955a1e4f2785994f0a255162fd6075657e49c90b9c805a644e88e05e2a51ead6bc
   languageName: node
   linkType: hard
 
@@ -1067,6 +1087,16 @@ __metadata:
     "@turf/helpers": ^6.5.0
     "@turf/invariant": ^6.5.0
   checksum: eac68b89fb8d9eee005e853f235c5356753f4ece08082270a1b5ed89aabdae3aa847e55ff8ca3f6ea3d2ced588fa7ed1211cd3fb321f10677c111503fb2bb4aa
+  languageName: node
+  linkType: hard
+
+"@turf/distance@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@turf/distance@npm:6.5.0"
+  dependencies:
+    "@turf/helpers": ^6.5.0
+    "@turf/invariant": ^6.5.0
+  checksum: f311e19a5d489a11e2033f218723f6c2fae207cb03fbdd5dc64a44724d36851f5bb44d07ae31d479532db5f1df019845e19e2117c1948d9e832a6769f6bf0448
   languageName: node
   linkType: hard
 
@@ -1110,6 +1140,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@turf/line-overlap@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@turf/line-overlap@npm:6.5.0"
+  dependencies:
+    "@turf/boolean-point-on-line": ^6.5.0
+    "@turf/helpers": ^6.5.0
+    "@turf/invariant": ^6.5.0
+    "@turf/line-segment": ^6.5.0
+    "@turf/meta": ^6.5.0
+    "@turf/nearest-point-on-line": ^6.5.0
+    deep-equal: 1.x
+    geojson-rbush: 3.x
+  checksum: 51638b7e9c0cfec9e2d2f38e938dc5e5faea61be7bd51959c5704f1dc7f020100e6084ee65b97a4b4b2067323e3ed53870eec94a6006926d81c058ddbf4a9393
+  languageName: node
+  linkType: hard
+
 "@turf/line-segment@npm:^6.5.0":
   version: 6.5.0
   resolution: "@turf/line-segment@npm:6.5.0"
@@ -1121,12 +1167,65 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@turf/line-split@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@turf/line-split@npm:6.5.0"
+  dependencies:
+    "@turf/bbox": ^6.5.0
+    "@turf/helpers": ^6.5.0
+    "@turf/invariant": ^6.5.0
+    "@turf/line-intersect": ^6.5.0
+    "@turf/line-segment": ^6.5.0
+    "@turf/meta": ^6.5.0
+    "@turf/nearest-point-on-line": ^6.5.0
+    "@turf/square": ^6.5.0
+    "@turf/truncate": ^6.5.0
+    geojson-rbush: 3.x
+  checksum: cae22b5121e123b9975dc8fa0c605dfbfe7f040d424595af96821f5160e7d44575a134f32de0b7fd4f08a919fefc69f629cc2b5af7b00bd49dc92e28cdf1ea1a
+  languageName: node
+  linkType: hard
+
 "@turf/meta@npm:6.x, @turf/meta@npm:^6.5.0":
   version: 6.5.0
   resolution: "@turf/meta@npm:6.5.0"
   dependencies:
     "@turf/helpers": ^6.5.0
   checksum: c6bb936aa92bf3365e87a50dc65f248e070c5767a36fac390754c00c89bf2d1583418686ab19a10332bfa9340b8cac6aaf2c55dad7f5fcf77f1a2dda75ccf363
+  languageName: node
+  linkType: hard
+
+"@turf/nearest-point-on-line@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@turf/nearest-point-on-line@npm:6.5.0"
+  dependencies:
+    "@turf/bearing": ^6.5.0
+    "@turf/destination": ^6.5.0
+    "@turf/distance": ^6.5.0
+    "@turf/helpers": ^6.5.0
+    "@turf/invariant": ^6.5.0
+    "@turf/line-intersect": ^6.5.0
+    "@turf/meta": ^6.5.0
+  checksum: 5d059e43e6b624b23a204c2ac7d4ddec0b5105eb02ecd12b38c221cfe083279a4059c4e2788b9821cb93d4ca4ccb4eb7f48fcae2e59c857073a5bdb2a49ae8ce
+  languageName: node
+  linkType: hard
+
+"@turf/square@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@turf/square@npm:6.5.0"
+  dependencies:
+    "@turf/distance": ^6.5.0
+    "@turf/helpers": ^6.5.0
+  checksum: db0525ac0875f7df5147e0ed0e796f8fd9add6a4467fcc41b72852fc014249e6dfebf74ef0d99597e3b826ba42c5b0a99f65eee40a593f2253c1bec45026a9eb
+  languageName: node
+  linkType: hard
+
+"@turf/truncate@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@turf/truncate@npm:6.5.0"
+  dependencies:
+    "@turf/helpers": ^6.5.0
+    "@turf/meta": ^6.5.0
+  checksum: 554b5d6ed12d0a5a01a1ca4259ae04fb48bae871f87f9ad7ca941186dd81fa853bd394aaac7d8ebb34180419bb881eca8119005ded87d9fb524c7e29ebc83cf6
   languageName: node
   linkType: hard
 
@@ -2043,6 +2142,20 @@ __metadata:
   dependencies:
     ms: ^2.1.1
   checksum: b3d8c5940799914d30314b7c3304a43305fd0715581a919dacb8b3176d024a782062368405b47491516d2091d6462d4d11f2f4974a405048094f8bfebfa3071c
+  languageName: node
+  linkType: hard
+
+"deep-equal@npm:1.x":
+  version: 1.1.1
+  resolution: "deep-equal@npm:1.1.1"
+  dependencies:
+    is-arguments: ^1.0.4
+    is-date-object: ^1.0.1
+    is-regex: ^1.0.4
+    object-is: ^1.0.1
+    object-keys: ^1.1.1
+    regexp.prototype.flags: ^1.2.0
+  checksum: f92686f2c5bcdf714a75a5fa7a9e47cb374a8ec9307e717b8d1ce61f56a75aaebf5619c2a12b8087a705b5a2f60d0292c35f8b58cb1f72e3268a3a15cab9f78d
   languageName: node
   linkType: hard
 
@@ -3432,7 +3545,7 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
-"is-arguments@npm:^1.1.1":
+"is-arguments@npm:^1.0.4, is-arguments@npm:^1.1.1":
   version: 1.1.1
   resolution: "is-arguments@npm:1.1.1"
   dependencies:
@@ -3595,7 +3708,7 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
-"is-regex@npm:^1.1.4":
+"is-regex@npm:^1.0.4, is-regex@npm:^1.1.4":
   version: 1.1.4
   resolution: "is-regex@npm:1.1.4"
   dependencies:
@@ -4390,7 +4503,7 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
-"object-is@npm:^1.1.5":
+"object-is@npm:^1.0.1, object-is@npm:^1.1.5":
   version: 1.1.5
   resolution: "object-is@npm:1.1.5"
   dependencies:
@@ -5051,7 +5164,7 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
-"regexp.prototype.flags@npm:^1.4.3, regexp.prototype.flags@npm:^1.5.0":
+"regexp.prototype.flags@npm:^1.2.0, regexp.prototype.flags@npm:^1.4.3, regexp.prototype.flags@npm:^1.5.0":
   version: 1.5.0
   resolution: "regexp.prototype.flags@npm:1.5.0"
   dependencies:
@@ -6138,6 +6251,8 @@ turbo@latest:
     "@turf/helpers": ^6.5.0
     "@turf/intersect": ^6.5.0
     "@turf/line-intersect": ^6.5.0
+    "@turf/line-overlap": ^6.5.0
+    "@turf/line-split": ^6.5.0
     "@types/node": ^17.0.12
     "@types/react": ^18.0.22
     "@types/react-dom": ^18.0.7

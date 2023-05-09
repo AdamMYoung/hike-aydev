@@ -71,6 +71,7 @@ export const getFellPoints = () => {
         id: true,
         lat: true,
         lng: true,
+        name: true,
       },
     })
   );

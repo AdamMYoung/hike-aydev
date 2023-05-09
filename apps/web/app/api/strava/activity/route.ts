@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import circle from "@turf/circle";
 import { lineString } from "@turf/helpers";
 import lineIntersect from "@turf/line-intersect";
+import lineOverlap from "@turf/line-overlap";
 
 // Handles webhook events
 export async function POST(request: Request) {
@@ -13,13 +14,17 @@ export async function POST(request: Request) {
 
   const stravaAccount = await prisma.account.findUnique({
     where: {
-      provider_providerAccountId: owner_id,
+      provider_providerAccountId: {
+        providerAccountId: owner_id.toString(),
+        provider: "strava",
+      },
     },
     select: {
       access_token: true,
       user: {
         select: {
           id: true,
+          name: true,
         },
       },
     },
@@ -33,7 +38,7 @@ export async function POST(request: Request) {
   const points = await getFellPoints();
 
   const line = lineString(decodedPolyline);
-  const circles = points.map((c) => circle([c.lng, c.lat], 0.5, { properties: { id: c.id } }));
+  const circles = points.map((c) => circle([c.lat, c.lng], 0.1, { properties: { id: c.id, name: c.name } }));
 
   const intersectingCircles = circles.filter((c) => lineIntersect(c, line).features.length > 0);
   const intersectingIds = intersectingCircles.map((c) => c.properties.id);
