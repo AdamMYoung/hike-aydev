@@ -64,7 +64,7 @@ const PeakDetailNavigation = async ({
                   key={fell.id}
                   fell={fell}
                   fellGroupId={fellGroup.id}
-                  userId={user?.id}
+                  userId={user?.id ?? null}
                   checked={isCompleted}
                   disabled={!user}
                 />
