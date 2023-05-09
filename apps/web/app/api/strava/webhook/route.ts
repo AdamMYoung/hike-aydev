@@ -1,6 +1,14 @@
 import { prisma } from "@/libs/prisma";
-import { getCurrentUser } from "@/libs/session";
 import { NextResponse } from "next/server";
+
+export async function GET(request: Request) {
+  const body = await request.json();
+
+  return NextResponse.json({
+    "hub.challenge": body["hub.challenge"],
+    "hub.verify_token": process.env.STRAVA_VERIFY_TOKEN ?? "",
+  });
+}
 
 // Handles webhook events
 export async function POST(request: Request) {
