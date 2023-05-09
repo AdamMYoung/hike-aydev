@@ -48,6 +48,7 @@ export async function POST(request: Request) {
     data: intersectingIds.map((id) => ({
       fellId: id,
       authorId: stravaAccount.user.id,
+      climbed: true,
     })),
   });
 
