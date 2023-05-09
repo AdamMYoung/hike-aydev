@@ -13,9 +13,7 @@ const Integrations = async () => {
         <p className="text-sm font-light">
           Connect your Strava account to automatically track peaks using your events from Strava.
         </p>
-        <StravaLoginButton disabled={isStravaLinked}>
-          {isStravaLinked ? "Connected" : "Connect Strava"}
-        </StravaLoginButton>
+        <StravaLoginButton disabled>{isStravaLinked ? "Connected" : "N/A"}</StravaLoginButton>
       </div>
     </div>
   );
