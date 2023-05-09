@@ -2,11 +2,14 @@ import { prisma } from "@/libs/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  const body = await request.json();
+  const { searchParams } = new URL(request.url);
+
+  if (searchParams.get("hub.verify_token") !== process.env.STRAVA_VERIFY_TOKEN) {
+    return NextResponse.next();
+  }
 
   return NextResponse.json({
-    "hub.challenge": body["hub.challenge"],
-    "hub.verify_token": process.env.STRAVA_VERIFY_TOKEN ?? "",
+    "hub.challenge": searchParams.get("hub.challenge"),
   });
 }
 
