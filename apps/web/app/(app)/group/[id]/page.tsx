@@ -17,13 +17,12 @@ export default async function Group({
   params: { id },
   searchParams: { hideComplete, hideIncomplete, searchTerm },
 }: GroupProps) {
-  const fellGroup = await getMapFellGroup(id);
+  const [fellGroup, user] = await Promise.all([getMapFellGroup(id), getCurrentUser()]);
 
   if (!fellGroup) {
     notFound();
   }
 
-  const user = await getCurrentUser();
   const logEntries = await getUserLogEntries(user?.id);
 
   return (

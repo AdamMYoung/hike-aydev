@@ -4,8 +4,7 @@ import { getCurrentUser } from "@/libs/session";
 import { Separator } from "ui";
 
 const PeaksNavigation = async () => {
-  const user = await getCurrentUser();
-  const entries = await getFellGroups();
+  const [user, entries] = await Promise.all([getCurrentUser(), getFellGroups()]);
 
   const logEntries = await getUserFellGroupCompletion(user?.id);
 
