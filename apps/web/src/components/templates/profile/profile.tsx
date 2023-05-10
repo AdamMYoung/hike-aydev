@@ -7,7 +7,7 @@ export const Profile = async () => {
 
   if (!user) {
     return (
-      <Link href="/login">
+      <Link prefetch={false} href="/login">
         <Button>Login</Button>
       </Link>
     );
@@ -23,7 +23,7 @@ export const Profile = async () => {
         <p className="whitespace-nowrap font-medium hidden md:block">{user.name}</p>
       </div>
 
-      <Link legacyBehavior href="/api/auth/signout">
+      <Link prefetch={false} legacyBehavior href="/api/auth/signout">
         <Button className="whitespace-nowrap" variant="outline">
           Sign out
         </Button>
