@@ -36,15 +36,15 @@ export const SideNavigation = ({ children, isUserAuthenticated }: SideNavigation
     <Tabs value={tabsValue} onValueChange={handleValueChange} className="relative h-full overflow-y-auto">
       <div className="px-4 py-2 z-10 sticky top-0 bg-white shadow">
         <TabsList>
-          <Link href="/" legacyBehavior>
+          <Link href="/" prefetch={false} legacyBehavior>
             <TabsTrigger value="">Peaks</TabsTrigger>
           </Link>
-          <Link href="/timeline" legacyBehavior>
+          <Link href="/timeline" prefetch={false} legacyBehavior>
             <TabsTrigger disabled={!isUserAuthenticated} value="timeline">
               Timeline
             </TabsTrigger>
           </Link>
-          <Link href="/integrations" legacyBehavior>
+          <Link href="/integrations" prefetch={false} legacyBehavior>
             <TabsTrigger disabled={!isUserAuthenticated} value="integrations">
               Integrations
             </TabsTrigger>

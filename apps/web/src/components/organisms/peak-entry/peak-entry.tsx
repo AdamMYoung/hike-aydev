@@ -11,7 +11,7 @@ export const PeakEntry = ({ className, src, title, children, href, ...rest }: Pe
   const _className = cn("flex flex-col gap-2 text-left transition-colors hover:bg-gray-200", className);
 
   return (
-    <Link href={href}>
+    <Link href={href} prefetch={false}>
       <div className={_className} {...rest}>
         {src ? <img className="rounded-lg" alt="" src={src} /> : null}
         <div>
