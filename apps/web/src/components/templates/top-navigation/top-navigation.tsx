@@ -17,7 +17,7 @@ export const TopNavigation = ({ className, isUserAuthenticated, ...rest }: TopNa
           <span className="font-light">.aydev</span>
         </span>
 
-        <div className="hidden md:flex gap-6 items-center">
+        <div className="hidden md:flex gap-4 items-center">
           <Link href="/">
             <Button className="text-lg font-normal" variant="link">
               Fells
