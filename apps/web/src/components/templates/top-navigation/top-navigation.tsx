@@ -17,20 +17,25 @@ export const TopNavigation = ({ className, isUserAuthenticated, ...rest }: TopNa
           <span className="font-light">.aydev</span>
         </span>
 
-        <div className="hidden md:flex gap-4 items-baseline">
+        <div className="hidden md:flex gap-2 items-baseline">
           <Link href="/">
-            <Button className="text-lg font-normal" variant="link">
+            <Button className="text-md font-normal" variant="link">
               Fells
             </Button>
           </Link>
           <Link legacyBehavior href="/timeline">
-            <Button variant="link" className="text-lg font-normal" disabled={!isUserAuthenticated}>
+            <Button variant="link" className="text-md font-normal" disabled={!isUserAuthenticated}>
               Timeline
             </Button>
           </Link>
           <Link legacyBehavior href="/integrations">
-            <Button className="text-lg font-normal" variant="link" disabled={!isUserAuthenticated}>
+            <Button className="text-md font-normal" variant="link" disabled={!isUserAuthenticated}>
               Integrations
+            </Button>
+          </Link>
+          <Link legacyBehavior href="/about">
+            <Button className="text-md font-normal" variant="link">
+              About
             </Button>
           </Link>
         </div>
