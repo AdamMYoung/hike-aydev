@@ -19,17 +19,17 @@ export const TopNavigation = ({ className, isUserAuthenticated, ...rest }: TopNa
 
         <div className="hidden md:flex gap-6 items-center">
           <Link href="/">
-            <Button className="text-lg" variant="link">
+            <Button className="text-lg font-normal" variant="link">
               Fells
             </Button>
           </Link>
           <Link legacyBehavior href="/timeline">
-            <Button variant="link" className="text-lg" disabled={!isUserAuthenticated}>
+            <Button variant="link" className="text-lg font-normal" disabled={!isUserAuthenticated}>
               Timeline
             </Button>
           </Link>
           <Link legacyBehavior href="/integrations">
-            <Button className="text-lg" variant="link" disabled={!isUserAuthenticated}>
+            <Button className="text-lg font-normal" variant="link" disabled={!isUserAuthenticated}>
               Integrations
             </Button>
           </Link>
