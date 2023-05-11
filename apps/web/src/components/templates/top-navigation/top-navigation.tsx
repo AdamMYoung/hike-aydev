@@ -11,13 +11,13 @@ export const TopNavigation = ({ className, isUserAuthenticated, ...rest }: TopNa
 
   return (
     <div className={_className} {...rest}>
-      <div className="flex gap-6 items-center">
+      <div className="flex gap-6 items-baseline">
         <span className="text-3xl w-full">
           <span className="font-semibold">Hike</span>
           <span className="font-light">.aydev</span>
         </span>
 
-        <div className="hidden md:flex gap-4 items-center">
+        <div className="hidden md:flex gap-4 items-baseline">
           <Link href="/">
             <Button className="text-lg font-normal" variant="link">
               Fells
