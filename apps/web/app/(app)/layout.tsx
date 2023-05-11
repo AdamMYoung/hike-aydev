@@ -22,7 +22,7 @@ export default async function Layout({ children, navigation }: LayoutProps) {
       <div className="grid md:grid-cols-[400px_1fr] shrink grow">
         <div className="relative w-full">
           <div className="absolute top-0 bottom-0 left-0 right-0">
-            <SideNavigation>{navigation}</SideNavigation>
+            <SideNavigation isUserAuthenticated={!!user}>{navigation}</SideNavigation>
           </div>
         </div>
         <main className="flex-col w-full h-full hidden md:flex">

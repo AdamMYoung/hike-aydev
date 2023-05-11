@@ -17,21 +17,23 @@ export const TopNavigation = ({ className, isUserAuthenticated, ...rest }: TopNa
           <span className="font-light">.aydev</span>
         </span>
 
-        <Link href="/">
-          <Button className="text-lg" variant="link">
-            Fells
-          </Button>
-        </Link>
-        <Link legacyBehavior href="/timeline">
-          <Button variant="link" className="text-lg" disabled={!isUserAuthenticated}>
-            Timeline
-          </Button>
-        </Link>
-        <Link legacyBehavior href="/integrations">
-          <Button className="text-lg" variant="link" disabled={!isUserAuthenticated}>
-            Integrations
-          </Button>
-        </Link>
+        <div className="hidden md:flex gap-6 items-center">
+          <Link href="/">
+            <Button className="text-lg" variant="link">
+              Fells
+            </Button>
+          </Link>
+          <Link legacyBehavior href="/timeline">
+            <Button variant="link" className="text-lg" disabled={!isUserAuthenticated}>
+              Timeline
+            </Button>
+          </Link>
+          <Link legacyBehavior href="/integrations">
+            <Button className="text-lg" variant="link" disabled={!isUserAuthenticated}>
+              Integrations
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* @ts-expect-error Server Component */}
