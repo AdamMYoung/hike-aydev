@@ -1,38 +1,27 @@
 "use client";
 
-import { cn, ElementProps, toOSMCoordinates, toWGSCoordinates } from "../../lib";
-import OLMap from "ol/Map.js";
-import OSM from "ol/source/OSM.js";
-import TileLayer from "ol/layer/Tile.js";
-import View from "ol/View.js";
+import { cn, ElementProps } from "../../lib";
 import { useEffect, useState } from "react";
-import { MapContextProvider } from "./map.context";
+import { useMapContext } from "./map.context";
 
 export type MapProps = ElementProps<"div"> & {};
 
 export const Map = ({ children, className, ...rest }: ElementProps<"div">) => {
   const _className = cn("w-full h-full", className);
+  const { map } = useMapContext();
+  const [isMapAssigned, setIsMapAssigned] = useState(false);
   const [element, setElement] = useState<HTMLDivElement | null>(null);
-  const [map, setMap] = useState<OLMap | null>(null);
 
   useEffect(() => {
-    if (element && !map) {
-      setMap(
-        new OLMap({
-          target: element,
-          layers: [
-            new TileLayer({
-              source: new OSM(),
-            }),
-          ],
-        })
-      );
+    if (element && map && !isMapAssigned) {
+      setIsMapAssigned(true);
+      map?.setTarget(element);
     }
-  }, [element, map]);
+  }, [element, map, isMapAssigned]);
 
   return (
     <div className={_className} ref={setElement} {...rest}>
-      <MapContextProvider value={{ map }}>{children}</MapContextProvider>
+      {children}
     </div>
   );
 };

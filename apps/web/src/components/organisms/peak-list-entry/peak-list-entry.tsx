@@ -1,14 +1,18 @@
 "use client";
 
+import { useGroupInteractionContext, useMapContext, useMapInteractionContext } from "ui";
 import { setFellStatus } from "@/libs/actions";
-import { useTransition } from "react";
-import { Checkbox, cn, ElementProps } from "ui";
+import { Locate } from "lucide-react";
+import { useCallback, useTransition } from "react";
+import { Button, Checkbox, cn, ElementProps, toOSMCoordinates } from "ui";
 
 type PeakListEntryProps = ElementProps<"div"> & {
   fell: {
     id: number;
     name: string;
     metres: number;
+    lat: number;
+    lng: number;
   };
   disabled: boolean;
   checked: boolean;
@@ -25,12 +29,27 @@ export const PeakListEntry = ({
   fellGroupId,
   ...rest
 }: PeakListEntryProps) => {
+  const { setZoomPoint } = useMapInteractionContext();
+  const { setFocusedFell } = useGroupInteractionContext();
+  const { isAnimating } = useMapContext();
   const [isPending, startTransition] = useTransition();
 
-  const _className = cn("flex group py-1 items-center justify-between", className);
+  const _className = cn("flex group py-1 px-1 gap-2 items-center justify-between hover:bg-gray-50", className);
+
+  const handleFocusIn = useCallback(() => {
+    if (!isAnimating) {
+      setFocusedFell(fell.id);
+    }
+  }, [setFocusedFell, isAnimating, fell]);
+
+  const handleFocusOut = useCallback(() => {
+    if (!isAnimating) {
+      setFocusedFell(null);
+    }
+  }, [setFocusedFell, isAnimating]);
 
   return (
-    <div className={_className} {...rest}>
+    <div className={_className} onMouseEnter={handleFocusIn} onMouseLeave={handleFocusOut} {...rest}>
       <div className="flex gap-2 py-2 items-center">
         <Checkbox
           disabled={disabled || isPending}
@@ -43,6 +62,13 @@ export const PeakListEntry = ({
           {fell.name} ({fell.metres}m)
         </label>
       </div>
+      <Button
+        variant="ghost"
+        className="text-gray-200 hover:text-gray-400"
+        onClick={() => setZoomPoint({ coordinates: toOSMCoordinates([fell.lng, fell.lat]), zoom: 14 }, true)}
+      >
+        <Locate className="text-[inherit]" />
+      </Button>
     </div>
   );
 };

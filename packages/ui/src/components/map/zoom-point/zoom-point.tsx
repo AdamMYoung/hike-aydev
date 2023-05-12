@@ -10,17 +10,11 @@ type ZoomPointProps = {
 };
 
 export const ZoomPoint = ({ coordinates, zoom = 6 }: ZoomPointProps) => {
-  const { map } = useMapContext();
+  const { animate } = useMapContext();
 
   useEffect(() => {
-    if (!map) {
-      return;
-    }
-
-    const view = map.getView();
-
-    view.animate({ center: coordinates, zoom });
-  }, [map, coordinates, zoom]);
+    animate({ center: coordinates, zoom });
+  }, [animate, coordinates, zoom]);
 
   return null;
 };

@@ -1,8 +1,8 @@
 import { getMapFellGroup, getUserLogEntries } from "@/libs/requests";
 import { getCurrentUser } from "@/libs/session";
-import { LogEntry } from "database";
 import { notFound } from "next/navigation";
 import { PinGroup, Pin } from "ui";
+import { GroupPin } from "./group-pin";
 
 type GroupProps = {
   params: { id: string };
@@ -41,8 +41,7 @@ export default async function Group({
             return null;
           }
 
-          const iconSrc = isCompleted ? "/data/check-circle.svg" : "/data/cross-circle.svg";
-          return <Pin key={fell.id} coordinates={[fell.lng, fell.lat]} iconSrc={iconSrc} />;
+          return <GroupPin key={fell.id} isCompleted={isCompleted} fell={fell} />;
         })}
     </PinGroup>
   );

@@ -7,14 +7,16 @@ import { useMapContext } from "../map.context";
 import { PinGroupContextProvider } from "./pin-group.context";
 import { Feature } from "ol";
 import debounce from "lodash.debounce";
+import { useMapInteractionContext } from "../../../context";
 
 type PinGroupProps = React.PropsWithChildren & {
   disableAnimation?: boolean;
 };
 
 export const PinGroup = ({ children, disableAnimation }: PinGroupProps) => {
+  const { isManualMode } = useMapInteractionContext();
   const vectorSource = useRef(new VectorSource());
-  const { map } = useMapContext();
+  const { map, fit } = useMapContext();
 
   useEffect(() => {
     if (!map) {
@@ -39,19 +41,25 @@ export const PinGroup = ({ children, disableAnimation }: PinGroupProps) => {
         return;
       }
 
-      if (disableAnimation) {
+      if (disableAnimation || isManualMode) {
         return;
       }
 
-      map.getView().fit(vectorSource.current.getExtent(), {
+      fit(vectorSource.current.getExtent(), {
         size: map.getSize(),
         maxZoom: 16,
         padding: [100, 100, 100, 100],
         duration: 1000,
       });
     }),
-    [map]
+    [map, isManualMode]
   );
+
+  useCallback(() => {
+    if (isManualMode) {
+      adjustToView();
+    }
+  }, [isManualMode, adjustToView]);
 
   const addFeature = useCallback(
     (feature: Feature) => {
