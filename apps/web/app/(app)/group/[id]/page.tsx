@@ -1,8 +1,13 @@
-import { getMapFellGroup, getUserLogEntries } from "@/libs/requests";
-import { getCurrentUser } from "@/libs/session";
 import { notFound } from "next/navigation";
-import { PinGroup, Pin } from "ui";
-import { GroupPin } from "./group-pin";
+import { Suspense } from "react";
+
+import {
+  getCachedCurrentUser,
+  getCachedFellGroup,
+  getCachedFells,
+  getCachedFlattenedTimelineEntries,
+} from "@libs/cache";
+import { BoundingZoomPoint, Pin, PinGroup } from "ui";
 
 type GroupProps = {
   params: { id: string };
@@ -13,35 +18,59 @@ type GroupProps = {
   };
 };
 
-export default async function Group({
+const GroupEntries = async ({
   params: { id },
   searchParams: { hideComplete, hideIncomplete, searchTerm },
-}: GroupProps) {
-  const [fellGroup, user] = await Promise.all([getMapFellGroup(id), getCurrentUser()]);
+}: GroupProps) => {
+  const [fellGroup, fells, user] = await Promise.all([
+    getCachedFellGroup(parseInt(id)),
+    getCachedFells(parseInt(id)),
+    getCachedCurrentUser(),
+  ]);
 
   if (!fellGroup) {
     notFound();
   }
 
-  const logEntries = await getUserLogEntries(user?.id);
+  const logEntries = await getCachedFlattenedTimelineEntries(user?.id);
+
+  const parsedFells = fells
+    .filter((f) => (!searchTerm ? true : f.name.toLowerCase().includes(searchTerm.toLowerCase())))
+    .reduce((prev, curr) => {
+      const isCompleted = !!logEntries.find((e) => e.climbed && e.fell.id === curr.id);
+
+      if (hideComplete === "true" && isCompleted && user) {
+        return prev;
+      }
+
+      if (hideIncomplete === "true" && !isCompleted && user) {
+        return prev;
+      }
+
+      return [...prev, { isCompleted, fell: curr }];
+    }, []);
 
   return (
-    <PinGroup>
-      {fellGroup.fells
-        .filter((f) => (!searchTerm ? true : f.name.toLowerCase().includes(searchTerm.toLowerCase())))
-        .map((fell) => {
-          const isCompleted = !!logEntries.find((e) => e.climbed && e.fellId === fell.id);
+    <>
+      <BoundingZoomPoint points={parsedFells.map((f) => [f.fell.lng, f.fell.lat])} />
+      <PinGroup>
+        {parsedFells.map(({ isCompleted, fell }) => (
+          <Pin key={fell.id} isCompleted={isCompleted} coordinates={[fell.lng, fell.lat]} />
+        ))}
+      </PinGroup>
+    </>
+  );
+};
 
-          if (hideComplete === "true" && isCompleted && user) {
-            return null;
-          }
+const GroupEntriesPlaceholder = () => {
+  return <div />;
+};
 
-          if (hideIncomplete === "true" && !isCompleted && user) {
-            return null;
-          }
-
-          return <GroupPin key={fell.id} isCompleted={isCompleted} fell={fell} />;
-        })}
-    </PinGroup>
+export default async function Group(props: GroupProps) {
+  return (
+    <Suspense fallback={<GroupEntriesPlaceholder />}>
+      {/* @ts-expect-error Server Component */}
+      <GroupEntries {...props} />
+    </Suspense>
   );
 }

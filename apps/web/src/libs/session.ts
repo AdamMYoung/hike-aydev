@@ -1,6 +1,6 @@
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from 'next-auth/next';
 
-import { authOptions } from "./auth";
+import { authOptions } from './auth';
 
 export type User = {
   name: string | null;

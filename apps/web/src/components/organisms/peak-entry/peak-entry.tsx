@@ -1,20 +1,22 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ElementProps, cn } from "ui";
+import { cn, ElementProps } from "ui";
 
 type PeakEntryProps = ElementProps<"div"> & {
-  src?: string;
   title: string;
   href: string;
 };
 
-export const PeakEntry = ({ className, src, title, children, href, ...rest }: PeakEntryProps) => {
-  const _className = cn("flex flex-col gap-2 text-left transition-colors hover:bg-gray-200", className);
+export const PeakEntry = ({ className, title, children, href, ...rest }: PeakEntryProps) => {
+  const _className = cn(
+    "flex flex-col text-left transition-colors border rounded-lg bg-white hover:bg-gray-200 group",
+    className
+  );
 
   return (
     <Link href={href}>
       <div className={_className} {...rest}>
-        {src ? <img className="rounded-lg" alt="" src={src} /> : null}
-        <div>
+        <div className="p-2">
           <h2 className="text-xl font-medium">{title}</h2>
           {children}
         </div>

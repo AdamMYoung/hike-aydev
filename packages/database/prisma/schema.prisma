@@ -67,19 +67,35 @@ model Fell {
 }
 
 model LogEntry {
-  id       String   @id @default(cuid())
-  date     DateTime @default(now())
-  comments String?
-  climbed  Boolean  @default(false)
-  camped   Boolean  @default(false)
-  authorId String
-  fellId   Int
+  id         String  @id @default(cuid())
+  comments   String?
+  climbed    Boolean @default(false)
+  camped     Boolean @default(false)
+  logGroupId String
+  authorId   String
+  fellId     Int
 
-  author User @relation(fields: [authorId], references: [id])
-  fell   Fell @relation(fields: [fellId], references: [id])
+  author User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  fell   Fell     @relation(fields: [fellId], references: [id])
+  group  LogGroup @relation(fields: [logGroupId], references: [id])
 
   @@unique([authorId, fellId])
   @@map(name: "log_entries")
+}
+
+model LogGroup {
+  id       String    @id @default(cuid())
+  start    DateTime
+  end      DateTime?
+  polyline String?
+  authorId String
+  source   LogSource
+
+  logEntries LogEntry[]
+  author     User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@unique([start, authorId])
+  @@map(name: "log_groups")
 }
 
 model User {
@@ -91,11 +107,40 @@ model User {
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
 
-  logEntries LogEntry[]
-  Account    Account[]
-  Session    Session[]
+  logEntries      LogEntry[]
+  account         Account[]
+  session         Session[]
+  timeouts        UserEventTimeout[]
+  userPreferences UserPreferences[]
+  logGroups       LogGroup[]
 
   @@map(name: "users")
+}
+
+model UserPreferences {
+  id                String   @id @default(cuid())
+  userId            String
+  metric            Boolean  @default(true)
+  imperial          Boolean  @default(false)
+  darkMode          Boolean  @default(false)
+  fellNotifications Boolean  @default(false)
+  createdAt         DateTime @default(now()) @map(name: "created_at")
+  updatedAt         DateTime @default(now()) @map(name: "updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map(name: "user_preferences")
+}
+
+model UserEventTimeout {
+  id      String   @id @default(cuid())
+  userId  String
+  expires DateTime
+  event   String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map(name: "user_event_timeouts")
 }
 
 model VerificationToken {
@@ -115,4 +160,9 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map(name: "sessions")
+}
+
+enum LogSource {
+  MANUAL
+  STRAVA
 }

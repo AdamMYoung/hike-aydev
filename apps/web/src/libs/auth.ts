@@ -1,14 +1,14 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
-import StravaProvider from "next-auth/providers/strava";
 import GoogleProvider from "next-auth/providers/google";
+import StravaProvider from "next-auth/providers/strava";
 
-import { prisma } from "./prisma";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { prisma } from "database";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: "jwt",
+    strategy: "database",
   },
   pages: {
     signIn: "/login",
@@ -44,37 +44,16 @@ export const authOptions: NextAuthOptions = {
     async redirect({ baseUrl }) {
       return baseUrl;
     },
-    async session({ token, session }) {
-      if (token && session.user) {
+    async session({ user, session }) {
+      if (user && session.user) {
         //@ts-ignore
-        session.user.id = token.id;
-        session.user.name = token.name;
-        session.user.email = token.email;
-        session.user.image = token.picture;
+        session.user.id = user.id;
+        session.user.name = user.name;
+        session.user.email = user.email;
+        session.user.image = (user as any).image;
       }
 
       return session;
-    },
-    async jwt({ token, user }) {
-      const dbUser = await prisma.user.findFirst({
-        where: {
-          email: token.email,
-        },
-      });
-
-      if (!dbUser) {
-        if (user) {
-          token.id = user?.id;
-        }
-        return token;
-      }
-
-      return {
-        id: dbUser.id,
-        name: dbUser.name,
-        email: dbUser.email,
-        picture: dbUser.image,
-      };
     },
   },
 };

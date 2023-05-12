@@ -1,5 +1,5 @@
-import { Eye, EyeOff } from "lucide-react";
-import { cn, ElementProps } from "ui";
+import { Eye, EyeOff } from 'lucide-react';
+import { cn, ElementProps } from 'ui';
 
 type VisibilityToggleProps = Omit<ElementProps<"button">, "children"> & {
   isVisible?: boolean;

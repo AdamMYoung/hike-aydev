@@ -1,6 +1,8 @@
-import { UserAuthForm } from "@templates/user-auth-form";
 import Link from "next/link";
-import { cn, buttonVariants } from "ui";
+import { Suspense } from "react";
+import { buttonVariants, cn } from "ui";
+
+import { UserAuthForm } from "@views/auth/user-auth-form";
 
 export const metadata = {
   title: "Create an account",
@@ -22,7 +24,9 @@ export default function RegisterPage() {
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">Create an account</h1>
           </div>
-          <UserAuthForm />
+          <Suspense fallback={<div />}>
+            <UserAuthForm />
+          </Suspense>
           <p className="px-8 text-center text-sm text-muted-foreground">
             By clicking continue, you agree to our{" "}
             <Link href="/terms" className="hover:text-brand underline underline-offset-4">

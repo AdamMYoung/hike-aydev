@@ -1,38 +1,61 @@
-import { PeakEntry } from "@/components/organisms";
-import { getFellGroups, getUserFellGroupCompletion } from "@/libs/requests";
-import { getCurrentUser } from "@/libs/session";
-import { Separator } from "ui";
+import { Suspense } from "react";
+import { Skeleton } from "ui";
 
-const PeaksNavigation = async () => {
-  const [user, entries] = await Promise.all([getCurrentUser(), getFellGroups()]);
+import { PeakEntry } from "@organisms/peak-entry";
+import { getCachedCurrentUser, getCachedFellGroups, getCachedFlattenedTimelineEntries } from "@libs/cache";
+import Image from "next/image";
 
-  const logEntries = await getUserFellGroupCompletion(user?.id);
+const NavigationEntries = async () => {
+  const [user, entries] = await Promise.all([getCachedCurrentUser(), getCachedFellGroups()]);
+  const groups = await getCachedFlattenedTimelineEntries(user?.id);
 
   return (
-    <div className="py-4 divide-y flex flex-col">
+    <div className="flex flex-col text-left border rounded-lg p-2 gap-2 bg-white">
+      <h2 className="p-2 text-xl font-semibold">United Kingdom</h2>
       {entries
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((entry) => {
-          const completedEntries = logEntries.find((e) => e.id === entry.id);
+          const completedEntries = groups.filter((g) => g.fell.fellGroupIds.includes(entry.id));
 
           return (
-            <PeakEntry
-              className="p-4"
-              key={entry.id}
-              href={`/group/${entry.id}`}
-              src={entry.imageUrl ?? ""}
-              title={entry.name}
-            >
+            <PeakEntry key={entry.id} href={`/group/${entry.id}`} title={entry.name}>
               {user ? (
                 <p className="text-sm">
-                  {completedEntries?._count.fells}/{entry._count.fells} complete
+                  {completedEntries.length}/{entry.fellCount} complete
                 </p>
               ) : (
-                <p className="text-sm">{entry._count.fells} fells</p>
+                <p className="text-sm">{entry.fellCount} fells</p>
               )}
             </PeakEntry>
           );
         })}
+    </div>
+  );
+};
+
+const NavigationEntriesPlaceholder = () => {
+  return (
+    <>
+      {new Array(5).fill("").map((_, index) => (
+        <div key={index} className="flex flex-col gap-2 p-2 text-left border rounded-lg bg-white">
+          <Skeleton className="w-full h-[500px]" />
+          <Skeleton className="w-full h-[500px]" />
+        </div>
+      ))}
+    </>
+  );
+};
+
+const PeaksNavigation = async () => {
+  return (
+    <div>
+      <h1 className="text-2xl font-medium py-4 text-center shadow sticky bg-white z-10 top-0">Fells</h1>
+      <div className="p-2 flex flex-col gap-2">
+        <Suspense fallback={<NavigationEntriesPlaceholder />}>
+          {/* @ts-expect-error Server Component */}
+          <NavigationEntries />
+        </Suspense>
+      </div>
     </div>
   );
 };

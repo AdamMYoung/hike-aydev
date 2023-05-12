@@ -14,7 +14,7 @@
     "turbo": "latest"
   },
   "name": "hike-aydev",
-  "packageManager": "yarn@3.3.0",
+  "packageManager": "yarn@3.2.3",
   "workspaces": [
     "apps/*",
     "packages/*"
