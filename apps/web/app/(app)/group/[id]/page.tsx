@@ -1,7 +1,7 @@
 import { getMapFellGroup, getUserLogEntries } from "@/libs/requests";
 import { getCurrentUser } from "@/libs/session";
 import { notFound } from "next/navigation";
-import { PinGroup, Pin } from "ui";
+import { PinGroup } from "ui";
 import { GroupPin } from "./group-pin";
 
 type GroupProps = {
