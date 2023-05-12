@@ -1,10 +1,22 @@
 "use client";
 
 import { GroupInteractionContext } from "ui";
-import React, { useState } from "react";
+import debounce from "lodash.debounce";
+import React, { useCallback, useState } from "react";
 
 export const GroupInteraction = ({ children }: React.PropsWithChildren) => {
   const [focusedFell, setFocusedFell] = useState<number | null>(null);
 
-  return <GroupInteractionContext value={{ focusedFell, setFocusedFell }}>{children}</GroupInteractionContext>;
+  const handleSetFocusedFell = useCallback(
+    debounce((fell) => {
+      setFocusedFell(fell);
+    }, 20),
+    []
+  );
+
+  return (
+    <GroupInteractionContext value={{ focusedFell, setFocusedFell: handleSetFocusedFell }}>
+      {children}
+    </GroupInteractionContext>
+  );
 };
