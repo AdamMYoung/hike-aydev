@@ -49,7 +49,7 @@ export const PeakListEntry = ({
   }, [setFocusedFell, isAnimating]);
 
   return (
-    <div className={_className} onMouseEnter={handleFocusIn} onMouseLeave={handleFocusOut} {...rest}>
+    <div className={_className} onMouseOver={handleFocusIn} onMouseLeave={handleFocusOut} {...rest}>
       <div className="flex gap-2 py-2 items-center">
         <Checkbox
           disabled={disabled || isPending}
