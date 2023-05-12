@@ -20,13 +20,12 @@ const PeakDetailNavigation = async ({
   params: { id },
   searchParams: { hideComplete, hideIncomplete, searchTerm },
 }: PeakDetailNavigationProps) => {
-  const fellGroup = await getFellGroup(id);
+  const [fellGroup, user] = await Promise.all([getFellGroup(id), getCurrentUser()]);
 
   if (!fellGroup) {
     notFound();
   }
 
-  const user = await getCurrentUser();
   const logEntries = await getUserLogEntries(user?.id);
 
   return (
@@ -36,7 +35,7 @@ const PeakDetailNavigation = async ({
           <Link href="/">
             <Button>Back</Button>
           </Link>
-          <PeakEntry src={fellGroup.imageUrl ?? ""} title={fellGroup.name} />
+          <h2 className="text-xl font-medium">{fellGroup.name}</h2>
         </div>
 
         <Separator />

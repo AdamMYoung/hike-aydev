@@ -24,7 +24,7 @@ export const TimelineCard = ({ name, date, comments, className, children, logId,
     setIsDateEditing(false);
   });
 
-  const _className = cn("py-2 flex flex-col gap-2", className);
+  const _className = cn("p-4 flex flex-col gap-2", className);
 
   const handleReset = () => {
     setEditComment(comments);

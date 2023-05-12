@@ -17,7 +17,7 @@ const EntryDetailNavigation = async ({ params: { id } }: { params: { id: string 
         <Link href="/">
           <Button>Back</Button>
         </Link>
-        <PeakEntry src={entry.imageUrl ?? ""} title={entry.name} />
+        <h2 className="text-xl font-medium">{entry.name}</h2>
       </div>
 
       <Separator />

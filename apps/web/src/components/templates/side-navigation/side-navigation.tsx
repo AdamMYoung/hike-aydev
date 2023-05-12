@@ -20,8 +20,6 @@ export const SideNavigation = ({ children, isUserAuthenticated }: SideNavigation
     [push]
   );
 
-  console.log(pathname);
-
   const tabsValue = useMemo(() => {
     if (pathname === "/timeline") {
       return "timeline";
@@ -36,7 +34,7 @@ export const SideNavigation = ({ children, isUserAuthenticated }: SideNavigation
 
   return (
     <Tabs value={tabsValue} onValueChange={handleValueChange} className="relative h-full overflow-y-auto">
-      <div className="px-4 py-2 z-10 sticky top-0 bg-white shadow">
+      <div className="block md:hidden px-4 py-2 z-10 sticky top-0 bg-white shadow">
         <TabsList>
           <Link href="/" legacyBehavior>
             <TabsTrigger value="">Peaks</TabsTrigger>
@@ -47,7 +45,7 @@ export const SideNavigation = ({ children, isUserAuthenticated }: SideNavigation
             </TabsTrigger>
           </Link>
           <Link href="/integrations" legacyBehavior>
-            <TabsTrigger disabled value="integrations">
+            <TabsTrigger disabled={!isUserAuthenticated} value="integrations">
               Integrations
             </TabsTrigger>
           </Link>

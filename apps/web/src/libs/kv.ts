@@ -12,7 +12,7 @@ export const getCachedEntry = async <T extends unknown>(key: string, req: () => 
   }
 
   const request = await req();
-  kv.set(key, request, { ex: 3600 });
+  await kv.set(key, request, { ex: 3600 });
 
   return request;
 };

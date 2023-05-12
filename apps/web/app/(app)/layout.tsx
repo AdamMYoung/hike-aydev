@@ -21,7 +21,7 @@ export default async function Layout({ children, navigation }: LayoutProps) {
 
   return (
     <div className="flex flex-col h-screen">
-      <TopNavigation />
+      <TopNavigation isUserAuthenticated={!!user} />
       <div className="grid md:grid-cols-[400px_1fr] shrink grow">
         <MapProvider>
           <MapInteraction>
