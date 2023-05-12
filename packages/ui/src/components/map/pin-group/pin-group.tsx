@@ -13,7 +13,7 @@ type PinGroupProps = React.PropsWithChildren & {
   disableAnimation?: boolean;
 };
 
-export const PinGroup = ({ children, disableAnimation }: PinGroupProps) => {
+export const PinGroup = React.memo(({ children, disableAnimation }: PinGroupProps) => {
   const { isManualMode } = useMapInteractionContext();
   const vectorSource = useRef(new VectorSource());
   const { map, fit } = useMapContext();
@@ -82,4 +82,6 @@ export const PinGroup = ({ children, disableAnimation }: PinGroupProps) => {
       {children}
     </PinGroupContextProvider>
   );
-};
+});
+
+PinGroup.displayName = "PinGroup";

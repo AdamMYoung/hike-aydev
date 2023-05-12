@@ -8,13 +8,14 @@ import { useMapContext } from "../map.context";
 import { Coordinate } from "ol/coordinate";
 import { usePinGroupContext } from "../pin-group/pin-group.context";
 import { toOSMCoordinates } from "../../../lib";
+import React from "react";
 
 type PinProps = {
   iconSrc: string;
   coordinates: Coordinate;
 };
 
-export const Pin = ({ coordinates, iconSrc }: PinProps) => {
+export const Pin = React.memo(({ coordinates, iconSrc }: PinProps) => {
   const { map } = useMapContext();
   const { addFeature, removeFeature } = usePinGroupContext();
 
@@ -43,4 +44,6 @@ export const Pin = ({ coordinates, iconSrc }: PinProps) => {
   }, [map, addFeature, removeFeature, coordinates, iconSrc]);
 
   return null;
-};
+});
+
+Pin.displayName = "Pin";

@@ -10,7 +10,7 @@ export const GroupInteraction = ({ children }: React.PropsWithChildren) => {
   const handleSetFocusedFell = useCallback(
     debounce((fell) => {
       setFocusedFell(fell);
-    }, 50),
+    }, 20),
     []
   );
 

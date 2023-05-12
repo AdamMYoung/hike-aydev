@@ -3,10 +3,11 @@
 import { cn, ElementProps } from "../../lib";
 import { useEffect, useState } from "react";
 import { useMapContext } from "./map.context";
+import React from "react";
 
 export type MapProps = ElementProps<"div"> & {};
 
-export const Map = ({ children, className, ...rest }: ElementProps<"div">) => {
+export const Map = React.memo(({ children, className, ...rest }: ElementProps<"div">) => {
   const _className = cn("w-full h-full", className);
   const { map } = useMapContext();
   const [isMapAssigned, setIsMapAssigned] = useState(false);
@@ -24,4 +25,6 @@ export const Map = ({ children, className, ...rest }: ElementProps<"div">) => {
       {children}
     </div>
   );
-};
+});
+
+Map.displayName = "Map";

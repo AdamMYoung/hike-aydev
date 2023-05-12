@@ -3,13 +3,14 @@
 import { useEffect } from "react";
 import { useMapContext } from "../map.context";
 import { Coordinate } from "ol/coordinate";
+import React from "react";
 
 type ZoomPointProps = {
   coordinates: Coordinate;
   zoom?: number;
 };
 
-export const ZoomPoint = ({ coordinates, zoom = 6 }: ZoomPointProps) => {
+export const ZoomPoint = React.memo(({ coordinates, zoom = 6 }: ZoomPointProps) => {
   const { animate } = useMapContext();
 
   useEffect(() => {
@@ -17,4 +18,6 @@ export const ZoomPoint = ({ coordinates, zoom = 6 }: ZoomPointProps) => {
   }, [animate, coordinates, zoom]);
 
   return null;
-};
+});
+
+ZoomPoint.displayName = "ZoomPoint";
