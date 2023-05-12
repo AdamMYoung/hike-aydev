@@ -64,7 +64,7 @@ export const PeakListEntry = ({
       </div>
       <Button
         variant="ghost"
-        className="text-gray-200 hover:text-gray-400"
+        className="hidden md:block text-gray-200 hover:text-gray-400"
         onClick={() => setZoomPoint({ coordinates: toOSMCoordinates([fell.lng, fell.lat]), zoom: 14 }, true)}
       >
         <Locate className="text-[inherit]" />
