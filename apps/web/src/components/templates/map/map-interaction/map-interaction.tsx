@@ -17,7 +17,6 @@ export const MapInteraction = ({ children }: React.PropsWithChildren) => {
   const handleSetZoomPoint = useCallback(
     ({ coordinates, zoom }: ZoomPointArgs, animation?: boolean) => {
       animate({ center: coordinates, zoom, duration: animation ? 1000 : 0 });
-
       setIsManualMode(true);
     },
     [animate]

@@ -50,7 +50,7 @@ async function refreshAccessToken(accountId: number, refreshToken: string) {
     },
     where: {
       provider_providerAccountId: {
-        provider: "google",
+        provider: "strava",
         providerAccountId: accountId.toString(),
       },
     },
