@@ -105,7 +105,6 @@ export async function POST(request: Request) {
   const activityData = await activity.json();
 
   try {
-    console.log(activityData);
     const internalActivity = { polyline: activityData.map.polyline, owner_id };
 
     await fetch(
