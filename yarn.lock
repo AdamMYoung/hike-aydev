@@ -1084,18 +1084,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/hub@npm:^7.44.1":
-  version: 7.52.1
-  resolution: "@sentry/hub@npm:7.52.1"
-  dependencies:
-    "@sentry/core": 7.52.1
-    "@sentry/types": 7.52.1
-    "@sentry/utils": 7.52.1
-    tslib: ^1.9.3
-  checksum: d46de946d68881b117b83212a1ce05e9ec158ef57ff4e9d4ec8ecd317f3545163f334262f5c3a08cb08366126f94e523a7b98d3cbe02bc83465c0e629772ea4b
-  languageName: node
-  linkType: hard
-
 "@sentry/integrations@npm:7.52.1":
   version: 7.52.1
   resolution: "@sentry/integrations@npm:7.52.1"
@@ -1135,7 +1123,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/node@npm:7.52.1, @sentry/node@npm:^7.44.1":
+"@sentry/node@npm:7.52.1":
   version: 7.52.1
   resolution: "@sentry/node@npm:7.52.1"
   dependencies:
@@ -1148,23 +1136,6 @@ __metadata:
     lru_map: ^0.3.3
     tslib: ^1.9.3
   checksum: 27db143a6a27b5e93414599fc75ecd30d4b5e003883adf15c695fdd8c5eab35d57eb2df63b5ed1a7898266015c39e9b42b58bc5aa7c9644148fcabba3aa55736
-  languageName: node
-  linkType: hard
-
-"@sentry/profiling-node@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@sentry/profiling-node@npm:0.3.0"
-  dependencies:
-    "@sentry/hub": ^7.44.1
-    "@sentry/node": ^7.44.1
-    "@sentry/tracing": ^7.44.1
-    "@sentry/types": ^7.44.1
-    "@sentry/utils": ^7.44.1
-    detect-libc: ^2.0.1
-    nan: ^2.17.0
-    node-abi: ^3.28.0
-    node-gyp: ^9.3.0
-  checksum: 780cd6bbc14beb4ed88209708902b40989983b78fc3acf34d87b0ebf78d3bd1b348aaf26212a3ef76e0733f8035c8c6c252a46ad61c13451afa3ce4c184dad05
   languageName: node
   linkType: hard
 
@@ -1194,23 +1165,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/tracing@npm:^7.44.1":
-  version: 7.52.1
-  resolution: "@sentry/tracing@npm:7.52.1"
-  dependencies:
-    "@sentry-internal/tracing": 7.52.1
-  checksum: 1b10abe41533fb1d429fea273153e347f3559959548e570669b6a865cef5940c8806cd2b27d01542b6237b00c69ad4a6d65e80133de5a12f076949621809512e
-  languageName: node
-  linkType: hard
-
-"@sentry/types@npm:7.52.1, @sentry/types@npm:^7.44.1":
+"@sentry/types@npm:7.52.1":
   version: 7.52.1
   resolution: "@sentry/types@npm:7.52.1"
   checksum: 9afbba9239107024207418755d189972887c2cd5c3948157531c520be202b5efcd1542b1864120b3d1a535e7f61ebbef802b64ad0cd7ad02d2d8d669454f5abb
   languageName: node
   linkType: hard
 
-"@sentry/utils@npm:7.52.1, @sentry/utils@npm:^7.44.1":
+"@sentry/utils@npm:7.52.1":
   version: 7.52.1
   resolution: "@sentry/utils@npm:7.52.1"
   dependencies:
@@ -2507,13 +2469,6 @@ __metadata:
   version: 2.0.0
   resolution: "depd@npm:2.0.0"
   checksum: abbe19c768c97ee2eed6282d8ce3031126662252c58d711f646921c9623f9052e3e1906443066beec1095832f534e57c523b7333f8e7e0d93051ab6baef5ab3a
-  languageName: node
-  linkType: hard
-
-"detect-libc@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "detect-libc@npm:2.0.1"
-  checksum: ccb05fcabbb555beb544d48080179c18523a343face9ee4e1a86605a8715b4169f94d663c21a03c310ac824592f2ba9a5270218819bb411ad7be578a527593d7
   languageName: node
   linkType: hard
 
@@ -4595,15 +4550,6 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
-"nan@npm:^2.17.0":
-  version: 2.17.0
-  resolution: "nan@npm:2.17.0"
-  dependencies:
-    node-gyp: latest
-  checksum: ec609aeaf7e68b76592a3ba96b372aa7f5df5b056c1e37410b0f1deefbab5a57a922061e2c5b369bae9c7c6b5e6eecf4ad2dac8833a1a7d3a751e0a7c7f849ed
-  languageName: node
-  linkType: hard
-
 "nanoid@npm:^3.3.4, nanoid@npm:^3.3.6":
   version: 3.3.6
   resolution: "nanoid@npm:3.3.6"
@@ -4724,15 +4670,6 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
-"node-abi@npm:^3.28.0":
-  version: 3.40.0
-  resolution: "node-abi@npm:3.40.0"
-  dependencies:
-    semver: ^7.3.5
-  checksum: 8f4ef0d9ac82352465e7e7a8ce3915dae49c0fd19d6cb49a93140ff587b612166443531111a60d25e479a18e6e6b9af09698c7870babe0f44aa54287aeaf5eef
-  languageName: node
-  linkType: hard
-
 "node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.7":
   version: 2.6.11
   resolution: "node-fetch@npm:2.6.11"
@@ -4747,7 +4684,7 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
-"node-gyp@npm:^9.3.0, node-gyp@npm:latest":
+"node-gyp@npm:latest":
   version: 9.3.1
   resolution: "node-gyp@npm:9.3.1"
   dependencies:
@@ -6653,7 +6590,6 @@ eslint-config-turbo@latest:
     "@hookform/resolvers": ^3.1.0
     "@next-auth/prisma-adapter": ^1.0.6
     "@sentry/nextjs": ^7.52.1
-    "@sentry/profiling-node": ^0.3.0
     "@turf/circle": ^6.5.0
     "@turf/helpers": ^6.5.0
     "@turf/intersect": ^6.5.0
