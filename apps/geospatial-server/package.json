@@ -1,0 +1,30 @@
+{
+  "name": "geospatial-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.cjs",
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "start": "npx ts-node ./dist/index.cjs",
+    "dev": "yarn build && yarn start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adam Young",
+  "license": "ISC",
+  "devDependencies": {
+    "@swc/core": "^1.3.58",
+    "database": "*",
+    "tsconfig": "*",
+    "tsup": "^6.7.0",
+    "typescript": "^4.5.3"
+  },
+  "dependencies": {
+    "@googlemaps/polyline-codec": "^1.0.28",
+    "@turf/turf": "^6.5.0",
+    "@vercel/kv": "^0.2.1",
+    "dotenv": "^16.0.3",
+    "fastify": "^4.17.0",
+    "fastify-cli": "^5.7.1"
+  }
+}
