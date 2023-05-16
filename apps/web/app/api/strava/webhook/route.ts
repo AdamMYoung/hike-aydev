@@ -45,10 +45,13 @@ export async function POST(request: Request) {
 
   const activityData = await activity.json();
 
-  console.log(activityData);
-  const internalActivity = { polyline: activityData.map.polyline, owner_id };
+  try {
+    const internalActivity = { polyline: activityData.map.polyline, owner_id };
 
-  fetch("https://hike.aydev.uk/api/strava/activity", { method: "POST", body: JSON.stringify(internalActivity) });
+    fetch("https://hike.aydev.uk/api/strava/activity", { method: "POST", body: JSON.stringify(internalActivity) });
 
-  return new Response("", { status: 200 });
+    return new Response("", { status: 200 });
+  } catch (e) {
+    throw new Error(`${e}\n${JSON.stringify(activityData)}`);
+  }
 }
