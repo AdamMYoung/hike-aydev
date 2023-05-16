@@ -1,7 +1,7 @@
 import { FastifyInstance, RouteShorthandOptions } from "fastify";
 
-import { prisma } from "../libs/prisma";
-import { getFellPoints } from "../libs/requests";
+import { prisma } from "../../libs/prisma";
+import { getFellPoints } from "../../libs/requests";
 import { decode } from "@googlemaps/polyline-codec";
 
 import circle from "@turf/circle";
@@ -14,7 +14,7 @@ const stravaOpts: RouteShorthandOptions = {
       type: "object",
       properties: {
         polyline: { type: "string" },
-        owner_id: { type: "number" },
+        ownerId: { type: "string" },
       },
     },
   },
@@ -26,12 +26,12 @@ export async function routes(fastify: FastifyInstance, options: object) {
   });
 
   fastify.post("/activities/strava", stravaOpts, async (request, reply) => {
-    const { polyline, owner_id } = request.body as any;
+    const { polyline, ownerId } = request.body as any;
 
     const stravaAccount = await prisma.account.findUnique({
       where: {
         provider_providerAccountId: {
-          providerAccountId: owner_id.toString(),
+          providerAccountId: ownerId,
           provider: "strava",
         },
       },

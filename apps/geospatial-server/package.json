@@ -2,11 +2,10 @@
   "name": "geospatial-server",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/index.cjs",
-  "type": "module",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "tsup",
-    "start": "npx ts-node ./dist/index.cjs",
+    "start": "npx ts-node ./dist/index.js",
     "dev": "yarn build && yarn start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,8 +20,11 @@
   },
   "dependencies": {
     "@googlemaps/polyline-codec": "^1.0.28",
-    "@turf/turf": "^6.5.0",
+    "@turf/circle": "^6.5.0",
+    "@turf/helpers": "^6.5.0",
+    "@turf/line-intersect": "^6.5.0",
     "@vercel/kv": "^0.2.1",
+    "axios": "^1.4.0",
     "dotenv": "^16.0.3",
     "fastify": "^4.17.0",
     "fastify-cli": "^5.7.1"

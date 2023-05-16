@@ -1,4 +1,5 @@
 import { prisma } from "@/libs/prisma";
+import axios from "axios";
 import { TokenSet } from "next-auth";
 import { NextResponse } from "next/server";
 
@@ -29,16 +30,15 @@ async function refreshAccessToken(accountId: number, refreshToken: string) {
       refresh_token: refreshToken,
     });
 
-  const response = await fetch(url, {
+  const response = await axios.post(url, {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    method: "POST",
   });
 
-  const refreshedTokens: TokenSet = await response.json();
+  const refreshedTokens: TokenSet = response.data;
 
-  if (!response.ok) {
+  if (response.status !== 200) {
     throw refreshedTokens;
   }
 
@@ -96,24 +96,27 @@ export async function POST(request: Request) {
     accessToken = refreshedTokens.accessToken ?? accessToken;
   }
 
-  const activity = await fetch(`https://www.strava.com/api/v3/activities/${object_id}?include_all_efforts=`, {
+  const activity = await axios.get(`https://www.strava.com/api/v3/activities/${object_id}?include_all_efforts=`, {
     headers: {
-      Authorization: `Bearer ${stravaAccount.access_token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 
-  const activityData = await activity.json();
+  const activityData = await activity.data;
 
   try {
-    const internalActivity = { polyline: activityData.map.polyline, owner_id };
-
-    fetch(`${process.env.GEOSPATIAL_API_URL}/activities/strava`, {
-      method: "POST",
-      headers: {
-        "x-api-key": process.env.GEOSPATIAL_API_KEY ?? "",
+    axios.post(
+      `${process.env.GEOSPATIAL_API_URL}/activities/strava`,
+      {
+        polyline: activityData.map.polyline,
+        ownerId: owner_id.toString(),
       },
-      body: JSON.stringify(internalActivity),
-    });
+      {
+        headers: {
+          "x-api-key": process.env.GEOSPATIAL_API_KEY ?? "",
+        },
+      }
+    );
 
     return new Response("Activity created", { status: 200 });
   } catch (e) {
