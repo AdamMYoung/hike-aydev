@@ -86,7 +86,7 @@ export async function POST(request: Request) {
   });
 
   if (!stravaAccount) {
-    return new Response("", { status: 200 });
+    return new Response("User doesn't exist", { status: 401 });
   }
 
   let accessToken = stravaAccount.access_token;
@@ -107,18 +107,15 @@ export async function POST(request: Request) {
   try {
     const internalActivity = { polyline: activityData.map.polyline, owner_id };
 
-    await fetch(
-      "https://api.serverlessq.com?id=f00aaa9c-ba12-47e8-8654-2c4db2fa4779&target=https://hike.aydev.uk/api/strava/activity",
-      {
-        method: "POST",
-        headers: {
-          "x-api-key": process.env.SERVERLESSQ_API_KEY ?? "",
-        },
-        body: JSON.stringify(internalActivity),
-      }
-    );
+    fetch(`${process.env.GEOSPATIAL_API_URL}/activities/strava`, {
+      method: "POST",
+      headers: {
+        "x-api-key": process.env.GEOSPATIAL_API_KEY ?? "",
+      },
+      body: JSON.stringify(internalActivity),
+    });
 
-    return new Response("", { status: 200 });
+    return new Response("Activity created", { status: 200 });
   } catch (e) {
     throw new Error(`${e}\n${JSON.stringify(activityData)}`);
   }

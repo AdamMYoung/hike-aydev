@@ -47,8 +47,7 @@ export async function routes(fastify: FastifyInstance, options: object) {
     });
 
     if (!stravaAccount) {
-      reply.statusCode = 401;
-      reply.send();
+      reply.status(401).send();
       return;
     }
 
