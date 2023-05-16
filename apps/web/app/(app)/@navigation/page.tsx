@@ -1,7 +1,6 @@
 import { PeakEntry } from "@/components/organisms";
 import { getFellGroups, getUserFellGroupCompletion } from "@/libs/requests";
 import { getCurrentUser } from "@/libs/session";
-import { Separator } from "ui";
 
 const PeaksNavigation = async () => {
   const [user, entries] = await Promise.all([getCurrentUser(), getFellGroups()]);

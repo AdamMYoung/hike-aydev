@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { useGroupInteractionContext, useMapContext } from "ui";
 import { Pin } from "ui";
 
 type GroupPinProps = {
@@ -13,21 +12,8 @@ type GroupPinProps = {
   };
 };
 
-const icons = {
-  true: {
-    true: "/data/focus-check.svg",
-    false: "/data/focus-cross.svg",
-  },
-  false: {
-    true: "/data/check-circle.svg",
-    false: "/data/cross-circle.svg",
-  },
-};
-
 export const GroupPin = React.memo(({ fell, isCompleted, ...rest }: GroupPinProps) => {
-  const { focusedFell } = useGroupInteractionContext();
-
-  const src = icons[`${focusedFell === fell.id}`][`${isCompleted}`];
+  const src = isCompleted ? "/data/check-circle.svg" : "/data/cross-circle.svg";
   return <Pin {...rest} coordinates={[fell.lng, fell.lat]} iconSrc={src} />;
 });
 

@@ -1,9 +1,9 @@
 "use client";
 
-import { useGroupInteractionContext, useMapContext, useMapInteractionContext } from "ui";
+import { useMapInteractionContext } from "ui";
 import { setFellStatus } from "@/libs/actions";
 import { Locate } from "lucide-react";
-import { useCallback, useTransition } from "react";
+import { useTransition } from "react";
 import { Button, Checkbox, cn, ElementProps, toOSMCoordinates } from "ui";
 
 type PeakListEntryProps = ElementProps<"div"> & {
@@ -30,26 +30,12 @@ export const PeakListEntry = ({
   ...rest
 }: PeakListEntryProps) => {
   const { setZoomPoint } = useMapInteractionContext();
-  const { setFocusedFell } = useGroupInteractionContext();
-  const { isAnimating } = useMapContext();
   const [isPending, startTransition] = useTransition();
 
   const _className = cn("flex group py-1 px-1 gap-2 items-center justify-between hover:bg-gray-50", className);
 
-  const handleFocusIn = useCallback(() => {
-    if (!isAnimating) {
-      setFocusedFell(fell.id);
-    }
-  }, [setFocusedFell, isAnimating, fell]);
-
-  const handleFocusOut = useCallback(() => {
-    if (!isAnimating) {
-      setFocusedFell(null);
-    }
-  }, [setFocusedFell, isAnimating]);
-
   return (
-    <div className={_className} onMouseOver={handleFocusIn} onMouseLeave={handleFocusOut} {...rest}>
+    <div className={_className} {...rest}>
       <div className="flex gap-2 py-2 items-center">
         <Checkbox
           disabled={disabled || isPending}
