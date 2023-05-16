@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { buttonVariants, cn } from "ui";
 import { UserAuthForm } from "@templates/user-auth-form";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Login",
@@ -23,7 +24,9 @@ export default function LoginPage() {
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">Welcome back!</h1>
         </div>
-        <UserAuthForm />
+        <Suspense fallback={<div />}>
+          <UserAuthForm />
+        </Suspense>
         <p className="px-8 text-center text-sm text-muted-foreground">
           <Link href="/register" className="hover:text-brand underline underline-offset-4">
             Don&apos;t have an account? Sign Up

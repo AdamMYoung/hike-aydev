@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { getCurrentUser } from "@/libs/session";
 import { PeakListEntry } from "@/components/organisms/peak-list-entry";
 import { GroupSearchFilters } from "@templates/group-search-filters";
+import { Suspense } from "react";
 
 type PeakDetailNavigationProps = {
   params: { id: string };
@@ -41,7 +42,9 @@ const PeakDetailNavigation = async ({
         <Separator />
 
         <div className="relative w-full space-y-4">
-          <GroupSearchFilters isUserAuthenticated={!!user} />
+          <Suspense fallback={<div />}>
+            <GroupSearchFilters isUserAuthenticated={!!user} />
+          </Suspense>
 
           <div className="px-4 py-2">
             {fellGroup.fells
