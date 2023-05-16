@@ -32,7 +32,7 @@ export const PeakListEntry = ({
   const { setZoomPoint } = useMapInteractionContext();
   const [isPending, startTransition] = useTransition();
 
-  const _className = cn("flex group py-1 px-1 gap-2 items-center justify-between hover:bg-gray-50", className);
+  const _className = cn("group flex group py-1 px-1 gap-2 items-center justify-between hover:bg-gray-50", className);
 
   return (
     <div className={_className} {...rest}>
@@ -50,7 +50,7 @@ export const PeakListEntry = ({
       </div>
       <Button
         variant="ghost"
-        className="hidden md:block text-gray-200 hover:text-gray-400"
+        className="hidden md:block transition-opacity opacity-20 group-hover:opacity-100"
         onClick={() => setZoomPoint({ coordinates: toOSMCoordinates([fell.lng, fell.lat]), zoom: 14 }, true)}
       >
         <Locate className="text-[inherit]" />
