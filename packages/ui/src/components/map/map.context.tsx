@@ -7,7 +7,7 @@ import OLMap from "ol/Map";
 import OSM from "ol/source/OSM";
 import { AnimationOptions, FitOptions } from "ol/View";
 import React, { useState, useEffect, useCallback } from "react";
-import { createContext, ElementProps } from "../../lib";
+import { createContext } from "../../lib";
 
 type MapContextOptions = {
   map: OLMap | null;
@@ -16,7 +16,9 @@ type MapContextOptions = {
   fit: (geometryOrExtent: Extent | SimpleGeometry, options?: FitOptions | undefined) => void;
 };
 
-export const [MapContextProvider, useMapContext] = createContext<MapContextOptions>();
+const [MapContextProvider, useMapContext] = createContext<MapContextOptions>();
+
+export { MapContextProvider, useMapContext };
 
 export const MapProvider = ({ children }: React.PropsWithChildren) => {
   const [isAnimating, setIsAnimating] = useState(false);

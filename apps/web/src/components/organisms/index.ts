@@ -1,4 +1,4 @@
-export * from "./peak-entry";
-export * from "./peak-list-entry";
-export * from "./reset-view-button";
-export * from "./timeline-card";
+export { PeakEntry } from "./peak-entry";
+export { PeakListEntry } from "./peak-list-entry";
+export { ResetViewButton } from "./reset-view-button";
+export { TimelineCard } from "./timeline-card";
