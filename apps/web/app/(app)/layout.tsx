@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/libs/session";
 import { MapProvider, Map } from "ui";
 
 import { MapInteraction } from "@templates/map/map-interaction/map-interaction";
+import { ResetViewButton } from "@/components";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -30,6 +31,9 @@ export default async function Layout({ children, navigation }: LayoutProps) {
             </div>
             <main className="flex-col w-full h-full hidden md:flex">
               <Map>{children}</Map>
+              <div className="hidden md:block absolute bottom-4 ml-4">
+                <ResetViewButton>Reset Zoom</ResetViewButton>
+              </div>
             </main>
           </MapInteraction>
         </MapProvider>

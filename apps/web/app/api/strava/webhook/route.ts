@@ -1,4 +1,5 @@
 import { prisma } from "@/libs/prisma";
+import { TokenSet } from "next-auth";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -11,6 +12,55 @@ export async function GET(request: Request) {
   return NextResponse.json({
     "hub.challenge": searchParams.get("hub.challenge"),
   });
+}
+
+/**
+ * Takes a token, and returns a new token with updated
+ * `accessToken` and `accessTokenExpires`. If an error occurs,
+ * returns the old token and an error property
+ */
+async function refreshAccessToken(accountId: number, refreshToken: string) {
+  const url =
+    "https://www.strava.com/oauth/token?" +
+    new URLSearchParams({
+      client_id: process.env.STRAVA_CLIENT_ID ?? "",
+      client_secret: process.env.STRAVA_CLIENT_SECRET ?? "",
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+    });
+
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST",
+  });
+
+  const refreshedTokens: TokenSet = await response.json();
+
+  if (!response.ok) {
+    throw refreshedTokens;
+  }
+
+  await prisma.account.update({
+    data: {
+      access_token: refreshedTokens.access_token,
+      expires_at: refreshedTokens.expires_at,
+      refresh_token: refreshedTokens.refresh_token ?? refreshToken,
+    },
+    where: {
+      provider_providerAccountId: {
+        provider: "google",
+        providerAccountId: accountId.toString(),
+      },
+    },
+  });
+
+  return {
+    accessToken: refreshedTokens.access_token,
+    accessTokenExpires: refreshedTokens.expires_at,
+    refreshToken: refreshedTokens.refresh_token ?? refreshToken, // Fall back to old refresh token
+  };
 }
 
 // Handles webhook events
@@ -30,11 +80,20 @@ export async function POST(request: Request) {
     },
     select: {
       access_token: true,
+      refresh_token: true,
+      expires_at: true,
     },
   });
 
   if (!stravaAccount) {
     return new Response("", { status: 200 });
+  }
+
+  let accessToken = stravaAccount.access_token;
+
+  if (stravaAccount.expires_at && stravaAccount.expires_at < Math.floor(Date.now() / 1000)) {
+    const refreshedTokens = await refreshAccessToken(owner_id, stravaAccount.refresh_token ?? "");
+    accessToken = refreshedTokens.accessToken ?? accessToken;
   }
 
   const activity = await fetch(`https://www.strava.com/api/v3/activities/${object_id}?include_all_efforts=`, {

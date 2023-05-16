@@ -1,4 +1,3 @@
-import { PeakEntry, ResetViewButton } from "@/components/organisms";
 import Link from "next/link";
 import { Button, Separator } from "ui";
 import { getFellGroup, getUserLogEntries } from "@/libs/requests";
@@ -74,9 +73,6 @@ const PeakDetailNavigation = async ({
               })}
           </div>
         </div>
-      </div>
-      <div className="hidden md:block sticky bottom-4 ml-4">
-        <ResetViewButton>Reset Zoom</ResetViewButton>
       </div>
     </div>
   );
