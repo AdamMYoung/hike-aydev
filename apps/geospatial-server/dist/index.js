@@ -30,6 +30,12 @@ var import_fastify = __toESM(require("fastify"));
 var import_database = require("database");
 var prisma = new import_database.PrismaClient();
 
+// libs/routes.ts
+var import_polyline_codec = require("@googlemaps/polyline-codec");
+var import_circle = __toESM(require("@turf/circle"));
+var import_helpers = require("@turf/helpers");
+var import_line_intersect = __toESM(require("@turf/line-intersect"));
+
 // libs/kv.ts
 var import_kv = __toESM(require("@vercel/kv"));
 var getCachedEntry = async (key, req) => {
@@ -60,11 +66,39 @@ var getFellPoints = () => {
   );
 };
 
+// libs/routes.ts
+var getFellsOnPolyline = async (polyline) => {
+  const decodedPolyline = (0, import_polyline_codec.decode)(polyline);
+  const points = await getFellPoints();
+  const line = (0, import_helpers.lineString)(decodedPolyline);
+  const circles = points.map((c) => (0, import_circle.default)([c.lat, c.lng], 0.1, { properties: { id: c.id, name: c.name } }));
+  const intersectingCircles = circles.filter((c) => (0, import_line_intersect.default)(c, line).features.length > 0);
+  const intersectingIds = intersectingCircles.map((c) => c.properties.id);
+  return points.filter((p) => intersectingIds.includes(p.id));
+};
+
+// libs/user.ts
+var getUserByStravaId = async (stravaId) => {
+  return prisma.account.findUnique({
+    where: {
+      provider_providerAccountId: {
+        providerAccountId: stravaId,
+        provider: "strava"
+      }
+    },
+    select: {
+      access_token: true,
+      user: {
+        select: {
+          id: true,
+          name: true
+        }
+      }
+    }
+  });
+};
+
 // routes/activities/activities.ts
-var import_polyline_codec = require("@googlemaps/polyline-codec");
-var import_circle = __toESM(require("@turf/circle"));
-var import_helpers = require("@turf/helpers");
-var import_line_intersect = __toESM(require("@turf/line-intersect"));
 var stravaOpts = {
   schema: {
     body: {
@@ -82,37 +116,16 @@ async function routes(fastify2, options) {
   });
   fastify2.post("/activities/strava", stravaOpts, async (request, reply) => {
     const { polyline, ownerId } = request.body;
-    const stravaAccount = await prisma.account.findUnique({
-      where: {
-        provider_providerAccountId: {
-          providerAccountId: ownerId,
-          provider: "strava"
-        }
-      },
-      select: {
-        access_token: true,
-        user: {
-          select: {
-            id: true,
-            name: true
-          }
-        }
-      }
-    });
+    const stravaAccount = await getUserByStravaId(ownerId);
     if (!stravaAccount) {
       reply.status(401).send();
       return;
     }
-    const decodedPolyline = (0, import_polyline_codec.decode)(polyline);
-    const points = await getFellPoints();
-    const line = (0, import_helpers.lineString)(decodedPolyline);
-    const circles = points.map((c) => (0, import_circle.default)([c.lat, c.lng], 0.1, { properties: { id: c.id, name: c.name } }));
-    const intersectingCircles = circles.filter((c) => (0, import_line_intersect.default)(c, line).features.length > 0);
-    const intersectingIds = intersectingCircles.map((c) => c.properties.id);
+    const fellsOnPolyline = await getFellsOnPolyline(polyline);
     await prisma.logEntry.createMany({
       skipDuplicates: true,
-      data: intersectingIds.map((id) => ({
-        fellId: id,
+      data: fellsOnPolyline.map((fell) => ({
+        fellId: fell.id,
         authorId: stravaAccount.user.id,
         climbed: true
       }))
@@ -129,14 +142,19 @@ var fastify = (0, import_fastify.default)({
 fastify.get("/health", (req, reply) => {
   reply.status(200).send();
 });
-fastify.addHook("preHandler", (req, reply, done) => {
-  if (req.headers["x-api-key"] === process.env.GEOSPATIAL_API_KEY) {
-    done();
-    return;
-  }
-  reply.status(401).send();
+fastify.register((instance, opts, done) => {
+  instance.addHook("preHandler", (req, reply, done2) => {
+    if (req) {
+      if (req.headers["x-api-key"] === process.env.GEOSPATIAL_API_KEY) {
+        done2();
+        return;
+      }
+    }
+    reply.status(401).send();
+  });
+  instance.register(routes);
+  done();
 });
-fastify.register(routes);
 var start = async () => {
   try {
     await fastify.listen({ port: 4e3 });

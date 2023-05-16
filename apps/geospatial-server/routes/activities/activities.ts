@@ -1,12 +1,8 @@
 import { FastifyInstance, RouteShorthandOptions } from "fastify";
 
 import { prisma } from "../../libs/prisma";
-import { getFellPoints } from "../../libs/requests";
-import { decode } from "@googlemaps/polyline-codec";
-
-import circle from "@turf/circle";
-import { lineString } from "@turf/helpers";
-import lineIntersect from "@turf/line-intersect";
+import { getFellsOnPolyline } from "../../libs/routes";
+import { getUserByStravaId } from "../../libs/user";
 
 const stravaOpts: RouteShorthandOptions = {
   schema: {
@@ -26,44 +22,21 @@ export async function routes(fastify: FastifyInstance, options: object) {
   });
 
   fastify.post("/activities/strava", stravaOpts, async (request, reply) => {
-    const { polyline, ownerId } = request.body as any;
+    const { polyline, ownerId } = request.body as { polyline: string; ownerId: string };
 
-    const stravaAccount = await prisma.account.findUnique({
-      where: {
-        provider_providerAccountId: {
-          providerAccountId: ownerId,
-          provider: "strava",
-        },
-      },
-      select: {
-        access_token: true,
-        user: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    });
+    const stravaAccount = await getUserByStravaId(ownerId);
 
     if (!stravaAccount) {
       reply.status(401).send();
       return;
     }
 
-    const decodedPolyline = decode(polyline);
-    const points = await getFellPoints();
-
-    const line = lineString(decodedPolyline);
-    const circles = points.map((c) => circle([c.lat, c.lng], 0.1, { properties: { id: c.id, name: c.name } }));
-
-    const intersectingCircles = circles.filter((c) => lineIntersect(c, line).features.length > 0);
-    const intersectingIds = intersectingCircles.map((c) => c.properties.id);
+    const fellsOnPolyline = await getFellsOnPolyline(polyline);
 
     await prisma.logEntry.createMany({
       skipDuplicates: true,
-      data: intersectingIds.map((id) => ({
-        fellId: id,
+      data: fellsOnPolyline.map((fell) => ({
+        fellId: fell.id,
         authorId: stravaAccount.user.id,
         climbed: true,
       })),

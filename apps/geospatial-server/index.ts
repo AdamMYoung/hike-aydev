@@ -16,7 +16,7 @@ fastify.get("/health", (req, reply) => {
 
 // Application routes
 fastify.register((instance, opts, done) => {
-  fastify.addHook("preHandler", (req, reply, done) => {
+  instance.addHook("preHandler", (req, reply, done) => {
     if (req)
       if (req.headers["x-api-key"] === process.env.GEOSPATIAL_API_KEY) {
         done();
