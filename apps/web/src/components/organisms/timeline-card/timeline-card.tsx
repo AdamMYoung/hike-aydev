@@ -1,18 +1,24 @@
 "use client";
 
 import { setComment } from "@/libs/actions";
-import { ImagePlus, MessageCircle, Save, Trash } from "lucide-react";
+import { ImagePlus, Locate, MessageCircle, Save, Trash } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
-import { Button, cn, ElementProps, Textarea } from "ui";
+import { Button, cn, ElementProps, Textarea, toOSMCoordinates, useMapInteractionContext } from "ui";
 
 type TimelineCardProps = ElementProps<"div"> & {
   logId: string;
-  name: string;
+
   date: Date;
   comments?: string | null;
+  fell: {
+    name: string;
+    lat: number;
+    lng: number;
+  };
 };
 
-export const TimelineCard = ({ name, date, comments, className, children, logId, ...rest }: TimelineCardProps) => {
+export const TimelineCard = ({ fell, date, comments, className, children, logId, ...rest }: TimelineCardProps) => {
+  const { setZoomPoint } = useMapInteractionContext();
   const [isCommentEditing, setIsCommentEditing] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [editComment, setEditComment] = useState(comments);
@@ -38,15 +44,19 @@ export const TimelineCard = ({ name, date, comments, className, children, logId,
   return (
     <div className={_className} {...rest}>
       <div className="flex items-center gap-2">
-        <h2 className="grow text-sm font-normal">{name}</h2>
+        <h2 className="grow text-sm font-normal">{fell.name}</h2>
         {!isCommentEditing ? (
           <div className="opacity-20 transition-opacity flex gap-2 group-hover:opacity-100">
+            <Button
+              variant="ghost"
+              className="hidden md:block p-2 bg-white"
+              onClick={() => setZoomPoint({ coordinates: toOSMCoordinates([fell.lng, fell.lat]), zoom: 14 }, true)}
+            >
+              <Locate className="text-[inherit]" />
+            </Button>
             <Button className="p-2 bg-white" variant="ghost" onClick={() => setIsCommentEditing(true)}>
               <MessageCircle />
             </Button>
-            {/* <Button className="p-2 bg-white" variant="ghost" onClick={() => setIsCommentEditing(true)}>
-              <ImagePlus />
-            </Button> */}
           </div>
         ) : null}
       </div>

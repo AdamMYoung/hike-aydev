@@ -32,7 +32,7 @@ export default async function Layout({ children, navigation }: LayoutProps) {
             <main className="flex-col w-full h-full hidden md:flex">
               <Map>{children}</Map>
               <div className="hidden md:block absolute bottom-4 ml-4">
-                <ResetViewButton>Reset Zoom</ResetViewButton>
+                <ResetViewButton>Reset Position</ResetViewButton>
               </div>
             </main>
           </MapInteraction>

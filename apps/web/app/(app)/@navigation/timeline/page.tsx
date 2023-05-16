@@ -32,6 +32,8 @@ const Timeline = async () => {
         fell: {
           id: number;
           name: string;
+          lat: number;
+          lng: number;
         };
       }[]
     >
@@ -46,7 +48,7 @@ const Timeline = async () => {
               <h2 className="p-4 text-lg font-medium">{key}</h2>
               <div className="divide-y border-gray-50">
                 {group.map((e) => (
-                  <TimelineCard key={e.id} logId={e.id} name={e.fell.name} date={e.date} comments={e.comments} />
+                  <TimelineCard key={e.id} logId={e.id} fell={e.fell} date={e.date} comments={e.comments} />
                 ))}
               </div>
             </div>

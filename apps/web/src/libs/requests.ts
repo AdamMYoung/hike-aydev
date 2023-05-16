@@ -140,6 +140,8 @@ export const getUserTimeline = async (userId?: string | null) => {
         select: {
           id: true,
           name: true,
+          lat: true,
+          lng: true,
         },
       },
     },
