@@ -12,6 +12,7 @@
     "@googlemaps/polyline-codec": "^1.0.28",
     "@hookform/resolvers": "^3.1.0",
     "@next-auth/prisma-adapter": "^1.0.6",
+    "@sentry/nextjs": "^7.52.1",
     "@turf/circle": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "@turf/intersect": "^6.5.0",
