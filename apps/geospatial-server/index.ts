@@ -35,7 +35,8 @@ fastify.register((instance, opts, done) => {
  */
 const start = async () => {
   try {
-    await fastify.listen({ port: 4000 });
+    // eslint-disable-next-line turbo/no-undeclared-env-vars
+    await fastify.listen({ port: parseInt(process.env.PORT || "4000") });
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
