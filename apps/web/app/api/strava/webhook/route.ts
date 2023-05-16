@@ -108,10 +108,16 @@ export async function POST(request: Request) {
     console.log(activityData);
     const internalActivity = { polyline: activityData.map.polyline, owner_id };
 
-    await fetch("https://hike.aydev.uk/api/strava/activity", {
-      method: "POST",
-      body: JSON.stringify(internalActivity),
-    });
+    await fetch(
+      "https://api.serverlessq.com?id=f00aaa9c-ba12-47e8-8654-2c4db2fa4779&target=https://hike.aydev.uk/api/strava/activity",
+      {
+        method: "POST",
+        headers: {
+          "x-api-key": process.env.SERVERLESSQ_API_KEY ?? "",
+        },
+        body: JSON.stringify(internalActivity),
+      }
+    );
 
     return new Response("", { status: 200 });
   } catch (e) {
