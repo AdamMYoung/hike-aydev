@@ -7,7 +7,7 @@ const Integrations = async () => {
   const isStravaLinked = await getIsStravaLinked(user?.id);
 
   return (
-    <div className="p-4">
+    <div className="p-4 pt-8">
       <div className="flex flex-col gap-2">
         <h2 className="text-lg font-medium">Strava</h2>
         <p className="text-sm font-light">

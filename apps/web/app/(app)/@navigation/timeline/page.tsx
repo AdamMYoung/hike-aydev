@@ -12,11 +12,45 @@ const Timeline = async () => {
 
   const userEntries = await getUserTimeline(user?.id);
 
+  const groupedEntries = userEntries.reduce(
+    (prev, curr) => {
+      const date = curr.date.toDateString();
+
+      if (prev[date]) {
+        return { ...prev, [date]: [...prev[date], curr] };
+      }
+
+      return { ...prev, [date]: [curr] };
+    },
+    {} as Record<
+      string,
+      {
+        id: string;
+        date: Date;
+        camped: boolean;
+        comments: string | null;
+        fell: {
+          id: number;
+          name: string;
+        };
+      }[]
+    >
+  );
+
   return (
     <div className="py-4 divide-y">
       {userEntries.length > 0 ? (
-        userEntries.map((e) => {
-          return <TimelineCard key={e.id} logId={e.id} name={e.fell.name} date={e.date} comments={e.comments} />;
+        Object.entries(groupedEntries).map(([key, group]) => {
+          return (
+            <div key={key}>
+              <h2 className="p-4 text-lg font-medium">{key}</h2>
+              <div className="divide-y border-gray-50">
+                {group.map((e) => (
+                  <TimelineCard key={e.id} logId={e.id} name={e.fell.name} date={e.date} comments={e.comments} />
+                ))}
+              </div>
+            </div>
+          );
         })
       ) : (
         <div className="flex flex-col gap-2">
