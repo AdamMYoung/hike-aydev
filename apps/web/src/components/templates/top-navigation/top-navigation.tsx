@@ -30,9 +30,9 @@ export const TopNavigation = ({ className, isUserAuthenticated, ...rest }: TopNa
               Timeline
             </Button>
           </Link>
-          <Link legacyBehavior href="/integrations">
+          <Link legacyBehavior href="/data">
             <Button className="text-md px-0 font-normal" variant="link" disabled={!isUserAuthenticated}>
-              Integrations
+              Data
             </Button>
           </Link>
         </div>

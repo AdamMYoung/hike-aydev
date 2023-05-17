@@ -25,7 +25,7 @@ export default async function Layout({ children, navigation }: LayoutProps) {
         <MapProvider>
           <MapInteraction>
             <div className="relative w-full">
-              <div className="absolute top-0 bottom-0 left-0 right-0">
+              <div className="absolute top-0 bottom-0 left-0 right-0 bg-gray-50">
                 <SideNavigation isUserAuthenticated={!!user}>{navigation}</SideNavigation>
               </div>
             </div>

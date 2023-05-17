@@ -25,8 +25,8 @@ export const SideNavigation = ({ children, isUserAuthenticated }: SideNavigation
       return "timeline";
     }
 
-    if (pathname === "/integrations") {
-      return "integrations";
+    if (pathname === "/data") {
+      return "data";
     }
 
     return "";
@@ -44,9 +44,9 @@ export const SideNavigation = ({ children, isUserAuthenticated }: SideNavigation
               Timeline
             </TabsTrigger>
           </Link>
-          <Link href="/integrations" legacyBehavior>
-            <TabsTrigger disabled={!isUserAuthenticated} value="integrations">
-              Integrations
+          <Link href="/data" legacyBehavior>
+            <TabsTrigger disabled={!isUserAuthenticated} value="data">
+              Data
             </TabsTrigger>
           </Link>
         </TabsList>

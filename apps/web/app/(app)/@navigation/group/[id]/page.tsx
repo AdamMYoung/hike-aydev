@@ -29,22 +29,26 @@ const PeakDetailNavigation = async ({
   const logEntries = await getUserLogEntries(user?.id);
 
   return (
-    <div>
-      <div className="py-4 space-y-4 h-full relative">
-        <div className="px-4 space-y-4">
-          <Link href="/">
-            <Button>Back</Button>
-          </Link>
-          <h2 className="text-xl font-medium">{fellGroup.name}</h2>
-        </div>
+    <div className="bg-white">
+      <div className="h-full relative">
+        {fellGroup.imageUrl ? <img className="[filter:brightness(0.8)]" alt="" src={fellGroup.imageUrl} /> : null}
+        <div className="bg-white pt-4 sticky top-0 z-10 ">
+          <div className="px-4 space-y-4">
+            <div className="flex gap-4 items-center">
+              <Link href="/">
+                <Button variant="outline">Back</Button>
+              </Link>
+              <h2 className="text-xl font-medium">{fellGroup.name}</h2>
+            </div>
+            <Separator />
+          </div>
 
-        <Separator />
-
-        <div className="relative w-full space-y-4">
           <Suspense fallback={<div />}>
             <GroupSearchFilters isUserAuthenticated={!!user} />
           </Suspense>
+        </div>
 
+        <div className="w-full space-y-4">
           <div className="px-4 py-2">
             {fellGroup.fells
               .sort((a, b) => a.name.localeCompare(b.name))
