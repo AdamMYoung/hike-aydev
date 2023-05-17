@@ -19,7 +19,7 @@ const stravaOpts: RouteShorthandOptions = {
 
 export async function routes(fastify: FastifyInstance, options: object) {
   fastify.get("/webhook/strava", async (request, reply) => {
-    const { searchParams } = request.params as any;
+    const { searchParams } = request.query as any;
 
     const verifyToken = searchParams["hub.verify_token"];
     const challenge = searchParams["hub.challenge"];
