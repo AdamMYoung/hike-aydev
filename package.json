@@ -13,6 +13,9 @@
     "prettier": "^2.5.1",
     "turbo": "latest"
   },
+  "engines": {
+    "yarn": "3.3.x"
+  },
   "name": "hike-aydev",
   "packageManager": "yarn@3.3.0",
   "workspaces": [
