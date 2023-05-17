@@ -19,10 +19,8 @@ const stravaOpts: RouteShorthandOptions = {
 
 export async function routes(fastify: FastifyInstance, options: object) {
   fastify.get("/webhook/strava", async (request, reply) => {
-    const { searchParams } = request.query as any;
-
-    const verifyToken = searchParams["hub.verify_token"];
-    const challenge = searchParams["hub.challenge"];
+    const verifyToken = (request.query as any)["hub.verify_token"];
+    const challenge = (request.query as any)["hub.challenge"];
 
     if (verifyToken !== process.env.STRAVA_VERIFY_TOKEN) {
       reply.status(403).send("Invalid token");
