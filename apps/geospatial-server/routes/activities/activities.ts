@@ -24,9 +24,9 @@ export async function routes(fastify: FastifyInstance, options: object) {
   fastify.post("/activities/strava", stravaOpts, async (request, reply) => {
     const { polyline, ownerId } = request.body as { polyline: string; ownerId: string };
 
-    const stravaAccount = await getUserByStravaId(ownerId);
-
     reply.status(200).send();
+
+    const stravaAccount = await getUserByStravaId(ownerId);
 
     if (!stravaAccount) {
       return;

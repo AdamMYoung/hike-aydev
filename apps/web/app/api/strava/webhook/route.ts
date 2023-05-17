@@ -20,7 +20,7 @@ export async function GET(request: Request) {
  * `accessToken` and `accessTokenExpires`. If an error occurs,
  * returns the old token and an error property
  */
-async function refreshAccessToken(accountId: number, refreshToken: string) {
+async function refreshAccessToken(accountId: string, refreshToken: string) {
   const url =
     "https://www.strava.com/oauth/token?" +
     new URLSearchParams({
@@ -51,7 +51,7 @@ async function refreshAccessToken(accountId: number, refreshToken: string) {
     where: {
       provider_providerAccountId: {
         provider: "strava",
-        providerAccountId: accountId.toString(),
+        providerAccountId: accountId,
       },
     },
   });
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
   let accessToken = stravaAccount.access_token;
 
   if (stravaAccount.expires_at && stravaAccount.expires_at < Math.floor(Date.now() / 1000)) {
-    const refreshedTokens = await refreshAccessToken(owner_id, stravaAccount.refresh_token ?? "");
+    const refreshedTokens = await refreshAccessToken(owner_id.toString(), stravaAccount.refresh_token ?? "");
     accessToken = refreshedTokens.accessToken ?? accessToken;
   }
 
@@ -102,19 +102,10 @@ export async function POST(request: Request) {
     },
   });
 
-  const activityData = await activity.data;
-
   await axios.post(
     `${process.env.GEOSPATIAL_API_URL}/activities/strava`,
-    {
-      polyline: activityData.map.polyline,
-      ownerId: owner_id.toString(),
-    },
-    {
-      headers: {
-        "x-api-key": process.env.GEOSPATIAL_API_KEY ?? "",
-      },
-    }
+    { polyline: activity.data.map.polyline, ownerId: owner_id.toString() },
+    { headers: { "x-api-key": process.env.GEOSPATIAL_API_KEY ?? "" } }
   );
 
   return new Response("Activity created", { status: 200 });
