@@ -1,18 +1,23 @@
+import { getCurrentUser } from "@/libs/session";
+import { DrawerNavigation } from "@templates/drawer-navigation";
 import { Profile } from "@templates/profile";
 import Link from "next/link";
 import { Button, ElementProps, Separator, cn } from "ui";
 
-type TopNavigationProps = Omit<ElementProps<"div">, "children"> & {
-  isUserAuthenticated: boolean;
-};
+type TopNavigationProps = Omit<ElementProps<"div">, "children">;
 
-export const TopNavigation = ({ className, isUserAuthenticated, ...rest }: TopNavigationProps) => {
+export const TopNavigation = async ({ className, ...rest }: TopNavigationProps) => {
+  const user = await getCurrentUser();
+  const isUserAuthenticated = !!user;
+
   const _className = cn("w-full justify-between shadow flex p-4 items-center border-b", className);
 
   return (
     <div className={_className} {...rest}>
-      <div className="flex gap-6 items-center">
-        <span className="text-3xl w-full">
+      <div className="flex gap-2 md:gap-6 items-center">
+        <DrawerNavigation isUserAuthenticated={isUserAuthenticated} />
+
+        <span className="text-2xl md:text-3xl w-full">
           <span className="font-semibold">Hike</span>
           <span className="font-light">.aydev</span>
         </span>

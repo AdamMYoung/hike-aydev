@@ -24,7 +24,7 @@ export const Profile = async () => {
       </div>
 
       <Link legacyBehavior href="/api/auth/signout">
-        <Button className="whitespace-nowrap" variant="outline">
+        <Button className="whitespace-nowrap hidden md:block" variant="outline">
           Sign out
         </Button>
       </Link>
