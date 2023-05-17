@@ -1,7 +1,7 @@
 "use client";
 
 import { setComment } from "@/libs/actions";
-import { ImagePlus, Locate, MessageCircle, Save, Trash } from "lucide-react";
+import { Locate, MessageCircle, Save, XCircle } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
 import { Button, cn, ElementProps, Textarea, toOSMCoordinates, useMapInteractionContext } from "ui";
 
@@ -23,7 +23,12 @@ export const TimelineCard = ({ fell, date, comments, className, children, logId,
   const [isPending, startTransition] = useTransition();
   const [editComment, setEditComment] = useState(comments);
 
-  const _className = cn("group px-4 py-1 flex flex-col gap-1", isCommentEditing && "py-2", className);
+  const _className = cn(
+    "group px-4 py-1 flex flex-col gap-1",
+    isCommentEditing && "py-2 bg-gray-50",
+    !isCommentEditing && "hover:bg-gray-50",
+    className
+  );
 
   const handleReset = () => {
     setEditComment(comments);
@@ -49,12 +54,12 @@ export const TimelineCard = ({ fell, date, comments, className, children, logId,
           <div className="opacity-20 transition-opacity flex gap-2 group-hover:opacity-100">
             <Button
               variant="ghost"
-              className="hidden md:block p-2 bg-white"
+              className="hidden md:block p-2"
               onClick={() => setZoomPoint({ coordinates: toOSMCoordinates([fell.lng, fell.lat]), zoom: 14 }, true)}
             >
               <Locate className="text-[inherit]" />
             </Button>
-            <Button className="p-2 bg-white" variant="ghost" onClick={() => setIsCommentEditing(true)}>
+            <Button className="p-2" variant="ghost" onClick={() => setIsCommentEditing(true)}>
               <MessageCircle />
             </Button>
           </div>
@@ -81,7 +86,7 @@ export const TimelineCard = ({ fell, date, comments, className, children, logId,
               disabled={isPending}
               onClick={handleReset}
             >
-              <Trash />
+              <XCircle />
             </Button>
             <Button
               aria-label="Save"

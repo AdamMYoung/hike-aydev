@@ -47,7 +47,7 @@ const Timeline = async () => {
         {userEntries.length > 0 ? (
           Object.entries(groupedEntries).map(([key, group]) => {
             return (
-              <div key={key} className="p-1 border rounded bg-white">
+              <div key={key} className="p-1 border rounded-lg bg-white">
                 <h2 className="p-4 text-lg font-medium">{key}</h2>
                 <div className="divide-y border-gray-50">
                   {group.map((e) => (
