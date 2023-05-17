@@ -3,7 +3,9 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import Fastify from "fastify";
+
 import { routes as activities } from "./routes/activities";
+import { routes as webhook } from "./routes/webhook";
 
 const fastify = Fastify({
   logger: true,
@@ -13,6 +15,9 @@ const fastify = Fastify({
 fastify.get("/health", (req, reply) => {
   reply.status(200).send();
 });
+
+// Strava webhook routes
+fastify.register(webhook);
 
 // Application routes
 fastify.register((instance, opts, done) => {
