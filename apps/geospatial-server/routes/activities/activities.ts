@@ -26,8 +26,9 @@ export async function routes(fastify: FastifyInstance, options: object) {
 
     const stravaAccount = await getUserByStravaId(ownerId);
 
+    reply.status(200).send();
+
     if (!stravaAccount) {
-      reply.status(401).send();
       return;
     }
 
@@ -41,7 +42,5 @@ export async function routes(fastify: FastifyInstance, options: object) {
         climbed: true,
       })),
     });
-
-    reply.send();
   });
 }

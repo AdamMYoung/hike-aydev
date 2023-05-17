@@ -104,22 +104,18 @@ export async function POST(request: Request) {
 
   const activityData = await activity.data;
 
-  try {
-    axios.post(
-      `${process.env.GEOSPATIAL_API_URL}/activities/strava`,
-      {
-        polyline: activityData.map.polyline,
-        ownerId: owner_id.toString(),
+  await axios.post(
+    `${process.env.GEOSPATIAL_API_URL}/activities/strava`,
+    {
+      polyline: activityData.map.polyline,
+      ownerId: owner_id.toString(),
+    },
+    {
+      headers: {
+        "x-api-key": process.env.GEOSPATIAL_API_KEY ?? "",
       },
-      {
-        headers: {
-          "x-api-key": process.env.GEOSPATIAL_API_KEY ?? "",
-        },
-      }
-    );
+    }
+  );
 
-    return new Response("Activity created", { status: 200 });
-  } catch (e) {
-    throw new Error(`${e}\n${JSON.stringify(activityData)}`);
-  }
+  return new Response("Activity created", { status: 200 });
 }
