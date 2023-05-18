@@ -1,8 +1,8 @@
 import { decode } from "@googlemaps/polyline-codec";
 import circle from "@turf/circle";
 import { Feature, LineString, lineString } from "@turf/helpers";
-import lineIntersect from "@turf/line-intersect";
-import { getFellPoints } from "./requests";
+import booleanIntersects from "@turf/boolean-intersects";
+import { FellPoint, getFellPoints } from "./requests";
 
 export const getFellsOnPolyline = async (polyline: string) => {
   const decodedPolyline = decode(polyline);
@@ -14,10 +14,15 @@ export const getFellsOnPolyline = async (polyline: string) => {
 
 export const getFellsOnLineString = async (lineString: Feature<LineString>) => {
   const points = await getFellPoints();
-  const circles = points.map((c) => circle([c.lng, c.lat], 0.1, { properties: { id: c.id, name: c.name } }));
 
-  const intersectingCircles = circles.filter((c) => lineIntersect(c, lineString).features.length > 0);
-  const intersectingIds = intersectingCircles.map((c) => c.properties.id);
+  return points.reduce((prev, curr) => {
+    const pointCircle = circle([curr.lng, curr.lat], 0.1);
+    const isIntersecting = booleanIntersects(lineString, pointCircle);
 
-  return points.filter((p) => intersectingIds.includes(p.id));
+    if (isIntersecting) {
+      return [...prev, curr];
+    }
+
+    return prev;
+  }, [] as FellPoint[]);
 };

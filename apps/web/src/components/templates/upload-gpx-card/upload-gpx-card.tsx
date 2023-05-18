@@ -19,20 +19,17 @@ const uploadFile = async (url: string, { arg }: { arg: FormData }) => {
 export const UploadGpxCard = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
-  const { trigger, data, isMutating } = useSWRMutation<{ completed: number; total: number }, unknown, string, FormData>(
-    "/api/activities/manual",
-    uploadFile
-  );
+  const { trigger, isMutating } = useSWRMutation("/api/activities/manual", uploadFile);
 
   useEffect(() => {
-    if (data) {
+    if (!isMutating) {
       toast({
         title: "Upload Successful!",
         className: "bg-green-200 border-gray-500",
-        description: `Found ${data.total} total fells, ${data.completed} new fells marked as complete.`,
+        description: `GPX file will now be processed, and any matched fells will be marked as complete.`,
       });
     }
-  }, [data]);
+  }, [isMutating]);
 
   const handleClick = () => {
     inputRef.current?.click();

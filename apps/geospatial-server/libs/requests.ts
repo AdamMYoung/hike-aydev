@@ -1,8 +1,24 @@
 import { prisma } from "./prisma";
 import { getCachedEntry } from "./kv";
+import NodeCache from "node-cache";
 
-export const getFellPoints = () => {
-  return getCachedEntry("get-fell-points", () =>
+const fellCache = new NodeCache({ stdTTL: 3600 });
+
+export type FellPoint = {
+  id: number;
+  lat: number;
+  lng: number;
+  name: string;
+};
+
+export const getFellPoints = async () => {
+  const fellPoints = fellCache.get<FellPoint[]>("get-fell-points");
+
+  if (fellPoints) {
+    return fellPoints;
+  }
+
+  const fetchedFellPoints = await getCachedEntry("get-fell-points", () =>
     prisma.fell.findMany({
       select: {
         id: true,
@@ -12,4 +28,8 @@ export const getFellPoints = () => {
       },
     })
   );
+
+  fellCache.set("get-fell-points", fetchedFellPoints);
+
+  return fetchedFellPoints;
 };

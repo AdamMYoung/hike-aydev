@@ -7,6 +7,8 @@ import { prisma } from "../../libs/prisma";
 
 export async function routes(fastify: FastifyInstance, options: object) {
   fastify.post("/activities/manual/:id", async (request, reply) => {
+    console.time(request.id);
+
     const { id: userId } = request.params as { id: string };
     const file = await request.file();
 
@@ -22,9 +24,11 @@ export async function routes(fastify: FastifyInstance, options: object) {
     const fileStringData = (await file.toBuffer()).toString();
     const parsedGpxFile = parser.parse(fileStringData);
 
+    reply.status(201).send();
+
     // Extract matched values
     const date = new Date(parsedGpxFile.gpx.metadata.time);
-    const { trkseg, name } = parsedGpxFile.gpx.trk;
+    const { trkseg } = parsedGpxFile.gpx.trk;
 
     const points: [number, number][] = trkseg.trkpt.map((t: any) => [parseFloat(t["@_lon"]), parseFloat(t["@_lat"])]);
 
@@ -32,7 +36,7 @@ export async function routes(fastify: FastifyInstance, options: object) {
     const matchedFells = await getFellsOnLineString(lineString(points));
 
     // Insert all matched fells into the database.
-    const createLogsResult = await prisma.logEntry.createMany({
+    await prisma.logEntry.createMany({
       skipDuplicates: true,
       data: matchedFells.map((fell) => ({
         fellId: fell.id,
@@ -40,11 +44,6 @@ export async function routes(fastify: FastifyInstance, options: object) {
         climbed: true,
         date,
       })),
-    });
-
-    reply.status(201).send({
-      total: matchedFells.length,
-      completed: createLogsResult.count,
     });
   });
 }

@@ -1387,6 +1387,40 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@turf/boolean-disjoint@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@turf/boolean-disjoint@npm:6.5.0"
+  dependencies:
+    "@turf/boolean-point-in-polygon": ^6.5.0
+    "@turf/helpers": ^6.5.0
+    "@turf/line-intersect": ^6.5.0
+    "@turf/meta": ^6.5.0
+    "@turf/polygon-to-line": ^6.5.0
+  checksum: f1785bf45fda0e56cbce0f7ff147a204a7fbfa8385b1fa50f022f57b9a0341c44f798ab89a49b60e8e95e35aa57e66b585ec39485fbfb174635176763b3631c9
+  languageName: node
+  linkType: hard
+
+"@turf/boolean-intersects@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@turf/boolean-intersects@npm:6.5.0"
+  dependencies:
+    "@turf/boolean-disjoint": ^6.5.0
+    "@turf/helpers": ^6.5.0
+    "@turf/meta": ^6.5.0
+  checksum: 4a077ddd03d28b7516a4dbe90a4cc98a5c2a8646fc74443fcb09f51c62f4b4090365eb10beec084fc1f77a911faf7cbc4e7dd4966119e529013050cbe9773d40
+  languageName: node
+  linkType: hard
+
+"@turf/boolean-point-in-polygon@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@turf/boolean-point-in-polygon@npm:6.5.0"
+  dependencies:
+    "@turf/helpers": ^6.5.0
+    "@turf/invariant": ^6.5.0
+  checksum: 624e54d9956b8f9d955285065f44c80ae66cd4a87e5d893f85871009b62ad9721cca520245a56f8c4401467767c153dda58f67fec0968e3971c7bb3a39617105
+  languageName: node
+  linkType: hard
+
 "@turf/boolean-point-on-line@npm:^6.5.0":
   version: 6.5.0
   resolution: "@turf/boolean-point-on-line@npm:6.5.0"
@@ -1533,6 +1567,16 @@ __metadata:
     "@turf/line-intersect": ^6.5.0
     "@turf/meta": ^6.5.0
   checksum: 5d059e43e6b624b23a204c2ac7d4ddec0b5105eb02ecd12b38c221cfe083279a4059c4e2788b9821cb93d4ca4ccb4eb7f48fcae2e59c857073a5bdb2a49ae8ce
+  languageName: node
+  linkType: hard
+
+"@turf/polygon-to-line@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@turf/polygon-to-line@npm:6.5.0"
+  dependencies:
+    "@turf/helpers": ^6.5.0
+    "@turf/invariant": ^6.5.0
+  checksum: ba189ff22a9a7a281da1dfb707909ce114339b14f8f61fd237f72a9ff056fcf5eeb7019fd2d2a8b3bfc953169eb2caa818ecc9d8801cdb5615c3d274af2465d5
   languageName: node
   linkType: hard
 
@@ -2381,6 +2425,13 @@ __metadata:
   version: 0.0.1
   resolution: "client-only@npm:0.0.1"
   checksum: 0c16bf660dadb90610553c1d8946a7fdfb81d624adea073b8440b7d795d5b5b08beb3c950c6a2cf16279365a3265158a236876d92bce16423c485c322d7dfaf8
+  languageName: node
+  linkType: hard
+
+"clone@npm:2.x":
+  version: 2.1.2
+  resolution: "clone@npm:2.1.2"
+  checksum: aaf106e9bc025b21333e2f4c12da539b568db4925c0501a1bf4070836c9e848c892fa22c35548ce0d1132b08bbbfa17a00144fe58fccdab6fa900fec4250f67d
   languageName: node
   linkType: hard
 
@@ -3908,6 +3959,7 @@ eslint-config-turbo@latest:
     "@fastify/multipart": ^7.6.0
     "@googlemaps/polyline-codec": ^1.0.28
     "@swc/core": ^1.3.58
+    "@turf/boolean-intersects": ^6.5.0
     "@turf/circle": ^6.5.0
     "@turf/helpers": ^6.5.0
     "@turf/line-intersect": ^6.5.0
@@ -3918,6 +3970,7 @@ eslint-config-turbo@latest:
     fast-xml-parser: ^4.2.2
     fastify: ^4.17.0
     fastify-cli: ^5.7.1
+    node-cache: ^5.1.2
     nodemon: ^2.0.22
     ts-node: ^10.9.1
     tsconfig: "*"
@@ -5284,6 +5337,15 @@ eslint-config-turbo@latest:
   bin:
     next: dist/bin/next
   checksum: 73b9da0d72b54720791ec3e3a3c79922172de5df01d5157507bd095033c33cd611f35da3310d859b3a75456977a4a9a4ef311074517b172dddc92dc769e03e49
+  languageName: node
+  linkType: hard
+
+"node-cache@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "node-cache@npm:5.1.2"
+  dependencies:
+    clone: 2.x
+  checksum: b0bdd81a6fee4754fb984a05246b510bb35dc54721116d465899bf4229ee3287fdafb47da526900ee9924fb402ed5c7d8050049d37d8bf2d26dbafc23a2c3205
   languageName: node
   linkType: hard
 
