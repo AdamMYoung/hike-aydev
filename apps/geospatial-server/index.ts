@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import Fastify from "fastify";
+import multipart from "@fastify/multipart";
 
 import { routes as activities } from "./routes/activities";
 import { routes as webhook } from "./routes/webhook";
@@ -10,6 +11,8 @@ import { routes as webhook } from "./routes/webhook";
 const fastify = Fastify({
   logger: true,
 });
+
+fastify.register(multipart);
 
 // Health check endpoint
 fastify.get("/health", (req, reply) => {
@@ -40,7 +43,7 @@ fastify.register((instance, opts, done) => {
  */
 const start = async () => {
   try {
-    await fastify.listen({ port: 4000, host: "0.0.0.0" });
+    await fastify.listen({ port: 4000, host: process.env.NODE_ENV === "production" ? "0.0.0.0" : undefined });
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);

@@ -5,20 +5,33 @@ import { prisma } from "../../libs/prisma";
 import { getFellsOnPolyline } from "../../libs/routes";
 import { refreshAccessToken } from "../../libs/token";
 
-const stravaOpts: RouteShorthandOptions = {
+const stravaWebhookGetSchema: RouteShorthandOptions = {
+  schema: {
+    querystring: {
+      properties: {
+        "hub.verify_token": { type: "string" },
+        "hub.challenge": { type: "string" },
+      },
+    },
+  },
+};
+
+const stravaWebhookPostSchema: RouteShorthandOptions = {
   schema: {
     body: {
       type: "object",
       properties: {
-        polyline: { type: "string" },
-        ownerId: { type: "string" },
+        owner_id: { type: "number" },
+        object_id: { type: "number" },
+        object_type: { type: "string" },
+        aspect_type: { type: "string" },
       },
     },
   },
 };
 
 export async function routes(fastify: FastifyInstance, options: object) {
-  fastify.get("/webhook/strava", async (request, reply) => {
+  fastify.get("/webhook/strava", stravaWebhookGetSchema, async (request, reply) => {
     const verifyToken = (request.query as any)["hub.verify_token"];
     const challenge = (request.query as any)["hub.challenge"];
 
@@ -32,8 +45,8 @@ export async function routes(fastify: FastifyInstance, options: object) {
     });
   });
 
-  fastify.post("/webhook/strava", async (request, reply) => {
-    const { owner_id, object_id, object_type, aspect_type } = (await request.body) as any;
+  fastify.post("/webhook/strava", stravaWebhookPostSchema, async (request, reply) => {
+    const { owner_id, object_id, object_type, aspect_type } = request.body as any;
 
     reply.status(200).send("OK");
 
@@ -41,6 +54,7 @@ export async function routes(fastify: FastifyInstance, options: object) {
       return;
     }
 
+    // Get user.
     const stravaAccount = await prisma.account.findUnique({
       where: {
         provider_providerAccountId: {
@@ -67,14 +81,17 @@ export async function routes(fastify: FastifyInstance, options: object) {
       accessToken = refreshedTokens.accessToken ?? accessToken;
     }
 
+    // Get activity of the webhook event.
     const activity = await axios.get(`https://www.strava.com/api/v3/activities/${object_id}?include_all_efforts=`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
 
+    // Get all fells from the fetched activity.
     const fellsOnPolyline = await getFellsOnPolyline(activity.data.map.polyline);
 
+    // Insert all matched fells into the database.
     await prisma.logEntry.createMany({
       skipDuplicates: true,
       data: fellsOnPolyline.map((fell) => ({
@@ -83,7 +100,5 @@ export async function routes(fastify: FastifyInstance, options: object) {
         climbed: true,
       })),
     });
-
-    return new Response("Activity created", { status: 200 });
   });
 }
