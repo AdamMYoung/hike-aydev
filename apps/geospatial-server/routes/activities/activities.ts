@@ -16,18 +16,6 @@ export async function routes(fastify: FastifyInstance, options: object) {
       return;
     }
 
-    // Get user.
-    const userAccount = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
-    if (!userAccount) {
-      reply.status(401).send();
-      return;
-    }
-
     // Parse XML
     const parser = new XMLParser({ ignoreAttributes: false });
 
@@ -44,7 +32,7 @@ export async function routes(fastify: FastifyInstance, options: object) {
     const matchedFells = await getFellsOnLineString(lineString(points));
 
     // Insert all matched fells into the database.
-    const createResp = await prisma.logEntry.createMany({
+    const createLogsResult = await prisma.logEntry.createMany({
       skipDuplicates: true,
       data: matchedFells.map((fell) => ({
         fellId: fell.id,
@@ -54,11 +42,9 @@ export async function routes(fastify: FastifyInstance, options: object) {
       })),
     });
 
-    console.log(createResp);
-
     reply.status(201).send({
       total: matchedFells.length,
-      completed: createResp.count,
+      completed: createLogsResult.count,
     });
   });
 }
