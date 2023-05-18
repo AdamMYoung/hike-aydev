@@ -21,7 +21,7 @@ export const PeakEntry = ({ className, src, title, children, href, ...rest }: Pe
           <Image
             width="0"
             height="0"
-            sizes="(max-width: 768px) 100vw, 20vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="w-full h-auto rounded-t-lg transition-[filter] [filter:brightness(0.8)] group-hover:[filter:brightness(0.7)]"
             alt=""
             src={src}
