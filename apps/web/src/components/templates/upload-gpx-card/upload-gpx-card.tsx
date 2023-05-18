@@ -5,6 +5,7 @@ import { DataEntryCard, DataEntryCardTitle, DataEntryCardDescription } from "@/c
 import { ChangeEventHandler, useEffect, useRef } from "react";
 
 import { Button, useToast } from "ui";
+import { Loader } from "lucide-react";
 
 const uploadFile = async (url: string, { arg }: { arg: FormData }) => {
   const res = await fetch(url, {
@@ -28,7 +29,7 @@ export const UploadGpxCard = () => {
       toast({
         title: "Upload Successful!",
         className: "bg-green-200 border-gray-500",
-        description: `Found ${data.total} fells, marked ${data.completed} fells as complete.`,
+        description: `Found ${data.total} total fells, ${data.completed} new fells marked as complete.`,
       });
     }
   }, [data]);
@@ -56,7 +57,7 @@ export const UploadGpxCard = () => {
         Upload a GPX route, and track any peaks found along the route.
       </DataEntryCardDescription>
       <Button disabled={isMutating} onClick={handleClick} variant="outline">
-        Upload GPX
+        {isMutating ? <Loader className="animate-spin" /> : "Upload GPX"}
       </Button>
       <input type="file" accept=".gpx" ref={inputRef} onChange={handleInputUpload} className="hidden" />
     </DataEntryCard>

@@ -19,9 +19,3 @@ export async function POST(req: Request) {
 
   return new Response(JSON.stringify(data), { status: 201 });
 }
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
