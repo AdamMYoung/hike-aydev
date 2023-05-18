@@ -25,7 +25,7 @@ const MapEntries = async () => {
 };
 
 const MapEntriesPlaceholder = () => {
-  return null;
+  return <div />;
 };
 
 export default async function Home() {

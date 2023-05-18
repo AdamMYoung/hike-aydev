@@ -35,7 +35,7 @@ const TimelineEntries = async () => {
 };
 
 const TimelineEntriesPlaceholder = () => {
-  return null;
+  return <div />;
 };
 
 export default async function Timeline({}: GroupProps) {

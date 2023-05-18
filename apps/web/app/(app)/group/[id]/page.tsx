@@ -48,7 +48,7 @@ const GroupEntries = async ({
 };
 
 const GroupEntriesPlaceholder = () => {
-  return null;
+  return <div />;
 };
 
 export default async function Group(props: GroupProps) {

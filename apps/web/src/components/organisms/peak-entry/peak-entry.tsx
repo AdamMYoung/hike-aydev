@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ElementProps, cn } from "ui";
 
@@ -17,8 +18,11 @@ export const PeakEntry = ({ className, src, title, children, href, ...rest }: Pe
     <Link href={href}>
       <div className={_className} {...rest}>
         {src ? (
-          <img
-            className="rounded-t-lg transition-[filter] [filter:brightness(0.8)] group-hover:[filter:brightness(0.7)]"
+          <Image
+            width="0"
+            height="0"
+            sizes="(max-width: 768px) 100vw, 20vw"
+            className="w-full h-auto rounded-t-lg transition-[filter] [filter:brightness(0.8)] group-hover:[filter:brightness(0.7)]"
             alt=""
             src={src}
           />

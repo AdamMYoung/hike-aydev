@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/libs/session";
 import { PeakListEntry } from "@/components/organisms/peak-list-entry";
 import { GroupSearchFilters } from "@templates/group-search-filters";
 import { Suspense } from "react";
+import Image from "next/image";
 
 type PeakDetailNavigationProps = {
   params: { id: string };
@@ -32,7 +33,16 @@ const PeakDetailNavigationContent = async ({
   return (
     <div className="bg-white">
       <div className="h-full relative">
-        {fellGroup.imageUrl ? <img className="[filter:brightness(0.8)]" alt="" src={fellGroup.imageUrl} /> : null}
+        {fellGroup.imageUrl ? (
+          <Image
+            width="0"
+            height="0"
+            sizes="(max-width: 768px) 100vw, 20vw"
+            className="w-full h-auto [filter:brightness(0.8)]"
+            alt=""
+            src={fellGroup.imageUrl}
+          />
+        ) : null}
         <div className="bg-white pt-4 sticky top-0 z-10 ">
           <div className="px-4 space-y-4">
             <div className="flex gap-4 items-center">
