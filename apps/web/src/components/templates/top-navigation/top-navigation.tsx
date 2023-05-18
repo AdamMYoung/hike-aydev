@@ -1,50 +1,103 @@
 import { getCurrentUser } from "@/libs/session";
 import { DrawerNavigation } from "@templates/drawer-navigation";
 import { Profile } from "@templates/profile";
+import { Menu } from "lucide-react";
 import Link from "next/link";
-import { Button, ElementProps, Separator, cn } from "ui";
+import { Suspense } from "react";
+import { Button, ElementProps, Separator, cn, Skeleton } from "ui";
 
 type TopNavigationProps = Omit<ElementProps<"div">, "children">;
 
-export const TopNavigation = async ({ className, ...rest }: TopNavigationProps) => {
+const MobileNavigation = async () => {
   const user = await getCurrentUser();
   const isUserAuthenticated = !!user;
 
+  return <DrawerNavigation isUserAuthenticated={isUserAuthenticated} />;
+};
+
+const MobileNavigationPlaceholder = () => {
+  return (
+    <div className="block md:hidden">
+      <Menu />
+    </div>
+  );
+};
+
+const DesktopLinks = async () => {
+  const user = await getCurrentUser();
+  const isUserAuthenticated = !!user;
+
+  return (
+    <div className="hidden md:flex gap-6 items-baseline">
+      <Link legacyBehavior href="/">
+        <Button className="text-md px-0 font-normal" variant="link">
+          Fells
+        </Button>
+      </Link>
+      <Link legacyBehavior href="/timeline">
+        <Button variant="link" className="text-md px-0 font-normal" disabled={!isUserAuthenticated}>
+          Timeline
+        </Button>
+      </Link>
+      <Link legacyBehavior href="/data">
+        <Button className="text-md px-0 font-normal" variant="link" disabled={!isUserAuthenticated}>
+          Data
+        </Button>
+      </Link>
+    </div>
+  );
+};
+
+const DesktopLinksPlaceholder = () => {
+  return (
+    <div className="hidden md:flex gap-6 items-baseline">
+      <Link legacyBehavior href="/">
+        <Button className="text-md px-0 font-normal" variant="link">
+          Fells
+        </Button>
+      </Link>
+    </div>
+  );
+};
+
+const ProfilePlaceholder = () => {
+  return (
+    <div className="flex gap-2 items-center">
+      <Skeleton className="h-12 w-12 rounded-full" />
+      <Skeleton className="w-16 h-4" />
+      <Skeleton className="w-24 h-10 rounded-lg" />
+    </div>
+  );
+};
+
+export const TopNavigation = async ({ className, ...rest }: TopNavigationProps) => {
   const _className = cn("w-full justify-between shadow flex p-4 items-center border-b", className);
 
   return (
     <div className={_className} {...rest}>
       <div className="flex gap-2 md:gap-6 items-center">
-        <DrawerNavigation isUserAuthenticated={isUserAuthenticated} />
-
         <span className="text-2xl md:text-3xl w-full">
           <span className="font-semibold">Hike</span>
           <span className="font-light">.aydev</span>
         </span>
 
+        <Suspense fallback={<MobileNavigationPlaceholder />}>
+          {/* @ts-expect-error Server Component */}
+          <MobileNavigation />
+        </Suspense>
+
         <Separator className="h-12 hidden md:block" orientation="vertical" />
 
-        <div className="hidden md:flex gap-6 items-baseline">
-          <Link legacyBehavior href="/">
-            <Button className="text-md px-0 font-normal" variant="link">
-              Fells
-            </Button>
-          </Link>
-          <Link legacyBehavior href="/timeline">
-            <Button variant="link" className="text-md px-0 font-normal" disabled={!isUserAuthenticated}>
-              Timeline
-            </Button>
-          </Link>
-          <Link legacyBehavior href="/data">
-            <Button className="text-md px-0 font-normal" variant="link" disabled={!isUserAuthenticated}>
-              Data
-            </Button>
-          </Link>
-        </div>
+        <Suspense fallback={<DesktopLinksPlaceholder />}>
+          {/* @ts-expect-error Server Component */}
+          <DesktopLinks />
+        </Suspense>
       </div>
 
-      {/* @ts-expect-error Server Component */}
-      <Profile />
+      <Suspense fallback={<ProfilePlaceholder />}>
+        {/* @ts-expect-error Server Component */}
+        <Profile />
+      </Suspense>
     </div>
   );
 };

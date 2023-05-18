@@ -2,9 +2,9 @@
 
 import useSWRMutation from "swr/mutation";
 import { DataEntryCard, DataEntryCardTitle, DataEntryCardDescription } from "@/components/organisms";
-import { ChangeEventHandler, useEffect, useRef } from "react";
+import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 
-import { Button, useToast } from "ui";
+import { Button, useInitialLoadStatus, useToast } from "ui";
 import { Loader } from "lucide-react";
 
 const uploadFile = async (url: string, { arg }: { arg: FormData }) => {
@@ -18,11 +18,12 @@ const uploadFile = async (url: string, { arg }: { arg: FormData }) => {
 
 export const UploadGpxCard = () => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const hasInitiallyLoaded = useInitialLoadStatus();
   const { toast } = useToast();
   const { trigger, isMutating } = useSWRMutation("/api/activities/manual", uploadFile);
 
   useEffect(() => {
-    if (!isMutating) {
+    if (!isMutating && hasInitiallyLoaded) {
       toast({
         title: "Upload Successful!",
         className: "bg-green-200 border-gray-500",

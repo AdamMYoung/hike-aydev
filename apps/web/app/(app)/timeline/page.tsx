@@ -1,6 +1,7 @@
 import { getMapUserTimeline } from "@/libs/requests";
 import { getCurrentUser } from "@/libs/session";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { PinGroup, Pin, toOSMCoordinates, ZoomPoint } from "ui";
 
 type GroupProps = {
@@ -12,7 +13,7 @@ type GroupProps = {
   };
 };
 
-export default async function Timeline({}: GroupProps) {
+const TimelineEntries = async () => {
   const user = await getCurrentUser();
 
   if (!user) {
@@ -30,5 +31,18 @@ export default async function Timeline({}: GroupProps) {
         })}
       </PinGroup>
     </>
+  );
+};
+
+const TimelineEntriesPlaceholder = () => {
+  return null;
+};
+
+export default async function Timeline({}: GroupProps) {
+  return (
+    <Suspense fallback={<TimelineEntriesPlaceholder />}>
+      {/* @ts-expect-error Server Component */}
+      <TimelineEntries />
+    </Suspense>
   );
 }

@@ -7,11 +7,14 @@ import OLMap from "ol/Map";
 import OSM from "ol/source/OSM";
 import { AnimationOptions, FitOptions } from "ol/View";
 import React, { useState, useEffect, useCallback } from "react";
+
+import { useInitialLoadStatus } from "../../hooks";
 import { createContext } from "../../lib";
 
 type MapContextOptions = {
   map: OLMap | null;
   isAnimating: boolean;
+  isLoaded: boolean;
   animate: (...args: (AnimationOptions | ((arg0: boolean) => void))[]) => void;
   fit: (geometryOrExtent: Extent | SimpleGeometry, options?: FitOptions | undefined) => void;
 };
@@ -22,6 +25,7 @@ export { MapContextProvider, useMapContext };
 
 export const MapProvider = ({ children }: React.PropsWithChildren) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [hasRenderedTiles, setHasRenderedTiles] = useState(false);
   const [map, setMap] = useState<OLMap | null>(null);
 
   const animate = useCallback(
@@ -52,17 +56,24 @@ export const MapProvider = ({ children }: React.PropsWithChildren) => {
 
   useEffect(() => {
     if (!map) {
-      setMap(
-        new OLMap({
-          layers: [
-            new TileLayer({
-              source: new OSM(),
-            }),
-          ],
-        })
-      );
+      const _map = new OLMap({
+        layers: [
+          new TileLayer({
+            source: new OSM(),
+          }),
+        ],
+      });
+      setMap(_map);
+
+      _map.once("rendercomplete", () => {
+        setHasRenderedTiles(true);
+      });
     }
   }, [map]);
 
-  return <MapContextProvider value={{ map, animate, fit, isAnimating }}>{children}</MapContextProvider>;
+  return (
+    <MapContextProvider value={{ map, animate, fit, isAnimating, isLoaded: hasRenderedTiles }}>
+      {children}
+    </MapContextProvider>
+  );
 };

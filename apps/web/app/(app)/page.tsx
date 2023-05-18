@@ -1,8 +1,9 @@
 import { getMapUserTimeline } from "@/libs/requests";
 import { getCurrentUser } from "@/libs/session";
+import { Suspense } from "react";
 import { Pin, PinGroup, toOSMCoordinates, ZoomPoint } from "ui";
 
-export default async function Home() {
+const MapEntries = async () => {
   const user = await getCurrentUser();
 
   if (!user) {
@@ -20,5 +21,18 @@ export default async function Home() {
         })}
       </PinGroup>
     </>
+  );
+};
+
+const MapEntriesPlaceholder = () => {
+  return null;
+};
+
+export default async function Home() {
+  return (
+    <Suspense fallback={<MapEntriesPlaceholder />}>
+      {/* @ts-expect-error Server Component */}
+      <MapEntries />
+    </Suspense>
   );
 }

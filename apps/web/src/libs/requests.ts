@@ -8,7 +8,11 @@ export const getFellEntry = cache(async (id: string) => {
   return getCachedEntry(`get-fell-entry-${id}`, () => prisma.fell.findUnique({ where: { id: parseInt(id) } }));
 });
 
-export const getFellGroup = cache(async (id: string) => {
+export const getFellGroup = cache(async (id?: string | null) => {
+  if (!id) {
+    return null;
+  }
+
   return getCachedEntry(`get-fell-group-${id}`, () =>
     prisma.fellGroup.findUnique({
       where: { id: parseInt(id) },

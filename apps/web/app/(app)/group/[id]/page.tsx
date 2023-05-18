@@ -1,6 +1,7 @@
 import { getMapFellGroup, getUserLogEntries } from "@/libs/requests";
 import { getCurrentUser } from "@/libs/session";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { PinGroup } from "ui";
 import { GroupPin } from "./group-pin";
 
@@ -13,10 +14,10 @@ type GroupProps = {
   };
 };
 
-export default async function Group({
+const GroupEntries = async ({
   params: { id },
   searchParams: { hideComplete, hideIncomplete, searchTerm },
-}: GroupProps) {
+}: GroupProps) => {
   const [fellGroup, user] = await Promise.all([getMapFellGroup(id), getCurrentUser()]);
 
   if (!fellGroup) {
@@ -43,5 +44,18 @@ export default async function Group({
           return <GroupPin key={fell.id} isCompleted={isCompleted} fell={fell} />;
         })}
     </PinGroup>
+  );
+};
+
+const GroupEntriesPlaceholder = () => {
+  return null;
+};
+
+export default async function Group(props: GroupProps) {
+  return (
+    <Suspense fallback={<GroupEntriesPlaceholder />}>
+      {/* @ts-expect-error Server Component */}
+      <GroupEntries {...props} />
+    </Suspense>
   );
 }

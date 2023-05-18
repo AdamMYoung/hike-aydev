@@ -7,8 +7,9 @@ import { usePathname } from "next/navigation";
 
 export const MapInteraction = ({ children }: React.PropsWithChildren) => {
   const pathname = usePathname();
+
   const [isManualMode, setIsManualMode] = useState(false);
-  const { map, animate, isAnimating } = useMapContext();
+  const { map, animate, isAnimating, isLoaded } = useMapContext();
   const currZoom = useRef<number | undefined>(map?.getView().getZoom());
 
   useEffect(() => {
@@ -24,17 +25,22 @@ export const MapInteraction = ({ children }: React.PropsWithChildren) => {
   const handleSetZoomPoint = useCallback(
     ({ coordinates, zoom }: ZoomPointArgs, animation?: boolean) => {
       animate({ center: coordinates, zoom, duration: animation ? 1000 : 0 });
-      setIsManualMode(true);
+
+      if (isLoaded) {
+        setIsManualMode(true);
+      }
     },
-    [animate]
+    [animate, isLoaded]
   );
 
   const handleManualDrag = useCallback(() => {
-    setIsManualMode(true);
-  }, []);
+    if (isLoaded) {
+      setIsManualMode(true);
+    }
+  }, [isLoaded]);
 
   const handleManualZoom = useCallback(() => {
-    if (!map) {
+    if (!map || !isLoaded) {
       return;
     }
 
@@ -43,7 +49,7 @@ export const MapInteraction = ({ children }: React.PropsWithChildren) => {
       currZoom.current = newZoom;
       setIsManualMode(true);
     }
-  }, [map]);
+  }, [map, isLoaded]);
 
   useEffect(() => {
     if (map) {

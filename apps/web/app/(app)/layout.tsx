@@ -1,5 +1,4 @@
 import { SideNavigation, TopNavigation } from "@templates/index";
-import { getCurrentUser } from "@/libs/session";
 import { MapProvider, Map } from "ui";
 
 import { MapInteraction } from "@templates/map/map-interaction/map-interaction";
@@ -16,8 +15,6 @@ export const metadata = {
 };
 
 export default async function Layout({ children, navigation }: LayoutProps) {
-  const user = await getCurrentUser();
-
   return (
     <div className="flex flex-col h-screen">
       {/* @ts-expect-error Server Component */}
