@@ -12,7 +12,11 @@ const fastify = Fastify({
   logger: true,
 });
 
-fastify.register(multipart);
+fastify.register(multipart, {
+  limits: {
+    fileSize: 10000000,
+  },
+});
 
 // Health check endpoint
 fastify.get("/health", (req, reply) => {
