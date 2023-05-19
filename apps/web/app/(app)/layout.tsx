@@ -5,6 +5,7 @@ import { MapInteraction } from "@templates/map/map-interaction/map-interaction";
 import { ResetViewButton } from "@/components";
 import { MobileMap } from "@templates/mobile-map";
 import { DesktopMap } from "@templates/desktop-map";
+import { RefreshCw } from "lucide-react";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -33,7 +34,10 @@ export default async function Layout({ children, navigation }: LayoutProps) {
             <main className="flex-col w-full h-full hidden md:flex">
               <DesktopMap>{children}</DesktopMap>
               <div className="hidden md:block absolute bottom-4 ml-4">
-                <ResetViewButton>Reset Position</ResetViewButton>
+                <ResetViewButton>
+                  <RefreshCw className="mr-2" />
+                  Reset Position
+                </ResetViewButton>
               </div>
             </main>
           </MapInteraction>
