@@ -2,7 +2,7 @@
 
 import { useMapInteractionContext } from "ui";
 import { setFellStatus } from "@/libs/actions";
-import { Locate } from "lucide-react";
+import { Loader, Locate } from "lucide-react";
 import { useTransition } from "react";
 import { Button, Checkbox, cn, ElementProps, toOSMCoordinates } from "ui";
 
@@ -37,13 +37,17 @@ export const PeakListEntry = ({
   return (
     <div className={_className} {...rest}>
       <div className="flex gap-2 py-2 items-center">
-        <Checkbox
-          disabled={disabled || isPending}
-          checked={checked}
-          // @ts-ignore
-          onClick={() => startTransition(() => setFellStatus(fell, fellGroupId, userId, !checked))}
-          className="h-6 w-6 border-gray-400"
-        />
+        {isPending ? (
+          <Loader className="animate-spin h-6 w-6 text-gray-500" />
+        ) : (
+          <Checkbox
+            disabled={disabled || isPending}
+            checked={checked}
+            // @ts-ignore
+            onClick={() => startTransition(() => setFellStatus(fell, fellGroupId, userId, !checked))}
+            className="h-6 w-6 border-gray-400"
+          />
+        )}
         <label>
           {fell.name} ({fell.metres}m)
         </label>
