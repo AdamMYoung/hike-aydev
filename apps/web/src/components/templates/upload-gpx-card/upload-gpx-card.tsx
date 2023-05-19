@@ -1,33 +1,25 @@
 "use client";
 
-import useSWRMutation from "swr/mutation";
 import { DataEntryCard, DataEntryCardTitle, DataEntryCardDescription } from "@/components/organisms";
-import { ChangeEventHandler, useEffect, useRef, useState } from "react";
+import { ChangeEventHandler, useEffect, useRef } from "react";
 
-import { Button, useInitialLoadStatus, useToast } from "ui";
+import { Button, useToast } from "ui";
 import { Loader } from "lucide-react";
-
-const uploadFile = async (url: string, { arg }: { arg: FormData }) => {
-  const res = await fetch(url, {
-    method: "POST",
-    body: arg,
-  });
-
-  return res.json();
-};
+import { useUploadGPX } from "@/hooks/use-upload-gpx";
 
 export const UploadGpxCard = () => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const hasInitiallyLoaded = useInitialLoadStatus();
   const { toast } = useToast();
-  const { trigger, isMutating } = useSWRMutation("/api/activities/manual", uploadFile);
+  const { trigger, isMutating, data } = useUploadGPX();
 
   useEffect(() => {
-    if (!isMutating && hasInitiallyLoaded) {
+    if (data) {
       toast({
         title: "Upload Successful!",
         className: "bg-green-200 border-gray-500",
-        description: `GPX file will now be processed, and any matched fells will be marked as complete.`,
+        description: `GPX file uploaded. Found ${data.total} fells along the route, ${
+          data.inserted === 0 ? "but all were already tracked." : `and tracked ${data.inserted} new entries.`
+        }`,
       });
     }
   }, [isMutating]);

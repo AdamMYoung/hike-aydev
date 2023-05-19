@@ -2,14 +2,19 @@ import { FastifyInstance } from "fastify";
 import { XMLParser } from "fast-xml-parser";
 import { lineString } from "@turf/helpers";
 
-import { getFellsOnLineString } from "../../libs/routes";
+import { getFellsOnLineString } from "../../libs/geo";
 import { prisma } from "../../libs/prisma";
+import { getUserSession } from "../../libs/user";
 
 export async function routes(fastify: FastifyInstance, options: object) {
-  fastify.post("/activities/manual/:id", async (request, reply) => {
-    console.time(request.id);
+  fastify.post("/activities/manual", async (request, reply) => {
+    const user = await getUserSession(request);
 
-    const { id: userId } = request.params as { id: string };
+    if (!user) {
+      reply.status(401).send();
+      return;
+    }
+
     const file = await request.file();
 
     // Verify file exists
@@ -24,8 +29,6 @@ export async function routes(fastify: FastifyInstance, options: object) {
     const fileStringData = (await file.toBuffer()).toString();
     const parsedGpxFile = parser.parse(fileStringData);
 
-    reply.status(201).send();
-
     // Extract matched values
     const date = new Date(parsedGpxFile.gpx.metadata.time);
     const { trkseg } = parsedGpxFile.gpx.trk;
@@ -36,14 +39,21 @@ export async function routes(fastify: FastifyInstance, options: object) {
     const matchedFells = await getFellsOnLineString(lineString(points));
 
     // Insert all matched fells into the database.
-    await prisma.logEntry.createMany({
+    const createManyResult = await prisma.logEntry.createMany({
       skipDuplicates: true,
       data: matchedFells.map((fell) => ({
         fellId: fell.id,
-        authorId: userId,
+        authorId: user.id,
         climbed: true,
         date,
       })),
+    });
+
+    console.log(matchedFells, createManyResult);
+
+    reply.status(201).send({
+      total: matchedFells.length,
+      inserted: createManyResult.count,
     });
   });
 }

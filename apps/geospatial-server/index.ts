@@ -4,18 +4,16 @@ dotenv.config();
 
 import Fastify from "fastify";
 import multipart from "@fastify/multipart";
+import cookie from "@fastify/cookie";
 
 import { routes as activities } from "./routes/activities";
 import { routes as webhook } from "./routes/webhook";
 
-const fastify = Fastify({
-  logger: true,
-});
+const fastify = Fastify({ logger: true });
 
+fastify.register(cookie);
 fastify.register(multipart, {
-  limits: {
-    fileSize: 10000000,
-  },
+  limits: { fileSize: 10000000 },
 });
 
 // Health check endpoint
@@ -23,28 +21,10 @@ fastify.get("/health", (req, reply) => {
   reply.status(200).send();
 });
 
-// Strava webhook routes
-fastify.register(webhook);
-
 // Application routes
-fastify.register((instance, opts, done) => {
-  instance.addHook("preHandler", (req, reply, done) => {
-    if (req)
-      if (req.headers["x-api-key"] === process.env.GEOSPATIAL_API_KEY) {
-        done();
-        return;
-      }
+fastify.register(webhook);
+fastify.register(activities);
 
-    reply.status(401).send();
-  });
-
-  instance.register(activities);
-  done();
-});
-
-/**
- * Run the server!
- */
 const start = async () => {
   try {
     await fastify.listen({ port: 4000, host: process.env.NODE_ENV === "production" ? "0.0.0.0" : undefined });
