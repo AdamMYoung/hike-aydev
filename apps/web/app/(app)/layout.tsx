@@ -19,7 +19,7 @@ export const metadata = {
 
 export default async function Layout({ children, navigation }: LayoutProps) {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col fixed w-full h-full">
       {/* @ts-expect-error Server Component */}
       <TopNavigation />
       <div className="grid md:grid-cols-[400px_1fr] shrink grow">
