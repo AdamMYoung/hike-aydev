@@ -14,7 +14,7 @@ export const Map = React.memo(({ children, className, ...rest }: ElementProps<"d
   const [element, setElement] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (element && map && !isMapAssigned) {
+    if (element && map) {
       setIsMapAssigned(true);
       map?.setTarget(element);
     }

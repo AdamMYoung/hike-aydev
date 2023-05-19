@@ -3,6 +3,8 @@ import { MapProvider, Map } from "ui";
 
 import { MapInteraction } from "@templates/map/map-interaction/map-interaction";
 import { ResetViewButton } from "@/components";
+import { MobileMap } from "@templates/mobile-map";
+import { DesktopMap } from "@templates/desktop-map";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -26,9 +28,10 @@ export default async function Layout({ children, navigation }: LayoutProps) {
               <div className="absolute top-0 bottom-0 left-0 right-0 bg-gray-50">
                 <SideNavigation>{navigation}</SideNavigation>
               </div>
+              <MobileMap>{children}</MobileMap>
             </div>
             <main className="flex-col w-full h-full hidden md:flex">
-              <Map>{children}</Map>
+              <DesktopMap>{children}</DesktopMap>
               <div className="hidden md:block absolute bottom-4 ml-4">
                 <ResetViewButton>Reset Position</ResetViewButton>
               </div>

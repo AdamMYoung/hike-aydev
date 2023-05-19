@@ -7630,6 +7630,16 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
+"use-breakpoint@npm:^3.0.7":
+  version: 3.0.7
+  resolution: "use-breakpoint@npm:3.0.7"
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 1d9c52e9158db7cf7ecbc2544cf7b562796126c2b778f2cb23415c986984445c3c567b7a9691c992c5a26c057542a84fbfc9227ac29670ebde53bedfe685ec6e
+  languageName: node
+  linkType: hard
+
 "use-callback-ref@npm:^1.3.0":
   version: 1.3.0
   resolution: "use-callback-ref@npm:1.3.0"
@@ -7765,6 +7775,7 @@ eslint-config-turbo@latest:
     tsconfig: "*"
     typescript: ^4.5.3
     ui: "*"
+    use-breakpoint: ^3.0.7
     zod: ^3.21.4
   languageName: unknown
   linkType: soft

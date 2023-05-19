@@ -33,6 +33,7 @@
     "server-only": "^0.0.1",
     "swr": "^2.1.5",
     "ui": "*",
+    "use-breakpoint": "^3.0.7",
     "zod": "^3.21.4"
   },
   "devDependencies": {
