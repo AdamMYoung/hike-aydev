@@ -76,15 +76,15 @@ export const TopNavigation = async ({ className, ...rest }: TopNavigationProps) 
   return (
     <div className={_className} {...rest}>
       <div className="flex gap-2 md:gap-6 items-center">
-        <span className="text-2xl md:text-3xl w-full">
-          <span className="font-semibold">Hike</span>
-          <span className="font-light">.aydev</span>
-        </span>
-
         <Suspense fallback={<MobileNavigationPlaceholder />}>
           {/* @ts-expect-error Server Component */}
           <MobileNavigation />
         </Suspense>
+
+        <span className="text-2xl md:text-3xl w-full">
+          <span className="font-semibold">Hike</span>
+          <span className="font-light">.aydev</span>
+        </span>
 
         <Separator className="h-12 hidden md:block" orientation="vertical" />
 
