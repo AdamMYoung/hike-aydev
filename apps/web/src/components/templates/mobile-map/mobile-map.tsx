@@ -27,11 +27,13 @@ export const MobileMap = ({ children }: React.PropsWithChildren) => {
           {isOpen ? <List /> : <MapIcon />}
         </Button>
       </div>
-      <div className="z-20 absolute bottom-4 left-4">
-        <ResetViewButton className="p-8 rounded-full">
-          <RefreshCw />
-        </ResetViewButton>
-      </div>
+      {isOpen ? (
+        <div className="z-20 absolute bottom-4 left-4">
+          <ResetViewButton className="p-8 rounded-full">
+            <RefreshCw />
+          </ResetViewButton>
+        </div>
+      ) : null}
       {isLoaded ? (
         <div
           className={cn(
