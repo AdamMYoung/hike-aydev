@@ -19,6 +19,7 @@ export const PeakEntry = ({ className, src, title, children, href, ...rest }: Pe
       <div className={_className} {...rest}>
         {src ? (
           <Image
+            priority
             width="0"
             height="0"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
