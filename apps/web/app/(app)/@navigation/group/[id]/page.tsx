@@ -38,7 +38,7 @@ const PeakDetailNavigationContent = async ({
             width="0"
             height="0"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="w-full h-auto [filter:brightness(0.8)]"
+            className="w-full min-h-[200px] h-auto [filter:brightness(0.8)]"
             alt=""
             src={fellGroup.imageUrl}
           />
