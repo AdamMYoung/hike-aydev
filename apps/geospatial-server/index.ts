@@ -18,7 +18,7 @@ fastify.register(multipart, {
 });
 
 // Health check endpoint
-fastify.get("/health", (req, reply) => {
+fastify.get("/health", { logLevel: "silent" }, (req, reply) => {
   reply.status(200).send();
 });
 
