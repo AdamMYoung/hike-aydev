@@ -22,14 +22,14 @@ export const MobileMap = ({ children }: React.PropsWithChildren) => {
 
   return (
     <>
-      <div className="absolute z-20 bottom-0 right-0 left-0 p-4 w-full flex justify-center md:hidden">
-        <Button onClick={() => setIsOpen((open) => !open)} className="rounded-full w-auto p-8">
+      <div className="absolute z-20 bottom-0 right-0 left-0 p-4 w-full flex justify-center md:hidden pointer-events-none">
+        <Button onClick={() => setIsOpen((open) => !open)} className="rounded-full w-auto p-8 pointer-events-auto">
           {isOpen ? <List /> : <MapIcon />}
         </Button>
       </div>
       {isOpen ? (
-        <div className="z-20 absolute bottom-4 left-4">
-          <ResetViewButton className="p-8 rounded-full">
+        <div className="z-20 absolute bottom-4 left-4 pointer-events-none">
+          <ResetViewButton className="p-8 rounded-full pointer-events-auto">
             <RefreshCw />
           </ResetViewButton>
         </div>

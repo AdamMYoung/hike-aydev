@@ -64,8 +64,8 @@ const ProfilePlaceholder = () => {
   return (
     <div className="flex gap-2 items-center">
       <Skeleton className="h-12 w-12 rounded-full" />
-      <Skeleton className="w-16 h-4" />
-      <Skeleton className="w-24 h-10 rounded-lg" />
+      <Skeleton className="w-16 h-4 hidden md:block" />
+      <Skeleton className="w-24 h-10 rounded-lg hidden md:block" />
     </div>
   );
 };

@@ -1,25 +1,6 @@
 import { FastifyRequest } from "fastify";
 import { prisma } from "./prisma";
-
-export const getUserByStravaId = async (stravaId: string) => {
-  return prisma.account.findUnique({
-    where: {
-      provider_providerAccountId: {
-        providerAccountId: stravaId,
-        provider: "strava",
-      },
-    },
-    select: {
-      access_token: true,
-      user: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
-};
+import { refreshAccessToken } from "./strava";
 
 export const getUserSession = async (request: FastifyRequest) => {
   const sessionToken = request.cookies["next-auth.session-token"];
@@ -38,4 +19,25 @@ export const getUserSession = async (request: FastifyRequest) => {
   }
 
   return session.user;
+};
+
+export const getStravaAccessToken = async ({
+  stravaId,
+  accessToken,
+  refreshToken,
+  expiresAt,
+}: {
+  stravaId: string;
+  accessToken: string;
+  refreshToken: string;
+  expiresAt: number;
+}) => {
+  let token = accessToken;
+
+  if (expiresAt && expiresAt < Math.floor(Date.now() / 1000)) {
+    const refreshedTokens = await refreshAccessToken(stravaId, refreshToken);
+    token = refreshedTokens.accessToken ?? accessToken;
+  }
+
+  return token;
 };

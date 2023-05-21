@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { prisma } from "../../libs/prisma";
 import { getFellsOnPolyline } from "../../libs/geo";
-import { refreshAccessToken } from "../../libs/strava";
+import { getStravaAccessToken } from "../../libs/user";
 
 const stravaWebhookGetSchema: RouteShorthandOptions = {
   schema: {
@@ -70,16 +70,16 @@ export async function routes(fastify: FastifyInstance, options: object) {
       },
     });
 
-    if (!stravaAccount) {
+    if (!stravaAccount || !stravaAccount.access_token || !stravaAccount.refresh_token || !stravaAccount.expires_at) {
       return;
     }
 
-    let accessToken = stravaAccount.access_token;
-
-    if (stravaAccount.expires_at && stravaAccount.expires_at < Math.floor(Date.now() / 1000)) {
-      const refreshedTokens = await refreshAccessToken(owner_id.toString(), stravaAccount.refresh_token ?? "");
-      accessToken = refreshedTokens.accessToken ?? accessToken;
-    }
+    const accessToken = await getStravaAccessToken({
+      stravaId: stravaAccount.userId,
+      accessToken: stravaAccount.access_token,
+      refreshToken: stravaAccount.refresh_token,
+      expiresAt: stravaAccount.expires_at,
+    });
 
     // Get activity of the webhook event.
     const activity = await axios.get(`https://www.strava.com/api/v3/activities/${object_id}?include_all_efforts=`, {
@@ -89,7 +89,7 @@ export async function routes(fastify: FastifyInstance, options: object) {
     });
 
     // Get all fells from the fetched activity.
-    const fellsOnPolyline = await getFellsOnPolyline(activity.data.map.polyline);
+    const fellsOnPolyline = await getFellsOnPolyline(activity.data.map.summary_polyline);
 
     // Insert all matched fells into the database.
     await prisma.logEntry.createMany({

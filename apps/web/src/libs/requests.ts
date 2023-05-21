@@ -4,6 +4,8 @@ import { cache } from "react";
 import { prisma } from "./prisma";
 import { getCachedEntry } from "./kv";
 
+const GET_STRAVA_HISTORY_EVENT = "GET_STRAVA_HISTORY";
+
 export const getFellEntry = cache(async (id: string) => {
   return getCachedEntry(`get-fell-entry-${id}`, () => prisma.fell.findUnique({ where: { id: parseInt(id) } }));
 });
@@ -195,7 +197,7 @@ export const getIsStravaLinked = async (userId?: string | null) => {
       id: userId,
     },
     select: {
-      Account: {
+      account: {
         where: {
           provider: "strava",
         },
@@ -206,5 +208,31 @@ export const getIsStravaLinked = async (userId?: string | null) => {
     },
   });
 
-  return !!userOauthToken?.Account[0]?.access_token;
+  return !!userOauthToken?.account[0]?.access_token;
+};
+
+export const getIsStravaSyncInTimeout = async (userId?: string | null) => {
+  if (!userId) {
+    return true;
+  }
+
+  const userSyncTimeouts = await prisma.user.findFirst({
+    where: {
+      id: userId,
+    },
+    select: {
+      timeouts: {
+        where: {
+          userId,
+          event: GET_STRAVA_HISTORY_EVENT,
+        },
+      },
+    },
+  });
+
+  if (!userSyncTimeouts) {
+    return false;
+  }
+
+  return userSyncTimeouts.timeouts[0].expires.getTime() > Date.now();
 };

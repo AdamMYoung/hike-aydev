@@ -1,7 +1,8 @@
 import { DataEntryCard, DataEntryCardDescription, DataEntryCardTitle } from "@/components";
 import { StravaLoginButton } from "@/components/organisms/strava-login-button";
-import { getIsStravaLinked } from "@/libs/requests";
+import { getIsStravaLinked, getIsStravaSyncInTimeout } from "@/libs/requests";
 import { getCurrentUser } from "@/libs/session";
+import { SyncStravaHistoryCard } from "@templates/sync-strava-history-card";
 import { UploadGpxCard } from "@templates/upload-gpx-card";
 import { Suspense } from "react";
 import { Skeleton } from "ui";
@@ -9,6 +10,7 @@ import { Skeleton } from "ui";
 const DataCards = async () => {
   const user = await getCurrentUser();
   const isStravaLinked = await getIsStravaLinked(user?.id);
+  const isStravaSyncTimedOut = await getIsStravaSyncInTimeout(user?.id);
 
   return (
     <div className="flex flex-col p-2 gap-2">
@@ -19,6 +21,8 @@ const DataCards = async () => {
         </DataEntryCardDescription>
         <StravaLoginButton disabled>{isStravaLinked ? "Connected" : "N/A"}</StravaLoginButton>
       </DataEntryCard>
+
+      <SyncStravaHistoryCard disabled={isStravaSyncTimedOut} />
 
       <UploadGpxCard />
     </div>

@@ -92,10 +92,20 @@ model User {
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
 
   logEntries LogEntry[]
-  Account    Account[]
-  Session    Session[]
+  account    Account[]
+  session    Session[]
+  timeouts   UserEventTimeout[]
 
   @@map(name: "users")
+}
+
+model UserEventTimeout {
+  id      String   @id @default(cuid())
+  userId  String
+  expires DateTime
+  event   String
+
+  user User @relation(fields: [userId], references: [id])
 }
 
 model VerificationToken {

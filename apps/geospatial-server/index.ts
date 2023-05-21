@@ -8,6 +8,7 @@ import cookie from "@fastify/cookie";
 
 import { routes as activities } from "./routes/activities";
 import { routes as webhook } from "./routes/webhook";
+import { routes as strava } from "./routes/strava";
 
 const fastify = Fastify({ logger: true });
 
@@ -24,6 +25,7 @@ fastify.get("/health", (req, reply) => {
 // Application routes
 fastify.register(webhook);
 fastify.register(activities);
+fastify.register(strava);
 
 const start = async () => {
   try {

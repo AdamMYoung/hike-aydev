@@ -49,8 +49,6 @@ export async function routes(fastify: FastifyInstance, options: object) {
       })),
     });
 
-    console.log(matchedFells, createManyResult);
-
     reply.status(201).send({
       total: matchedFells.length,
       inserted: createManyResult.count,
