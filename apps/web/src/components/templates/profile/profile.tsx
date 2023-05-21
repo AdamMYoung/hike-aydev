@@ -1,3 +1,4 @@
+import { SignOutButton } from "@/components/organisms/sign-out-button";
 import { getCurrentUser } from "@/libs/session";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage, Button } from "ui";
@@ -23,11 +24,8 @@ export const Profile = async () => {
         <p className="whitespace-nowrap font-medium hidden md:block">{user.name}</p>
       </div>
 
-      <Link legacyBehavior href="/api/auth/signout">
-        <Button className="whitespace-nowrap hidden md:block" variant="outline">
-          Sign out
-        </Button>
-      </Link>
+      {/* @ts-expect-error Server Component */}
+      <SignOutButton className="hidden md:block" />
     </div>
   );
 };

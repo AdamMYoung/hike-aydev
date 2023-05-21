@@ -6,11 +6,11 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button, Sheet, SheetContent, SheetHeader, SheetTrigger } from "ui";
 
-type DrawerProps = {
+type DrawerProps = React.PropsWithChildren & {
   isUserAuthenticated: boolean;
 };
 
-export const DrawerNavigation = (props: DrawerProps) => {
+export const DrawerNavigation = ({ children, ...rest }: DrawerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -21,7 +21,7 @@ export const DrawerNavigation = (props: DrawerProps) => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <DrawerNavigationButton />
-      <DrawerNavigationContent {...props} />
+      <DrawerNavigationContent {...rest}>{children}</DrawerNavigationContent>
     </Sheet>
   );
 };
@@ -34,7 +34,7 @@ const DrawerNavigationButton = () => {
   );
 };
 
-const DrawerNavigationContent = ({ isUserAuthenticated }: DrawerProps) => {
+const DrawerNavigationContent = ({ isUserAuthenticated, children }: DrawerProps) => {
   return (
     <SheetContent className="flex flex-col gap-4" position="left" size="lg">
       <SheetHeader>
@@ -60,11 +60,8 @@ const DrawerNavigationContent = ({ isUserAuthenticated }: DrawerProps) => {
           </Button>
         </Link>
       </div>
-      <Link legacyBehavior href="/api/auth/signout">
-        <Button className="whitespace-nowrap" variant="outline">
-          Sign out
-        </Button>
-      </Link>
+
+      {children}
     </SheetContent>
   );
 };

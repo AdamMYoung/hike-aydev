@@ -14,15 +14,19 @@ const DataCards = async () => {
 
   return (
     <div className="flex flex-col p-2 gap-2">
-      <DataEntryCard>
-        <DataEntryCardTitle>Strava</DataEntryCardTitle>
-        <DataEntryCardDescription>
-          Connect your Strava account to automatically track peaks using your events from Strava.
-        </DataEntryCardDescription>
-        <StravaLoginButton disabled>{isStravaLinked ? "Connected" : "N/A"}</StravaLoginButton>
-      </DataEntryCard>
+      {isStravaLinked ? (
+        <>
+          <DataEntryCard>
+            <DataEntryCardTitle>Strava</DataEntryCardTitle>
+            <DataEntryCardDescription>
+              Connect your Strava account to automatically track peaks using your events from Strava.
+            </DataEntryCardDescription>
+            <StravaLoginButton disabled>{"Connected"}</StravaLoginButton>
+          </DataEntryCard>
 
-      <SyncStravaHistoryCard disabled={isStravaSyncTimedOut} />
+          <SyncStravaHistoryCard disabled={isStravaSyncTimedOut} />
+        </>
+      ) : null}
 
       <UploadGpxCard />
     </div>

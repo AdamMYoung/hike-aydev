@@ -1,3 +1,4 @@
+import { SignOutButton } from "@/components/organisms/sign-out-button";
 import { getCurrentUser } from "@/libs/session";
 import { DrawerNavigation } from "@templates/drawer-navigation";
 import { Profile } from "@templates/profile";
@@ -12,7 +13,12 @@ const MobileNavigation = async () => {
   const user = await getCurrentUser();
   const isUserAuthenticated = !!user;
 
-  return <DrawerNavigation isUserAuthenticated={isUserAuthenticated} />;
+  return (
+    <DrawerNavigation isUserAuthenticated={isUserAuthenticated}>
+      {/* @ts-expect-error Server Component */}
+      <SignOutButton />
+    </DrawerNavigation>
+  );
 };
 
 const MobileNavigationPlaceholder = () => {
