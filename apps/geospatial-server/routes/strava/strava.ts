@@ -48,6 +48,14 @@ export async function routes(fastify: FastifyInstance, options: object) {
       return;
     }
 
+    await prisma.userEventTimeout.create({
+      data: {
+        userId: user.id,
+        event: GET_STRAVA_HISTORY_EVENT,
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 1 Day,
+      },
+    });
+
     reply.status(200).send("Processing routes");
 
     const accessToken = await getStravaAccessToken({
@@ -104,14 +112,6 @@ export async function routes(fastify: FastifyInstance, options: object) {
         date,
         climbed: true,
       })),
-    });
-
-    await prisma.userEventTimeout.create({
-      data: {
-        userId: user.id,
-        event: GET_STRAVA_HISTORY_EVENT,
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 1 Day,
-      },
     });
   });
 }

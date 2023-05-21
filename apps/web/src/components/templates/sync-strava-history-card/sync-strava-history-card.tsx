@@ -1,7 +1,7 @@
 "use client";
 
 import { DataEntryCard, DataEntryCardTitle, DataEntryCardDescription } from "@/components/organisms";
-import { ChangeEventHandler, useEffect, useRef } from "react";
+import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 
 import { Button, useToast } from "ui";
 import { Loader } from "lucide-react";
@@ -13,10 +13,12 @@ type SyncStravaHistoryCardProps = {
 
 export const SyncStravaHistoryCard = ({ disabled }: SyncStravaHistoryCardProps) => {
   const { toast } = useToast();
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const { trigger, isMutating, data } = useSyncStravaHistory();
 
   useEffect(() => {
     if (data) {
+      setIsSubmitted(true);
       toast({
         title: "History sync request sent!",
         className: "bg-green-200 border-gray-500",
@@ -32,10 +34,10 @@ export const SyncStravaHistoryCard = ({ disabled }: SyncStravaHistoryCardProps) 
         Pull all hiking events from Strava, and sync them with hike.aydev.uk. (Note: This process can take a while with
         many activities, and as such is limited to once a day.)
       </DataEntryCardDescription>
-      <Button disabled={isMutating || disabled} onClick={() => trigger()} variant="outline">
+      <Button disabled={isMutating || disabled || isSubmitted} onClick={() => trigger()} variant="outline">
         {isMutating ? (
           <Loader className="animate-spin" />
-        ) : disabled ? (
+        ) : disabled || isSubmitted ? (
           "Sync performed recently, try again later"
         ) : (
           "Sync History"
