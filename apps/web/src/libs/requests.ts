@@ -230,7 +230,7 @@ export const getIsStravaSyncInTimeout = async (userId?: string | null) => {
     },
   });
 
-  if (!userSyncTimeouts) {
+  if (!userSyncTimeouts || !userSyncTimeouts.timeouts[0]) {
     return false;
   }
 
