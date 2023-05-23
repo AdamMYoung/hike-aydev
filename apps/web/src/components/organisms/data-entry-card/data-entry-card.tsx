@@ -19,12 +19,12 @@ export const DataEntryCardTitle = ({ className, children, ...rest }: ElementProp
   );
 };
 
-export const DataEntryCardDescription = ({ className, children, ...rest }: ElementProps<"p">) => {
+export const DataEntryCardDescription = ({ className, children, ...rest }: ElementProps<"div">) => {
   const _className = cn("text-sm font-light", className);
 
   return (
-    <p className={_className} {...rest}>
+    <div className={_className} {...rest}>
       {children}
-    </p>
+    </div>
   );
 };

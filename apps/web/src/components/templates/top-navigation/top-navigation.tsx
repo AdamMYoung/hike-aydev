@@ -50,6 +50,11 @@ const DesktopLinks = async () => {
           Data
         </Button>
       </Link>
+      <Link legacyBehavior href="/profile">
+        <Button className="text-md px-0 font-normal" variant="link" disabled={!isUserAuthenticated}>
+          Profile
+        </Button>
+      </Link>
     </div>
   );
 };
@@ -60,6 +65,21 @@ const DesktopLinksPlaceholder = () => {
       <Link legacyBehavior href="/">
         <Button className="text-md px-0 font-normal" variant="link">
           Fells
+        </Button>
+      </Link>
+      <Link legacyBehavior href="/timeline">
+        <Button variant="link" className="text-md px-0 font-normal" disabled>
+          Timeline
+        </Button>
+      </Link>
+      <Link legacyBehavior href="/data">
+        <Button className="text-md px-0 font-normal" variant="link" disabled>
+          Data
+        </Button>
+      </Link>
+      <Link legacyBehavior href="/profile">
+        <Button className="text-md px-0 font-normal" variant="link" disabled>
+          Profile
         </Button>
       </Link>
     </div>
