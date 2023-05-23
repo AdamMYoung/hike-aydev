@@ -19,7 +19,7 @@ const ProfileContent = async () => {
         <DataEntryCardTitle>Share</DataEntryCardTitle>
         <DataEntryCardDescription className="flex flex-col gap-4">
           <p className="text-sm font-light">Share your progress using the link below.</p>
-          <input className="text-base border px-2 py-1 rounded" disabled value="https://hike.aydev.uk/dp123od" />
+          <input className="text-base border px-2.5 py-2 rounded" disabled value="https://hike.aydev.uk/dp123od" />
         </DataEntryCardDescription>
       </DataEntryCard>
 
@@ -33,11 +33,11 @@ const ProfileContent = async () => {
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-1">
                 <Label htmlFor="name">Name</Label>
-                <input id="name" className="text-base border px-2 py-1 rounded" defaultValue={user.name ?? ""} />
+                <input id="name" className="text-base border px-2.5 py-2 rounded" defaultValue={user.name ?? ""} />
               </div>
               <div className="flex flex-col gap-1">
                 <Label htmlFor="email">Email</Label>
-                <input id="email" className="text-base border px-2 py-1 rounded" defaultValue={user.email ?? ""} />
+                <input id="email" className="text-base border px-2.5 py-2 rounded" defaultValue={user.email ?? ""} />
               </div>
             </div>
             <div className="flex">
