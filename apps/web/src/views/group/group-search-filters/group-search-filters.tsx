@@ -1,9 +1,9 @@
 "use client";
 
-import debounce from 'lodash.debounce';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
-import { Checkbox, Input, Label } from 'ui';
+import debounce from "lodash.debounce";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
+import { Checkbox, Input, Label } from "ui";
 
 type GroupSearchFiltersProps = {
   isUserAuthenticated: boolean;
@@ -29,6 +29,7 @@ export const GroupSearchFilters = ({ isUserAuthenticated }: GroupSearchFiltersPr
     [searchParams]
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
     debounce((e) => {
       const query = createQueryString("searchTerm", e.target.value);

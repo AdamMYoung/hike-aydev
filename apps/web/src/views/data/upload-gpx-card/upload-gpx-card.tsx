@@ -1,13 +1,11 @@
 "use client";
 
-import { Loader } from 'lucide-react';
-import { ChangeEventHandler, useEffect, useRef } from 'react';
-import { Button, useToast } from 'ui';
+import { Loader } from "lucide-react";
+import { ChangeEventHandler, useEffect, useRef } from "react";
+import { Button, useToast } from "ui";
 
-import {
-    DataEntryCard, DataEntryCardDescription, DataEntryCardTitle
-} from '@/components/organisms';
-import { useUploadGPX } from '@/hooks/use-upload-gpx';
+import { DataEntryCard, DataEntryCardDescription, DataEntryCardTitle } from "@/components/organisms";
+import { useUploadGPX } from "@/hooks/use-upload-gpx";
 
 export const UploadGpxCard = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -24,7 +22,7 @@ export const UploadGpxCard = () => {
         }`,
       });
     }
-  }, [isMutating]);
+  }, [isMutating, data, toast]);
 
   const handleClick = () => {
     inputRef.current?.click();
