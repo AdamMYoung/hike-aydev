@@ -1,15 +1,15 @@
 "use client";
 
-import { Extent } from "ol/extent";
-import { SimpleGeometry } from "ol/geom";
-import TileLayer from "ol/layer/Tile";
-import OLMap from "ol/Map";
-import OSM from "ol/source/OSM";
-import { AnimationOptions, FitOptions } from "ol/View";
-import React, { useState, useEffect, useCallback } from "react";
+import { Extent } from 'ol/extent';
+import { SimpleGeometry } from 'ol/geom';
+import TileLayer from 'ol/layer/Tile';
+import OLMap from 'ol/Map';
+import OSM from 'ol/source/OSM';
+import { AnimationOptions, FitOptions } from 'ol/View';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { useInitialLoadStatus } from "../../hooks";
-import { createContext } from "../../lib";
+import { useInitialLoadStatus } from '../../hooks';
+import { createContext } from '../../lib';
 
 type MapContextOptions = {
   map: OLMap | null;

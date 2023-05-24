@@ -1,8 +1,9 @@
-import { PeakEntry } from "@/components/organisms";
-import { getFellGroups, getUserFellGroupCompletion } from "@/libs/requests";
-import { getCurrentUser } from "@/libs/session";
-import { Suspense } from "react";
-import { Skeleton } from "ui";
+import { Suspense } from 'react';
+import { Skeleton } from 'ui';
+
+import { PeakEntry } from '@/components/organisms';
+import { getFellGroups, getUserFellGroupCompletion } from '@/libs/requests';
+import { getCurrentUser } from '@/libs/session';
 
 const NavigationEntries = async () => {
   const [user, entries] = await Promise.all([getCurrentUser(), getFellGroups()]);

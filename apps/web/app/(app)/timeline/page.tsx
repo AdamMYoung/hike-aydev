@@ -1,8 +1,9 @@
-import { getMapUserTimeline } from "@/libs/requests";
-import { getCurrentUser } from "@/libs/session";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { PinGroup, Pin, toOSMCoordinates, ZoomPoint } from "ui";
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import { Pin, PinGroup, toOSMCoordinates, ZoomPoint } from 'ui';
+
+import { getMapUserTimeline } from '@/libs/requests';
+import { getCurrentUser } from '@/libs/session';
 
 type GroupProps = {
   params: { id: string };

@@ -1,12 +1,13 @@
-import Link from "next/link";
-import { Button, Separator, Skeleton } from "ui";
-import { getFellGroup, getUserLogEntries } from "@/libs/requests";
-import { notFound, useSearchParams } from "next/navigation";
-import { getCurrentUser } from "@/libs/session";
-import { PeakListEntry } from "@/components/organisms/peak-list-entry";
-import { GroupSearchFilters } from "@templates/group-search-filters";
-import { Suspense } from "react";
-import Image from "next/image";
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import { Button, Separator, Skeleton } from 'ui';
+
+import { getFellGroup, getUserLogEntries } from '@/libs/requests';
+import { getCurrentUser } from '@/libs/session';
+import { GroupSearchFilters } from '@/views/group/group-search-filters';
+import { PeakListEntry } from '@/views/group/peak-list-entry';
 
 type PeakDetailNavigationProps = {
   params: { id: string };

@@ -1,5 +1,5 @@
-import { Coordinate } from "ol/coordinate";
-import proj4 from "proj4";
+import { Coordinate } from 'ol/coordinate';
+import proj4 from 'proj4';
 
 // OSM Projection (Google Maps, OSM)
 proj4.defs(

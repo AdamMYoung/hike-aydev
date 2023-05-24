@@ -1,14 +1,15 @@
 // ESM
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
+import Fastify from 'fastify';
+
+import cookie from '@fastify/cookie';
+import multipart from '@fastify/multipart';
+
+import { routes as activities } from './routes/activities';
+import { routes as strava } from './routes/strava';
+import { routes as webhook } from './routes/webhook';
+
 dotenv.config();
-
-import Fastify from "fastify";
-import multipart from "@fastify/multipart";
-import cookie from "@fastify/cookie";
-
-import { routes as activities } from "./routes/activities";
-import { routes as webhook } from "./routes/webhook";
-import { routes as strava } from "./routes/strava";
 
 const fastify = Fastify({ logger: true });
 

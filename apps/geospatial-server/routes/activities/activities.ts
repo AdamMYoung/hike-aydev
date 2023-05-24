@@ -1,10 +1,11 @@
-import { FastifyInstance } from "fastify";
-import { XMLParser } from "fast-xml-parser";
-import { lineString } from "@turf/helpers";
+import { XMLParser } from 'fast-xml-parser';
+import { FastifyInstance } from 'fastify';
 
-import { getFellsOnLineString } from "../../libs/geo";
-import { prisma } from "../../libs/prisma";
-import { getUserSession } from "../../libs/user";
+import { lineString } from '@turf/helpers';
+
+import { getFellsOnLineString } from '../../libs/geo';
+import { prisma } from '../../libs/prisma';
+import { getUserSession } from '../../libs/user';
 
 export async function routes(fastify: FastifyInstance, options: object) {
   fastify.post("/activities/manual", async (request, reply) => {

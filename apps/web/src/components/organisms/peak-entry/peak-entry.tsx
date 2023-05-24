@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ElementProps, cn } from "ui";
+import Image from 'next/image';
+import Link from 'next/link';
+import { cn, ElementProps } from 'ui';
 
 type PeakEntryProps = ElementProps<"div"> & {
   src?: string;

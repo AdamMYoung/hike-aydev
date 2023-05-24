@@ -1,9 +1,10 @@
-import { TimelineCard } from "@/components/organisms/timeline-card";
-import { getUserTimeline } from "@/libs/requests";
-import { getCurrentUser } from "@/libs/session";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { Skeleton } from "ui";
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import { Skeleton } from 'ui';
+
+import { getUserTimeline } from '@/libs/requests';
+import { getCurrentUser } from '@/libs/session';
+import { TimelineCard } from '@/views/timeline/timeline-card';
 
 const TimelineEntries = async () => {
   const user = await getCurrentUser();

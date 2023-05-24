@@ -1,4 +1,4 @@
-import useSWRMutation from "swr/mutation";
+import useSWRMutation from 'swr/mutation';
 
 type UploadGPXResult = {
   total: number;

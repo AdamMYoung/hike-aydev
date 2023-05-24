@@ -1,7 +1,8 @@
-import { UserAuthForm } from "@templates/user-auth-form";
-import Link from "next/link";
-import { Suspense } from "react";
-import { cn, buttonVariants } from "ui";
+import Link from 'next/link';
+import { Suspense } from 'react';
+import { buttonVariants, cn } from 'ui';
+
+import { UserAuthForm } from '@/views/auth/user-auth-form';
 
 export const metadata = {
   title: "Create an account",

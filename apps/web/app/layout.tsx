@@ -1,8 +1,9 @@
-import { Toaster } from "ui";
-import { Analytics } from "@vercel/analytics/react";
-import { Jost } from "next/font/google";
+import '../styles/globals.css';
 
-import "../styles/globals.css";
+import { Jost } from 'next/font/google';
+import { Toaster } from 'ui';
+
+import { Analytics } from '@vercel/analytics/react';
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
 

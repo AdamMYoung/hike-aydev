@@ -1,4 +1,4 @@
-import useSWRMutation from "swr/mutation";
+import useSWRMutation from 'swr/mutation';
 
 const syncStravaHistory = async (url: string) => {
   await fetch(url, {

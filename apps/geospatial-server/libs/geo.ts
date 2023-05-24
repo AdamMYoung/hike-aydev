@@ -1,8 +1,9 @@
-import { decode } from "@googlemaps/polyline-codec";
-import circle from "@turf/circle";
-import { Feature, LineString, lineString } from "@turf/helpers";
-import booleanIntersects from "@turf/boolean-intersects";
-import { FellPoint, getFellPoints } from "./requests";
+import { decode } from '@googlemaps/polyline-codec';
+import booleanIntersects from '@turf/boolean-intersects';
+import circle from '@turf/circle';
+import { Feature, LineString, lineString } from '@turf/helpers';
+
+import { FellPoint, getFellPoints } from './requests';
 
 export const getFellsOnPolyline = async (polyline: string) => {
   const decodedPolyline = decode(polyline);

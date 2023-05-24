@@ -1,14 +1,7 @@
 {
   "extends": "tsconfig/nextjs.json",
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "plugins": [
       {
@@ -17,15 +10,10 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@templates/*": [
-        "./src/components/templates/*"
-      ],
-      "@atoms/*": [
-        "./src/components/atoms/*"
-      ],
-      "@/*": [
-        "./src/*"
-      ]
+      "@views/*": ["./src/views/*"],
+      "@templates/*": ["./src/components/templates/*"],
+      "@atoms/*": ["./src/components/atoms/*"],
+      "@/*": ["./src/*"]
     },
     "strictNullChecks": true
   }

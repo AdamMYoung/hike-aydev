@@ -1,10 +1,10 @@
-import { Metadata } from "next";
-import Link from "next/link";
+import { ChevronLeft } from 'lucide-react';
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { Suspense } from 'react';
+import { buttonVariants, cn } from 'ui';
 
-import { ChevronLeft } from "lucide-react";
-import { buttonVariants, cn } from "ui";
-import { UserAuthForm } from "@templates/user-auth-form";
-import { Suspense } from "react";
+import { UserAuthForm } from '@/views/auth/user-auth-form';
 
 export const metadata: Metadata = {
   title: "Login",

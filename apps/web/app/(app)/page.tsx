@@ -1,7 +1,8 @@
-import { getMapUserTimeline } from "@/libs/requests";
-import { getCurrentUser } from "@/libs/session";
-import { Suspense } from "react";
-import { Pin, PinGroup, toOSMCoordinates, ZoomPoint } from "ui";
+import { Suspense } from 'react';
+import { Pin, PinGroup, toOSMCoordinates, ZoomPoint } from 'ui';
+
+import { getMapUserTimeline } from '@/libs/requests';
+import { getCurrentUser } from '@/libs/session';
 
 const MapEntries = async () => {
   const user = await getCurrentUser();

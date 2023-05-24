@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
-import Feature from "ol/Feature.js";
-import Point from "ol/geom/Point.js";
-import { Icon, Style } from "ol/style.js";
-import { useMapContext } from "../map.context";
-import { Coordinate } from "ol/coordinate";
-import { usePinGroupContext } from "../pin-group/pin-group.context";
-import { toOSMCoordinates } from "../../../lib";
-import React from "react";
+import { Coordinate } from 'ol/coordinate';
+import Feature from 'ol/Feature.js';
+import Point from 'ol/geom/Point.js';
+import { Icon, Style } from 'ol/style.js';
+import React, { useEffect } from 'react';
+
+import { toOSMCoordinates } from '../../../lib';
+import { useMapContext } from '../map.context';
+import { usePinGroupContext } from '../pin-group/pin-group.context';
 
 type PinProps = {
   iconSrc: string;

@@ -1,4 +1,4 @@
-import kv from "@vercel/kv";
+import kv from '@vercel/kv';
 
 export const getCachedEntry = async <T extends unknown>(key: string, req: () => Promise<T>) => {
   if (process.env.VERCEL_ENV !== "production") {

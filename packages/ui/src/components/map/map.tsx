@@ -1,9 +1,9 @@
 "use client";
 
-import { cn, ElementProps } from "../../lib";
-import { useEffect, useState } from "react";
-import { useMapContext } from "./map.context";
-import React from "react";
+import React, { useEffect, useState } from 'react';
+
+import { cn, ElementProps } from '../../lib';
+import { useMapContext } from './map.context';
 
 export type MapProps = ElementProps<"div"> & {};
 

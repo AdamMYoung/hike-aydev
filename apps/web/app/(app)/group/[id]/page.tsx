@@ -1,9 +1,10 @@
-import { getMapFellGroup, getUserLogEntries } from "@/libs/requests";
-import { getCurrentUser } from "@/libs/session";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { PinGroup } from "ui";
-import { GroupPin } from "./group-pin";
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import { PinGroup } from 'ui';
+
+import { getMapFellGroup, getUserLogEntries } from '@/libs/requests';
+import { getCurrentUser } from '@/libs/session';
+import { GroupPin } from '@views/group/group-pin';
 
 type GroupProps = {
   params: { id: string };

@@ -1,8 +1,9 @@
 import "server-only";
 
 import { cache } from "react";
-import { prisma } from "./prisma";
+
 import { getCachedEntry } from "./kv";
+import { prisma } from "./prisma";
 
 const GET_STRAVA_HISTORY_EVENT = "GET_STRAVA_HISTORY";
 

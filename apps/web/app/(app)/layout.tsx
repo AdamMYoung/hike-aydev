@@ -1,11 +1,12 @@
-import { SideNavigation, TopNavigation } from "@templates/index";
-import { MapProvider, Map } from "ui";
+import { RefreshCw } from 'lucide-react';
+import { MapProvider } from 'ui';
 
-import { MapInteraction } from "@templates/map/map-interaction/map-interaction";
-import { ResetViewButton } from "@/components";
-import { MobileMap } from "@templates/mobile-map";
-import { DesktopMap } from "@templates/desktop-map";
-import { RefreshCw } from "lucide-react";
+import { DesktopMap } from '@/views/layout/desktop-map';
+import { MapInteraction } from '@/views/layout/map/map-interaction';
+import { MobileMap } from '@views/layout/mobile-map';
+import { SideNavigation } from '@views/layout/side-navigation';
+import { TopNavigation } from '@views/layout/top-navigation';
+import { ResetViewButton } from '@views/shared/reset-view-button';
 
 type LayoutProps = {
   children: React.ReactNode;

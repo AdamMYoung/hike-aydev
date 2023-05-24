@@ -1,9 +1,9 @@
 "use server";
 
-import { Fell } from "database";
-import { revalidatePath } from "next/cache";
+import { Fell } from 'database';
+import { revalidatePath } from 'next/cache';
 
-import { prisma } from "./prisma";
+import { prisma } from './prisma';
 
 export const setFellStatus = async (fell: Fell, fellGroupId: number, userId: string | null, completed: boolean) => {
   if (!userId) {

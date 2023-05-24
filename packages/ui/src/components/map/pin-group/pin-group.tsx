@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef } from "react";
-import VectorSource from "ol/source/Vector.js";
-import { Vector as VectorLayer } from "ol/layer.js";
-import { useMapContext } from "../map.context";
-import { PinGroupContextProvider } from "./pin-group.context";
-import { Feature } from "ol";
-import debounce from "lodash.debounce";
-import { useMapInteractionContext } from "../../../context";
+import debounce from 'lodash.debounce';
+import { Feature } from 'ol';
+import { Vector as VectorLayer } from 'ol/layer.js';
+import VectorSource from 'ol/source/Vector.js';
+import React, { useCallback, useEffect, useRef } from 'react';
+
+import { useMapInteractionContext } from '../../../context';
+import { useMapContext } from '../map.context';
+import { PinGroupContextProvider } from './pin-group.context';
 
 type PinGroupProps = React.PropsWithChildren & {
   disableAnimation?: boolean;

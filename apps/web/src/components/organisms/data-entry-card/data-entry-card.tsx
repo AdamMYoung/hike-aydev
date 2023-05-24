@@ -1,4 +1,4 @@
-import { cn, ElementProps } from "ui";
+import { cn, ElementProps } from 'ui';
 
 export const DataEntryCard = ({ className, children, ...rest }: ElementProps<"div">) => {
   const _className = cn("flex flex-col gap-2 p-4 rounded-lg border bg-white", className);

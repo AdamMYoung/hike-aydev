@@ -1,10 +1,10 @@
-import { FastifyInstance } from "fastify";
-import axios from "axios";
+import axios from 'axios';
+import { FastifyInstance } from 'fastify';
 
-import { getFellsOnPolyline } from "../../libs/geo";
-import { prisma } from "../../libs/prisma";
-import { getStravaAccessToken, getUserSession } from "../../libs/user";
-import { FellPoint } from "../../libs/requests";
+import { getFellsOnPolyline } from '../../libs/geo';
+import { prisma } from '../../libs/prisma';
+import { FellPoint } from '../../libs/requests';
+import { getStravaAccessToken, getUserSession } from '../../libs/user';
 
 const GET_STRAVA_HISTORY_EVENT = "GET_STRAVA_HISTORY";
 

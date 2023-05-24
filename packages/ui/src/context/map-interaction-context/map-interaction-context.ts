@@ -1,7 +1,8 @@
 "use client";
 
-import { createContext } from "../../lib/context";
-import { Coordinate } from "ol/coordinate";
+import { Coordinate } from 'ol/coordinate';
+
+import { createContext } from '../../lib/context';
 
 export type ZoomPointArgs = { coordinates: Coordinate; zoom: number };
 

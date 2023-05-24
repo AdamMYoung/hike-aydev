@@ -1,11 +1,12 @@
-import { DataEntryCard, DataEntryCardDescription, DataEntryCardTitle } from "@/components";
-import { StravaLoginButton } from "@/components/organisms/strava-login-button";
-import { getIsStravaLinked, getIsStravaSyncInTimeout } from "@/libs/requests";
-import { getCurrentUser } from "@/libs/session";
-import { SyncStravaHistoryCard } from "@templates/sync-strava-history-card";
-import { UploadGpxCard } from "@templates/upload-gpx-card";
 import { Suspense } from "react";
 import { Skeleton } from "ui";
+
+import { getIsStravaLinked, getIsStravaSyncInTimeout } from "@/libs/requests";
+import { getCurrentUser } from "@/libs/session";
+import { StravaLoginButton } from "@/views/auth/strava-login-button";
+import { SyncStravaHistoryCard } from "@/views/data/sync-strava-history-card";
+import { UploadGpxCard } from "@/views/data/upload-gpx-card";
+import { DataEntryCard, DataEntryCardDescription, DataEntryCardTitle } from "@/components/organisms";
 
 const DataCards = async () => {
   const user = await getCurrentUser();

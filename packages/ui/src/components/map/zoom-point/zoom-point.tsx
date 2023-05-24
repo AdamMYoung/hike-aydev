@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
-import { useMapContext } from "../map.context";
-import { Coordinate } from "ol/coordinate";
-import React from "react";
-import { useMapInteractionContext } from "../../../context";
+import { Coordinate } from 'ol/coordinate';
+import React, { useEffect } from 'react';
+
+import { useMapInteractionContext } from '../../../context';
+import { useMapContext } from '../map.context';
 
 type ZoomPointProps = {
   coordinates: Coordinate;

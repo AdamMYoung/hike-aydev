@@ -1,9 +1,9 @@
-import { FastifyInstance, RouteShorthandOptions } from "fastify";
-import axios from "axios";
+import axios from 'axios';
+import { FastifyInstance, RouteShorthandOptions } from 'fastify';
 
-import { prisma } from "../../libs/prisma";
-import { getFellsOnPolyline } from "../../libs/geo";
-import { getStravaAccessToken } from "../../libs/user";
+import { getFellsOnPolyline } from '../../libs/geo';
+import { prisma } from '../../libs/prisma';
+import { getStravaAccessToken } from '../../libs/user';
 
 const stravaWebhookGetSchema: RouteShorthandOptions = {
   schema: {
