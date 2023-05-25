@@ -1,10 +1,11 @@
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import { PinGroup } from 'ui';
+import { notFound } from "next/navigation";
+import { Suspense, cache } from "react";
+import { PinGroup } from "ui";
 
-import { getMapFellGroup, getUserLogEntries } from '@/libs/requests';
-import { getCurrentUser } from '@/libs/session';
-import { GroupPin } from '@views/group/group-pin';
+import { getCurrentUser } from "@/libs/session";
+import { GroupPin } from "@views/group/group-pin";
+import { getUserTimelineById } from "database";
+import { getCachedFellGroup, getCachedFells } from "@/libs/cache";
 
 type GroupProps = {
   params: { id: string };
@@ -19,20 +20,24 @@ const GroupEntries = async ({
   params: { id },
   searchParams: { hideComplete, hideIncomplete, searchTerm },
 }: GroupProps) => {
-  const [fellGroup, user] = await Promise.all([getMapFellGroup(id), getCurrentUser()]);
+  const [fellGroup, fells, user] = await Promise.all([
+    getCachedFellGroup(parseInt(id)),
+    getCachedFells(parseInt(id)),
+    getCurrentUser(),
+  ]);
 
   if (!fellGroup) {
     notFound();
   }
 
-  const logEntries = await getUserLogEntries(user?.id);
+  const logEntries = await getUserTimelineById(user?.id);
 
   return (
     <PinGroup>
-      {fellGroup.fells
+      {fells
         .filter((f) => (!searchTerm ? true : f.name.toLowerCase().includes(searchTerm.toLowerCase())))
         .map((fell) => {
-          const isCompleted = !!logEntries.find((e) => e.climbed && e.fellId === fell.id);
+          const isCompleted = !!logEntries.find((e) => e.climbed && e.fell.id === fell.id);
 
           if (hideComplete === "true" && isCompleted && user) {
             return null;

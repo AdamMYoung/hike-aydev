@@ -59,11 +59,11 @@ const DrawerNavigationContent = ({ isUserAuthenticated, children }: DrawerProps)
             Data
           </Button>
         </Link>
-        <Link legacyBehavior href="/profile">
+        {/* <Link legacyBehavior href="/profile">
           <Button className="text-md px-0 font-normal" variant="link" disabled={!isUserAuthenticated}>
             Profile
           </Button>
-        </Link>
+        </Link> */}
       </div>
 
       {children}

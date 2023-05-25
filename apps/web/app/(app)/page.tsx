@@ -1,8 +1,8 @@
-import { Suspense } from 'react';
-import { Pin, PinGroup, toOSMCoordinates, ZoomPoint } from 'ui';
+import { Suspense } from "react";
+import { Pin, PinGroup, toOSMCoordinates, ZoomPoint } from "ui";
 
-import { getMapUserTimeline } from '@/libs/requests';
-import { getCurrentUser } from '@/libs/session';
+import { getCurrentUser } from "@/libs/session";
+import { getUserTimelineById } from "database";
 
 const MapEntries = async () => {
   const user = await getCurrentUser();
@@ -11,7 +11,7 @@ const MapEntries = async () => {
     return <ZoomPoint coordinates={toOSMCoordinates([-2.5478, 54.0039])} />;
   }
 
-  const timeline = await getMapUserTimeline(user.id);
+  const timeline = await getUserTimelineById(user.id);
 
   return (
     <>

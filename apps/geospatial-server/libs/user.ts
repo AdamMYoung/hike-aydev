@@ -1,7 +1,7 @@
-import { FastifyRequest } from 'fastify';
+import { FastifyRequest } from "fastify";
 
-import { prisma } from './prisma';
-import { refreshAccessToken } from './strava';
+import { refreshAccessToken } from "./strava";
+import { prisma } from "database";
 
 export const getUserSession = async (request: FastifyRequest) => {
   const sessionToken = request.cookies["next-auth.session-token"];

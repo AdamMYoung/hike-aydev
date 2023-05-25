@@ -1,7 +1,6 @@
-import axios from 'axios';
-import { TokenSet } from 'next-auth';
-
-import { prisma } from './prisma';
+import axios from "axios";
+import { prisma } from "database";
+import { TokenSet } from "next-auth";
 
 /**
  * Takes a token, and returns a new token with updated

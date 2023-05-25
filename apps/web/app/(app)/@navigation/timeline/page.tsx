@@ -1,10 +1,10 @@
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import { Skeleton } from 'ui';
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { Skeleton } from "ui";
 
-import { getUserTimeline } from '@/libs/requests';
-import { getCurrentUser } from '@/libs/session';
-import { TimelineCard } from '@/views/timeline/timeline-card';
+import { getCurrentUser } from "@/libs/session";
+import { TimelineCard } from "@/views/timeline/timeline-card";
+import { getUserTimelineById } from "database";
 
 const TimelineEntries = async () => {
   const user = await getCurrentUser();
@@ -13,7 +13,7 @@ const TimelineEntries = async () => {
     notFound();
   }
 
-  const userEntries = await getUserTimeline(user?.id);
+  const userEntries = await getUserTimelineById(user?.id);
 
   const groupedEntries = userEntries.reduce(
     (prev, curr) => {

@@ -1,10 +1,9 @@
-import { NextAuthOptions } from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-import StravaProvider from 'next-auth/providers/strava';
+import { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import StravaProvider from "next-auth/providers/strava";
 
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-
-import { prisma } from './prisma';
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { prisma } from "database";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),

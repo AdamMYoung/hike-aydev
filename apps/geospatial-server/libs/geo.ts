@@ -1,9 +1,9 @@
-import { decode } from '@googlemaps/polyline-codec';
-import booleanIntersects from '@turf/boolean-intersects';
-import circle from '@turf/circle';
-import { Feature, LineString, lineString } from '@turf/helpers';
-
-import { FellPoint, getFellPoints } from './requests';
+import { decode } from "@googlemaps/polyline-codec";
+import booleanIntersects from "@turf/boolean-intersects";
+import circle from "@turf/circle";
+import { Feature, LineString, lineString } from "@turf/helpers";
+import { getAllFells } from "database";
+import { FellDTO } from "database/src/types";
 
 export const getFellsOnPolyline = async (polyline: string) => {
   const decodedPolyline = decode(polyline);
@@ -14,7 +14,7 @@ export const getFellsOnPolyline = async (polyline: string) => {
 };
 
 export const getFellsOnLineString = async (lineString: Feature<LineString>) => {
-  const points = await getFellPoints();
+  const points = await getAllFells();
 
   return points.reduce((prev, curr) => {
     const pointCircle = circle([curr.lng, curr.lat], 0.1);
@@ -25,5 +25,5 @@ export const getFellsOnLineString = async (lineString: Feature<LineString>) => {
     }
 
     return prev;
-  }, [] as FellPoint[]);
+  }, [] as FellDTO[]);
 };

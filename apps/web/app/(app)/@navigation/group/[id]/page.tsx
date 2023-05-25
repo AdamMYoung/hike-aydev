@@ -1,13 +1,14 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import { Button, Separator, Skeleton } from 'ui';
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { Button, Separator, Skeleton } from "ui";
 
-import { getFellGroup, getUserLogEntries } from '@/libs/requests';
-import { getCurrentUser } from '@/libs/session';
-import { GroupSearchFilters } from '@/views/group/group-search-filters';
-import { PeakListEntry } from '@/views/group/peak-list-entry';
+import { getCurrentUser } from "@/libs/session";
+import { GroupSearchFilters } from "@/views/group/group-search-filters";
+import { PeakListEntry } from "@/views/group/peak-list-entry";
+import { getUserTimelineById } from "database";
+import { getCachedFellGroup, getCachedFells } from "@/libs/cache";
 
 type PeakDetailNavigationProps = {
   params: { id: string };
@@ -22,14 +23,15 @@ const PeakDetailNavigationContent = async ({
   params: { id },
   searchParams: { hideComplete, hideIncomplete, searchTerm },
 }: PeakDetailNavigationProps) => {
-  const fellGroup = await getFellGroup(id);
+  const [fellGroup, fells] = await Promise.all([getCachedFellGroup(parseInt(id)), getCachedFells(parseInt(id))]);
+
   const user = await getCurrentUser();
 
   if (!fellGroup) {
     notFound();
   }
 
-  const logEntries = await getUserLogEntries(user?.id);
+  const logEntries = await getUserTimelineById(user?.id);
 
   return (
     <div className="bg-white">
@@ -61,11 +63,11 @@ const PeakDetailNavigationContent = async ({
 
         <div className="w-full space-y-4">
           <div className="px-4 py-2">
-            {fellGroup.fells
+            {fells
               .sort((a, b) => a.name.localeCompare(b.name))
               .filter((f) => (!searchTerm ? true : f.name.toLowerCase().includes(searchTerm.toLowerCase())))
               .map((fell) => {
-                const isCompleted = !!logEntries.find((e) => e.climbed && e.fellId === fell.id);
+                const isCompleted = !!logEntries.find((e) => e.climbed && e.fell.id === fell.id);
 
                 if (hideComplete === "true" && isCompleted && user) {
                   return null;

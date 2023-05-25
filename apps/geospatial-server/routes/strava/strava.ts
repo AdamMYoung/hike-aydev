@@ -1,10 +1,10 @@
-import axios from 'axios';
-import { FastifyInstance } from 'fastify';
+import axios from "axios";
+import { FastifyInstance } from "fastify";
 
-import { getFellsOnPolyline } from '../../libs/geo';
-import { prisma } from '../../libs/prisma';
-import { FellPoint } from '../../libs/requests';
-import { getStravaAccessToken, getUserSession } from '../../libs/user';
+import { getFellsOnPolyline } from "../../libs/geo";
+import { getStravaAccessToken, getUserSession } from "../../libs/user";
+import { prisma } from "database";
+import { FellDTO } from "database/src/types";
 
 const GET_STRAVA_HISTORY_EVENT = "GET_STRAVA_HISTORY";
 
@@ -88,7 +88,7 @@ export async function routes(fastify: FastifyInstance, options: object) {
       page += 1;
     }
 
-    const completedFells: { fell: FellPoint; date: Date }[] = [];
+    const completedFells: { fell: FellDTO; date: Date }[] = [];
 
     await Promise.all(
       activities

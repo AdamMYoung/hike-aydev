@@ -1,10 +1,10 @@
 "use client";
 
-import { Locate, MessageCircle, Save, XCircle } from 'lucide-react';
-import { useEffect, useState, useTransition } from 'react';
-import { Button, cn, ElementProps, Textarea, toOSMCoordinates, useMapInteractionContext } from 'ui';
+import { Locate, MessageCircle, Save, XCircle } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
+import { Button, cn, ElementProps, Textarea, toOSMCoordinates, useMapInteractionContext } from "ui";
 
-import { setComment } from '@/libs/actions';
+import { setTimelineEntryComment } from "@/libs/actions";
 
 type TimelineCardProps = ElementProps<"div"> & {
   logId: string;
@@ -38,7 +38,7 @@ export const TimelineCard = ({ fell, date, comments, className, children, logId,
 
   const handleSave = () => {
     // @ts-ignore
-    startTransition(() => setComment(logId, editComment));
+    startTransition(() => setTimelineEntryComment(logId, editComment));
   };
 
   useEffect(() => {

@@ -75,7 +75,7 @@ model LogEntry {
   authorId String
   fellId   Int
 
-  author User @relation(fields: [authorId], references: [id])
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   fell   Fell @relation(fields: [fellId], references: [id])
 
   @@unique([authorId, fellId])
@@ -91,12 +91,28 @@ model User {
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
 
-  logEntries LogEntry[]
-  account    Account[]
-  session    Session[]
-  timeouts   UserEventTimeout[]
+  logEntries      LogEntry[]
+  account         Account[]
+  session         Session[]
+  timeouts        UserEventTimeout[]
+  userPreferences UserPreferences[]
 
   @@map(name: "users")
+}
+
+model UserPreferences {
+  id                String   @id @default(cuid())
+  userId            String
+  metric            Boolean  @default(true)
+  imperial          Boolean  @default(false)
+  darkMode          Boolean  @default(false)
+  fellNotifications Boolean  @default(false)
+  createdAt         DateTime @default(now()) @map(name: "created_at")
+  updatedAt         DateTime @default(now()) @map(name: "updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map(name: "user_preferences")
 }
 
 model UserEventTimeout {
@@ -105,7 +121,9 @@ model UserEventTimeout {
   expires DateTime
   event   String
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map(name: "user_event_timeouts")
 }
 
 model VerificationToken {

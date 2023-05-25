@@ -1,7 +1,7 @@
-import kv from '@vercel/kv';
+import { kv } from "@vercel/kv";
 
 export const getCachedEntry = async <T extends unknown>(key: string, req: () => Promise<T>) => {
-  if (process.env.VERCEL_ENV !== "production") {
+  if (process.env.NODE_ENV !== "production") {
     return req();
   }
 
@@ -15,4 +15,8 @@ export const getCachedEntry = async <T extends unknown>(key: string, req: () => 
   await kv.set(key, request, { ex: 3600 });
 
   return request;
+};
+
+export const clearCachedEntry = async (key: string) => {
+  await kv.del(key);
 };

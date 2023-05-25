@@ -1,10 +1,9 @@
 "use client";
 
-import { Loader, Locate } from 'lucide-react';
-import { useTransition } from 'react';
-import { Button, Checkbox, cn, ElementProps, toOSMCoordinates, useMapInteractionContext } from 'ui';
-
-import { setFellStatus } from '@/libs/actions';
+import { toggleTimelineEntry } from "@/libs/actions";
+import { Loader, Locate } from "lucide-react";
+import { useTransition } from "react";
+import { Button, Checkbox, cn, ElementProps, toOSMCoordinates, useMapInteractionContext } from "ui";
 
 type PeakListEntryProps = ElementProps<"div"> & {
   fell: {
@@ -43,8 +42,7 @@ export const PeakListEntry = ({
           <Checkbox
             disabled={disabled || isPending}
             checked={checked}
-            // @ts-ignore
-            onClick={() => startTransition(() => setFellStatus(fell, fellGroupId, userId, !checked))}
+            onClick={() => startTransition(() => toggleTimelineEntry(userId, fell.id, !checked))}
             className="h-6 w-6 border-gray-400"
           />
         )}

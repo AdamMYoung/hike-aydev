@@ -1,17 +1,21 @@
 import { Suspense } from "react";
 import { Skeleton } from "ui";
 
-import { getIsStravaLinked, getIsStravaSyncInTimeout } from "@/libs/requests";
 import { getCurrentUser } from "@/libs/session";
 import { StravaLoginButton } from "@/views/auth/strava-login-button";
 import { SyncStravaHistoryCard } from "@/views/data/sync-strava-history-card";
 import { UploadGpxCard } from "@/views/data/upload-gpx-card";
 import { DataEntryCard, DataEntryCardDescription, DataEntryCardTitle } from "@/components/organisms";
+import { getUserStravaLinkStatus, getUserTimeouts } from "database";
 
 const DataCards = async () => {
   const user = await getCurrentUser();
-  const isStravaLinked = await getIsStravaLinked(user?.id);
-  const isStravaSyncTimedOut = await getIsStravaSyncInTimeout(user?.id);
+  const isStravaLinked = await getUserStravaLinkStatus(user?.id);
+  const timeouts = await getUserTimeouts(user?.id);
+
+  const isStravaSyncTimedOut = !!timeouts.find(
+    (timeout) => timeout.event === "GET_STRAVA_HISTORY" && timeout.expires.getTime() > Date.now()
+  );
 
   return (
     <div className="flex flex-col p-2 gap-2">

@@ -1,13 +1,13 @@
-import { Menu } from 'lucide-react';
-import Link from 'next/link';
-import { Suspense } from 'react';
-import { Button, cn, ElementProps, Separator, Skeleton } from 'ui';
+import { Menu } from "lucide-react";
+import Link from "next/link";
+import { Suspense } from "react";
+import { Button, cn, ElementProps, Separator, Skeleton } from "ui";
 
-import { getCurrentUser } from '@/libs/session';
-import { Profile } from '@/views/layout/profile';
-import { SignOutButton } from '@/views/layout/sign-out-button';
+import { getCurrentUser } from "@/libs/session";
+import { Profile } from "@/views/layout/profile";
+import { SignOutButton } from "@/views/layout/sign-out-button";
 
-import { DrawerNavigation } from '../drawer-navigation';
+import { DrawerNavigation } from "../drawer-navigation";
 
 type TopNavigationProps = Omit<ElementProps<"div">, "children">;
 
@@ -52,11 +52,11 @@ const DesktopLinks = async () => {
           Data
         </Button>
       </Link>
-      <Link legacyBehavior href="/profile">
+      {/* <Link legacyBehavior href="/profile">
         <Button className="text-md px-0 font-normal" variant="link" disabled={!isUserAuthenticated}>
           Profile
         </Button>
-      </Link>
+      </Link> */}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { Button, Label, Switch } from "ui";
 
 import { DataEntryCard, DataEntryCardDescription, DataEntryCardTitle } from "@/components/organisms";
-import { prisma } from "@/libs/prisma";
+
 import { getCurrentUser } from "@/libs/session";
 
 const ProfileContent = async () => {
@@ -12,31 +12,6 @@ const ProfileContent = async () => {
   if (!user) {
     notFound();
   }
-
-  const handleProfileUpdateSubmit = async (formData: FormData) => {
-    "use server";
-
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-
-    try {
-      await prisma.user.update({
-        where: {
-          id: user.id!,
-        },
-        data: {
-          email,
-          name,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleProfileDeleteSubmit = async () => {
-    "use server";
-  };
 
   return (
     <div className="flex flex-col gap-2 p-2">
@@ -54,7 +29,7 @@ const ProfileContent = async () => {
           <p className="text-sm font-light">
             Update your profile information to ensure we can reach you with important updates, notifications, and more.
           </p>
-          <form action={handleProfileUpdateSubmit}>
+          <form>
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-1">
                 <Label htmlFor="name">Name</Label>
@@ -106,7 +81,7 @@ const ProfileContent = async () => {
             Use the button below to delete your profile. This will remove all submitted data from the site. Note: This
             cannot be undone!
           </p>
-          <form action={handleProfileDeleteSubmit}>
+          <form>
             <Button type="submit" variant="destructive" className="w-full">
               Delete Profile
             </Button>

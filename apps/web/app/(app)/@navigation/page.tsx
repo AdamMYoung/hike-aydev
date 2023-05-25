@@ -1,30 +1,30 @@
-import { Suspense } from 'react';
-import { Skeleton } from 'ui';
+import { Suspense, cache } from "react";
+import { Skeleton } from "ui";
+import { getCompletedFellsGroupedByFellGroups } from "database";
 
-import { PeakEntry } from '@/components/organisms';
-import { getFellGroups, getUserFellGroupCompletion } from '@/libs/requests';
-import { getCurrentUser } from '@/libs/session';
+import { PeakEntry } from "@/components/organisms";
+import { getCurrentUser } from "@/libs/session";
+import { getCachedFellGroups } from "@/libs/cache";
 
 const NavigationEntries = async () => {
-  const [user, entries] = await Promise.all([getCurrentUser(), getFellGroups()]);
-
-  const logEntries = await getUserFellGroupCompletion(user?.id);
+  const [user, entries] = await Promise.all([getCurrentUser(), getCachedFellGroups()]);
+  const logEntries = await getCompletedFellsGroupedByFellGroups(user?.id);
 
   return (
     <>
       {entries
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((entry) => {
-          const completedEntries = logEntries.find((e) => e.id === entry.id);
+          const completedEntries = logEntries[entry.id] ?? [];
 
           return (
             <PeakEntry key={entry.id} href={`/group/${entry.id}`} src={entry.imageUrl ?? ""} title={entry.name}>
               {user ? (
                 <p className="text-sm">
-                  {completedEntries?._count.fells}/{entry._count.fells} complete
+                  {completedEntries.length}/{entry.fellCount} complete
                 </p>
               ) : (
-                <p className="text-sm">{entry._count.fells} fells</p>
+                <p className="text-sm">{entry.fellCount} fells</p>
               )}
             </PeakEntry>
           );
