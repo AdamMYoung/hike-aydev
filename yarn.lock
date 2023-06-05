@@ -3752,6 +3752,7 @@ eslint-config-turbo@latest:
     fast-xml-parser: ^4.2.2
     fastify: ^4.17.0
     fastify-cli: ^5.7.1
+    isomorphic-fetch: ^3.0.0
     node-cache: ^5.1.2
     nodemon: ^2.0.22
     ts-node: ^10.9.1

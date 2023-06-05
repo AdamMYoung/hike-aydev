@@ -1,4 +1,5 @@
 // ESM
+import "isomorphic-fetch";
 import * as dotenv from "dotenv";
 import Fastify from "fastify";
 
