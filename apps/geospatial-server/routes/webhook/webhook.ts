@@ -4,7 +4,7 @@ import { FastifyInstance, RouteShorthandOptions } from "fastify";
 import { getFellsOnPolyline } from "../../libs/geo";
 
 import { getStravaAccessToken } from "../../libs/user";
-import { LogSource, prisma } from "database";
+import { clearTimelineCache, LogSource, prisma } from "database";
 
 const stravaWebhookGetSchema: RouteShorthandOptions = {
   schema: {
@@ -123,6 +123,8 @@ export async function routes(fastify: FastifyInstance, options: object) {
         climbed: true,
       })),
     });
+
+    clearTimelineCache(stravaAccount.userId);
 
     request.log.info("Successfully fetched fells from webhook request");
   });

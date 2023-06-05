@@ -3,7 +3,7 @@ import { FastifyInstance } from "fastify";
 
 import { getFellsOnPolyline } from "../../libs/geo";
 import { getStravaAccessToken, getUserSession } from "../../libs/user";
-import { prisma, constants, LogSource } from "database";
+import { prisma, constants, LogSource, createTimeout, clearTimelineCache } from "database";
 
 export async function routes(fastify: FastifyInstance, options: object) {
   fastify.post("/strava/history", async (request, reply) => {
@@ -20,6 +20,7 @@ export async function routes(fastify: FastifyInstance, options: object) {
     });
 
     if (timeouts && timeouts.expires.getTime() > Date.now()) {
+      request.log.info("Stopping history sync, event is in timeout");
       reply.status(400).send("Event in timeout, try again later");
       return;
     }
@@ -46,12 +47,9 @@ export async function routes(fastify: FastifyInstance, options: object) {
 
     request.log.info("Found user with ID", user.id);
 
-    await prisma.userEventTimeout.create({
-      data: {
-        userId: user.id,
-        event: constants.GET_STRAVA_HISTORY_EVENT,
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 1 Day,
-      },
+    await createTimeout(user.id, {
+      event: constants.GET_STRAVA_HISTORY_EVENT,
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(),
     });
 
     request.log.info(`Created user event timeout for user ${user.id}`);
@@ -134,6 +132,8 @@ export async function routes(fastify: FastifyInstance, options: object) {
           });
         })
     );
+
+    clearTimelineCache(user.id);
 
     request.log.info("Successfully synced strava history");
   });

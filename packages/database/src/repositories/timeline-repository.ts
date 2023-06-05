@@ -5,7 +5,7 @@ import { clearCachedEntry, getCachedEntry } from "../libs/cache";
 import { prisma } from "../libs/db";
 import { TimelineEntryDTO, TimelineGroupDTO } from "../types";
 
-const clearTimelineCache = async (userId: string) => {
+export const clearTimelineCache = async (userId: string) => {
   return Promise.all([clearCachedEntry(`get-user-timeline-by-id-${userId}`)]);
 };
 

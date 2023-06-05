@@ -5,7 +5,7 @@ import { lineString } from "@turf/helpers";
 
 import { getFellsOnLineString } from "../../libs/geo";
 import { getUserSession } from "../../libs/user";
-import { LogSource, prisma } from "database";
+import { clearTimelineCache, LogSource, prisma } from "database";
 import { encode } from "@googlemaps/polyline-codec";
 
 export async function routes(fastify: FastifyInstance, options: object) {
@@ -71,6 +71,8 @@ export async function routes(fastify: FastifyInstance, options: object) {
         climbed: true,
       })),
     });
+
+    clearTimelineCache(user.id);
 
     request.log.info("Successfully parsed fells from GPX file");
 

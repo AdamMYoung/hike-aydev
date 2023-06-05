@@ -21,6 +21,8 @@ const DataCards = async () => {
       timeout.event === constants.GET_STRAVA_HISTORY_EVENT && new Date(timeout.expires).getTime() > Date.now()
   );
 
+  console.log(isStravaSyncTimedOut);
+
   return (
     <div className="flex flex-col p-2 gap-2">
       {isStravaLinked ? (
