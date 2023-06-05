@@ -1,5 +1,5 @@
 # AYDev Hike
-This is a monorepo used to support the https://hike.aydev.uk project. The project structure is as follows:
+This is a monorepo used to support the [hike.aydev.uk](https://hike.aydev.uk) project. The project structure is as follows:
 
 - `apps`: Executable apps used by the project. This includes the main site, as well as any supporting services.
 - `packages`: Standalone packages used by the aformentioned `apps`. These include database wrappers, UI components and linting configs.
