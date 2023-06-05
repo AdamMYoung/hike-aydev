@@ -48,6 +48,7 @@ export async function routes(fastify: FastifyInstance, options: object) {
 
   fastify.post("/webhook/strava", stravaWebhookPostSchema, async (request, reply) => {
     const { owner_id, object_id, object_type, aspect_type } = request.body as any;
+    request.log.info(`Starting new webhook request for user ${owner_id}`);
 
     reply.status(200).send("OK");
 
@@ -72,8 +73,11 @@ export async function routes(fastify: FastifyInstance, options: object) {
     });
 
     if (!stravaAccount || !stravaAccount.access_token || !stravaAccount.refresh_token || !stravaAccount.expires_at) {
+      request.log.warn(`No user found with ID ${owner_id}`);
       return;
     }
+
+    request.log.info(`Found user with ID ${owner_id}`);
 
     const accessToken = await getStravaAccessToken({
       stravaId: stravaAccount.userId,
@@ -94,6 +98,8 @@ export async function routes(fastify: FastifyInstance, options: object) {
 
     // Get all fells from the fetched activity.
     const fellsOnPolyline = await getFellsOnPolyline(activity.data.map.summary_polyline);
+
+    request.log.info(`Found ${fellsOnPolyline.length} fells for user ${owner_id} in activity ${object_id}`);
 
     const upsetGroupResult = await prisma.logGroup.upsert({
       where: { start_authorId: { start, authorId: stravaAccount.userId } },
@@ -117,5 +123,7 @@ export async function routes(fastify: FastifyInstance, options: object) {
         climbed: true,
       })),
     });
+
+    request.log.info("Successfully fetched fells from webhook request");
   });
 }

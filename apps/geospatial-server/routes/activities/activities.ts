@@ -10,6 +10,7 @@ import { encode } from "@googlemaps/polyline-codec";
 
 export async function routes(fastify: FastifyInstance, options: object) {
   fastify.post("/activities/manual", async (request, reply) => {
+    request.log.info("Starting new manual GPX file upload request");
     const user = await getUserSession(request);
 
     if (!user) {
@@ -25,6 +26,8 @@ export async function routes(fastify: FastifyInstance, options: object) {
       return;
     }
 
+    request.log.info("Parsed valid GPX file.");
+
     // Parse XML
     const parser = new XMLParser({ ignoreAttributes: false });
 
@@ -39,6 +42,8 @@ export async function routes(fastify: FastifyInstance, options: object) {
 
     // Parse coordinates and get matching fells.
     const matchedFells = await getFellsOnLineString(lineString(points));
+
+    request.log.info(`Matched ${matchedFells.length} fells in file`);
 
     const upsetGroupResult = await prisma.logGroup.upsert({
       where: {
@@ -66,6 +71,8 @@ export async function routes(fastify: FastifyInstance, options: object) {
         climbed: true,
       })),
     });
+
+    request.log.info("Successfully parsed fells from GPX file");
 
     reply.status(201).send({
       total: matchedFells.length,
