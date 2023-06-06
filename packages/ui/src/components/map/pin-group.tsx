@@ -2,6 +2,7 @@
 
 import React, { useEffect, useId } from "react";
 import { useMapProvider } from "../../context";
+import { PinProps } from "./pin";
 
 export const PinGroup = ({ children }: React.PropsWithChildren) => {
   const pinGroupId = useId();
@@ -13,7 +14,7 @@ export const PinGroup = ({ children }: React.PropsWithChildren) => {
     }
 
     const points = React.Children.map(children, (child) => {
-      return (child as any).props as { isCompleted: boolean; coordinates: [number, number] };
+      return (child as any).props as PinProps;
     });
 
     if (!points) {
@@ -32,6 +33,7 @@ export const PinGroup = ({ children }: React.PropsWithChildren) => {
             },
             properties: {
               icon: point.isCompleted ? "check" : "cross",
+              name: point.name,
             },
           };
         }),
@@ -49,6 +51,12 @@ export const PinGroup = ({ children }: React.PropsWithChildren) => {
         type: "symbol",
         source: pinGroupId,
         layout: {
+          "text-field": ["get", "name"],
+          "text-variable-anchor": ["top"],
+          "text-size": 12,
+          "text-radial-offset": 1,
+          "text-optional": true,
+          "text-justify": "auto",
           "icon-image": ["get", "icon"],
           "icon-size": 0.75,
           "icon-allow-overlap": true,

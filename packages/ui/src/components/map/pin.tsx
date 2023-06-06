@@ -1,10 +1,9 @@
 "use client";
 
-import { FellDTO } from "database";
-
-type PinProps = {
+export type PinProps = {
   isCompleted?: boolean;
   coordinates: [number, number];
+  name: string;
 };
 
 export const Pin = (_: PinProps) => {

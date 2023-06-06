@@ -18,7 +18,7 @@ const MapEntries = async () => {
 
       <PinGroup>
         {entries.map(({ fell }) => {
-          return <Pin key={fell.id} coordinates={[fell.lng, fell.lat]} isCompleted />;
+          return <Pin key={fell.id} coordinates={[fell.lng, fell.lat]} name={fell.name} isCompleted />;
         })}
       </PinGroup>
     </>

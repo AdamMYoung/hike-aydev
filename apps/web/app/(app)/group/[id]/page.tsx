@@ -55,7 +55,7 @@ const GroupEntries = async ({
       <BoundingZoomPoint points={parsedFells.map((f) => [f.fell.lng, f.fell.lat])} />
       <PinGroup>
         {parsedFells.map(({ isCompleted, fell }) => (
-          <Pin key={fell.id} isCompleted={isCompleted} coordinates={[fell.lng, fell.lat]} />
+          <Pin key={fell.id} isCompleted={isCompleted} coordinates={[fell.lng, fell.lat]} name={fell.name} />
         ))}
       </PinGroup>
     </>
