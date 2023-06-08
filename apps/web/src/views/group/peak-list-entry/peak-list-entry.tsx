@@ -34,7 +34,10 @@ export const PeakListEntry = ({
   const { setIsManual, setIsMobileMapOpen } = useInteractionProvider();
   const [isPending, startTransition] = useTransition();
 
-  const _className = cn("group flex group py-1 px-1 gap-2 items-center justify-between hover:bg-gray-50", className);
+  const _className = cn(
+    "group flex group py-1 px-1 gap-2 items-center justify-between text-sm xl:text-base hover:bg-gray-50",
+    className
+  );
 
   const handleClick = () => {
     if (!map) {

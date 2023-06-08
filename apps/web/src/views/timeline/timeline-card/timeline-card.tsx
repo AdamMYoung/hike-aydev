@@ -20,7 +20,7 @@ type TimelineCardProps = ElementProps<"div"> & {
 export const TimelineCard = ({ fell, comments, className, children, logId, ...rest }: TimelineCardProps) => {
   const { map } = useMapProvider();
   const isMobile = useIsMobile();
-  const { setIsManual } = useInteractionProvider();
+  const { setIsManual, setIsMobileMapOpen } = useInteractionProvider();
   const [isCommentEditing, setIsCommentEditing] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [editComment, setEditComment] = useState(comments);
@@ -48,6 +48,7 @@ export const TimelineCard = ({ fell, comments, className, children, logId, ...re
     }
 
     setIsManual(true);
+    setIsMobileMapOpen(true);
 
     map.easeTo({
       center: [fell.lng, fell.lat],
@@ -69,10 +70,10 @@ export const TimelineCard = ({ fell, comments, className, children, logId, ...re
         <h2 className="grow text-sm font-normal">{fell.name}</h2>
         {!isCommentEditing ? (
           <div className="opacity-20 transition-opacity flex gap-2 group-hover:opacity-100">
-            <Button variant="ghost" className="hidden md:block p-2" onClick={() => handleZoom()}>
+            <Button variant="ghost" className=" p-2" onClick={() => handleZoom()}>
               <Locate className="text-[inherit]" />
             </Button>
-            <Button className="p-2" variant="ghost" onClick={() => setIsCommentEditing(true)}>
+            <Button className="p-2 hidden lg:block" variant="ghost" onClick={() => setIsCommentEditing(true)}>
               <MessageCircle />
             </Button>
           </div>
