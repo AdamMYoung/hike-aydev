@@ -10,6 +10,16 @@ import {
 import { cache } from "react";
 import { getCurrentUser } from "./session";
 
+export const preload = (userId?: string | null) => {
+  void getCachedCurrentUser();
+  void getCachedFellGroups();
+
+  if (userId) {
+    void getCachedUserTimelineById(userId);
+    void getCachedFlattenedTimelineEntries(userId);
+  }
+};
+
 export const getCachedCurrentUser = cache(() => getCurrentUser());
 
 export const getCachedFellGroups = cache(() => getFellGroups());

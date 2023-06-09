@@ -6,6 +6,7 @@ import { MobileMap } from "@views/layout/mobile-map";
 import { SideNavigation } from "@views/layout/side-navigation";
 import { TopNavigation } from "@views/layout/top-navigation";
 import { ResetViewButton } from "@views/layout/reset-view-button";
+import { getCachedCurrentUser, preload } from "@libs/cache";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -18,6 +19,9 @@ export const metadata = {
 };
 
 export default async function Layout({ children, navigation }: LayoutProps) {
+  const user = await getCachedCurrentUser();
+  preload(user?.id);
+
   return (
     <div className="flex flex-col fixed w-full h-full">
       {/* @ts-expect-error Server Component */}

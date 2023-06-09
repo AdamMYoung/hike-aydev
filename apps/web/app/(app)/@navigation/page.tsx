@@ -2,11 +2,12 @@ import { Suspense } from "react";
 import { Skeleton } from "ui";
 
 import { PeakEntry } from "@organisms/peak-entry";
-import { getCachedCurrentUser, getCachedFellGroups, getCachedFlattenedTimelineEntries } from "@libs/cache";
-import Image from "next/image";
+import { getCachedCurrentUser, getCachedFellGroups, getCachedFlattenedTimelineEntries, preload } from "@libs/cache";
 
 const NavigationEntries = async () => {
-  const [user, entries] = await Promise.all([getCachedCurrentUser(), getCachedFellGroups()]);
+  const user = await getCachedCurrentUser();
+  const entries = await getCachedFellGroups();
+
   const groups = await getCachedFlattenedTimelineEntries(user?.id);
 
   return (
