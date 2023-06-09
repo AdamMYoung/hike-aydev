@@ -31,13 +31,16 @@ export const NavigationLink = ({
     className
   );
 
+  if (disabled) {
+    return (
+      <p className={_className} {...rest}>
+        {children}
+      </p>
+    );
+  }
+
   return (
-    <Link
-      href={disabled ? "" : href}
-      className={_className}
-      aria-current={href === pathname ? "page" : undefined}
-      {...rest}
-    >
+    <Link href={href} className={_className} aria-current={href === pathname ? "page" : undefined} {...rest}>
       {children}
     </Link>
   );

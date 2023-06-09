@@ -15,12 +15,7 @@ const MobileNavigation = async () => {
   const user = await getCurrentUser();
   const isUserAuthenticated = !!user;
 
-  return (
-    <DrawerNavigation isUserAuthenticated={isUserAuthenticated}>
-      {/* @ts-expect-error Server Component */}
-      <SignOutButton />
-    </DrawerNavigation>
-  );
+  return <DrawerNavigation isUserAuthenticated={isUserAuthenticated} />;
 };
 
 const MobileNavigationPlaceholder = () => {
@@ -44,11 +39,6 @@ const DesktopLinks = async () => {
       <NavigationLink href="/data" disabled={!isUserAuthenticated}>
         Data
       </NavigationLink>
-      {/* <Link legacyBehavior href="/profile">
-        <Button className="text-md px-0 font-normal" variant="link" disabled={!isUserAuthenticated}>
-          Profile
-        </Button>
-      </Link> */}
     </div>
   );
 };
@@ -59,11 +49,6 @@ const DesktopLinksPlaceholder = () => {
       <Skeleton className="h-6 w-12 rounded-full" />
       <Skeleton className="h-6 w-12 rounded-full" />
       <Skeleton className="h-6 w-12 rounded-full" />
-      {/* <Link legacyBehavior href="/profile">
-        <Button className="text-md px-0 font-normal" variant="link" disabled>
-          Profile
-        </Button>
-      </Link> */}
     </div>
   );
 };
@@ -73,7 +58,6 @@ const ProfilePlaceholder = () => {
     <div className="flex gap-2 items-center">
       <Skeleton className="h-12 w-12 rounded-full" />
       <Skeleton className="w-16 h-4 hidden md:block" />
-      <Skeleton className="w-24 h-10 rounded-lg hidden md:block" />
     </div>
   );
 };

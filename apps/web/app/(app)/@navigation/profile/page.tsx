@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Button, Label, Switch } from "ui";
+import { Avatar, AvatarFallback, AvatarImage } from "ui";
 
 import { DataEntryCard, DataEntryCardDescription, DataEntryCardTitle } from "@organisms/data-entry-card";
 
 import { getCachedCurrentUser } from "@libs/cache";
+import { SignOutButton } from "@views/layout/sign-out-button";
+
+import { DeleteAccountButton } from "@views/layout/delete-account-button";
 
 const ProfileContent = async () => {
   const user = await getCachedCurrentUser();
@@ -15,15 +18,15 @@ const ProfileContent = async () => {
 
   return (
     <div className="flex flex-col gap-2 p-2">
-      <DataEntryCard>
+      {/* <DataEntryCard>
         <DataEntryCardTitle>Share</DataEntryCardTitle>
         <DataEntryCardDescription className="flex flex-col gap-4">
           <p className="text-sm font-light">Share your progress using the link below.</p>
           <input className="text-base border px-2.5 py-2 rounded" disabled value="https://hike.aydev.uk/dp123od" />
         </DataEntryCardDescription>
-      </DataEntryCard>
+      </DataEntryCard> */}
 
-      <DataEntryCard>
+      {/* <DataEntryCard>
         <DataEntryCardTitle>Profile Information</DataEntryCardTitle>
         <DataEntryCardDescription className="flex flex-col gap-4">
           <p className="text-sm font-light">
@@ -57,9 +60,9 @@ const ProfileContent = async () => {
             </div>
           </form>
         </DataEntryCardDescription>
-      </DataEntryCard>
+      </DataEntryCard> */}
 
-      <DataEntryCard>
+      {/* <DataEntryCard>
         <DataEntryCardTitle>Notifications</DataEntryCardTitle>
         <DataEntryCardDescription className="flex flex-col gap-4">
           <p className="text-sm font-light">
@@ -72,20 +75,29 @@ const ProfileContent = async () => {
             </div>
           </form>
         </DataEntryCardDescription>
+      </DataEntryCard> */}
+
+      <DataEntryCard className="gap-4">
+        <div className="flex flex-row items-center justify-center gap-2">
+          <Avatar>
+            <AvatarFallback>{user.name?.substring(0, 1)}</AvatarFallback>
+            <AvatarImage src={user.image ?? ""} />
+          </Avatar>
+          <p className="whitespace-nowrap font-medium">{user.name}</p>
+        </div>
+        {/* @ts-expect-error Server Component */}
+        <SignOutButton />
       </DataEntryCard>
 
       <DataEntryCard>
         <DataEntryCardTitle>Delete Profile</DataEntryCardTitle>
         <DataEntryCardDescription className="flex flex-col gap-4">
           <p className="text-sm font-light">
-            Use the button below to delete your profile. This will remove all submitted data from the site. Note: This
-            cannot be undone!
+            Use the button below to delete your profile. This will remove all submitted data from the site.
           </p>
-          <form>
-            <Button type="submit" variant="destructive" className="w-full">
-              Delete Profile
-            </Button>
-          </form>
+          <p>Note: This cannot be undone!</p>
+          {/* @ts-expect-error Server Component */}
+          <DeleteAccountButton userId={user.id} />
         </DataEntryCardDescription>
       </DataEntryCard>
     </div>

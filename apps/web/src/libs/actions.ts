@@ -1,6 +1,6 @@
 "use server";
 
-import { createTimelineEntry, updateTimelineEntry } from "database";
+import { createTimelineEntry, deleteUser, updateTimelineEntry } from "database";
 import { revalidatePath } from "next/cache";
 
 export const toggleTimelineEntry = async (userId: string | null, fellId: number, checked: boolean) => {
@@ -23,4 +23,12 @@ export const setTimelineEntryComment = async (userId: string, entryId: string, c
   await updateTimelineEntry(userId, entryId, { comments });
 
   revalidatePath(`/timeline`);
+};
+
+export const deleteUserProfile = async (userId: string | null) => {
+  if (!userId) {
+    return;
+  }
+
+  await deleteUser(userId);
 };

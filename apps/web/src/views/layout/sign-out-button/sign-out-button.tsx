@@ -4,7 +4,7 @@ import { Button, cn, ElementProps } from "ui";
 import { getCurrentUser } from "@libs/session";
 
 export const SignOutButton = async ({ className, ...rest }: ElementProps<typeof Button>) => {
-  const _className = cn("whitespace-nowrap ", className);
+  const _className = cn("whitespace-nowrap h-auto", className);
   const user = await getCurrentUser();
 
   if (!user) {
@@ -13,7 +13,7 @@ export const SignOutButton = async ({ className, ...rest }: ElementProps<typeof 
 
   return (
     <Link legacyBehavior href="/api/auth/signout">
-      <Button className={className} variant="outline" {...rest}>
+      <Button className={_className} {...rest}>
         Sign out
       </Button>
     </Link>
