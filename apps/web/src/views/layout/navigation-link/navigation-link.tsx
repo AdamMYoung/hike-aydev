@@ -33,7 +33,7 @@ export const NavigationLink = ({
 
   if (disabled) {
     return (
-      <p className={_className} {...rest}>
+      <p className={_className} aria-disabled="true">
         {children}
       </p>
     );
