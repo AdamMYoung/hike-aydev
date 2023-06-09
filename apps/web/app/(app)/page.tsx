@@ -1,7 +1,11 @@
 import { Suspense } from "react";
-import { Pin, PinGroup, ZoomPoint } from "ui";
+import dynamic from "next/dynamic";
 
 import { getCachedCurrentUser, getCachedFlattenedTimelineEntries } from "@libs/cache";
+
+const Pin = dynamic(() => import("ui").then((i) => i.Pin));
+const PinGroup = dynamic(() => import("ui").then((i) => i.PinGroup));
+const ZoomPoint = dynamic(() => import("ui").then((i) => i.ZoomPoint));
 
 const MapEntries = async () => {
   const user = await getCachedCurrentUser();
