@@ -14,11 +14,9 @@ export const preload = (userId?: string | null) => {
   void getCachedCurrentUser();
   void getCachedFellGroups();
 
-  if (userId) {
-    void getCachedUserTimelineById(userId);
-    void getCachedFlattenedTimelineEntries(userId);
-    void getCachedUserStravaLinkStatus(userId);
-  }
+  void getCachedUserTimelineById(userId);
+  void getCachedFlattenedTimelineEntries(userId);
+  void getCachedUserStravaLinkStatus(userId);
 };
 
 export const getCachedCurrentUser = cache(() => getCurrentUser());
