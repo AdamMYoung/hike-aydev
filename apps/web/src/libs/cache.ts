@@ -17,6 +17,7 @@ export const preload = (userId?: string | null) => {
   if (userId) {
     void getCachedUserTimelineById(userId);
     void getCachedFlattenedTimelineEntries(userId);
+    void getCachedUserStravaLinkStatus(userId);
   }
 };
 
