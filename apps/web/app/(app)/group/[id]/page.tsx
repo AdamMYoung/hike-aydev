@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import dynamic from "next/dynamic";
 
 import {
   getCachedCurrentUser,
@@ -8,10 +7,7 @@ import {
   getCachedFells,
   getCachedFlattenedTimelineEntries,
 } from "@libs/cache";
-
-const Pin = dynamic(() => import("ui").then((i) => i.Pin));
-const PinGroup = dynamic(() => import("ui").then((i) => i.PinGroup));
-const BoundingZoomPoint = dynamic(() => import("ui").then((i) => i.BoundingZoomPoint));
+import { BoundingZoomPoint, Pin, PinGroup } from "ui";
 
 type GroupProps = {
   params: { id: string };

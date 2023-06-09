@@ -1,14 +1,12 @@
-import dynamic from "next/dynamic";
 import { RefreshCw } from "lucide-react";
+import { MapProvider } from "ui";
 
+import { DesktopMap } from "@views/layout/desktop-map";
+import { MobileMap } from "@views/layout/mobile-map";
 import { SideNavigation } from "@views/layout/side-navigation";
 import { TopNavigation } from "@views/layout/top-navigation";
 import { ResetViewButton } from "@views/layout/reset-view-button";
 import { getCachedCurrentUser, preload } from "@libs/cache";
-
-const MapProvider = dynamic(() => import("ui").then((i) => i.MapProvider));
-const MobileMap = dynamic(() => import("@views/layout/mobile-map").then((i) => i.MobileMap));
-const DesktopMap = dynamic(() => import("@views/layout/desktop-map").then((i) => i.DesktopMap));
 
 type LayoutProps = {
   children: React.ReactNode;
