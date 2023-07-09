@@ -47,7 +47,7 @@ export const DesktopLinks = ({ isUserAuthenticated }: DesktopLinksProps) => {
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               <ListItem title="Your Gear" href="/gear">
-                Every piece of gear you've logged in your lists, along with usage statistics.
+                Every piece of gear you&apos;ve logged in your lists, along with usage statistics.
               </ListItem>
               <ListItem title="Your Lists" href="/gear/lists">
                 View all your lists, and control active lists here.

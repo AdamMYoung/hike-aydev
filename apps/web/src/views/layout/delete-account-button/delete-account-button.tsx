@@ -23,7 +23,7 @@ type DeleteAccountButtonProps = ElementProps<typeof Button> & {
   userId?: string | null;
 };
 
-export const DeleteAccountButton = async ({ className, userId, ...rest }: DeleteAccountButtonProps) => {
+export const DeleteAccountButton = ({ className, userId, ...rest }: DeleteAccountButtonProps) => {
   const [isPending, startTransition] = useTransition();
 
   if (!userId) {
