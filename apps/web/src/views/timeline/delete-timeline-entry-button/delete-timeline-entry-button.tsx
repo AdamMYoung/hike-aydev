@@ -44,7 +44,7 @@ export const DeleteTimelineEntryButton = ({ start, userId, className, ...rest }:
           <AlertDialogHeader>
             <AlertDialogTitle>Delete entry?</AlertDialogTitle>
             <AlertDialogDescription>
-              You can re-sync timeline entries at any time by navigating to the "Data" tab.
+              You can re-sync timeline entries at any time by navigating to the &quot;Data&quot; tab.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
