@@ -5,6 +5,7 @@ import {
   deleteUser,
   updateTimelineEntry,
   deleteTimelineGroup as deleteTimelineGroupDb,
+  deleteTimelineEntry,
 } from "database";
 import { revalidatePath } from "next/cache";
 
@@ -13,7 +14,11 @@ export const toggleTimelineEntry = async (userId: string | null, fellId: number,
     return;
   }
 
-  await createTimelineEntry(userId, fellId, checked);
+  if (checked) {
+    await createTimelineEntry(userId, fellId);
+  } else {
+    await deleteTimelineEntry(userId, fellId);
+  }
 
   revalidatePath(`/`);
   revalidatePath(`/timeline`);

@@ -60,11 +60,7 @@ export const getUserTimelineById = async (userId?: string | null): Promise<Timel
   });
 };
 
-export const createTimelineEntry = async (
-  userId: string,
-  fellId: number,
-  climbed: boolean
-): Promise<TimelineEntryDTO> => {
+export const createTimelineEntry = async (userId: string, fellId: number): Promise<TimelineEntryDTO> => {
   const start = new Date();
   start.setHours(0, 0, 0, 0);
 
@@ -78,10 +74,8 @@ export const createTimelineEntry = async (
     update: {},
   });
 
-  const entry = await prisma.logEntry.upsert({
-    where: { authorId_fellId: { authorId: userId, fellId } },
-    create: { authorId: userId, fellId, climbed: true, logGroupId: upsetGroupResult.id },
-    update: { climbed },
+  const entry = await prisma.logEntry.create({
+    data: { authorId: userId, fellId, climbed: true, logGroupId: upsetGroupResult.id },
     include: {
       fell: {
         select: {
@@ -124,8 +118,17 @@ export const deleteTimelineEntry = async (userId: string, fellId: number): Promi
         fellId,
       },
     },
-    include: { fell: { include: { fellGroups: { select: { id: true } } } } },
+    include: {
+      fell: { include: { fellGroups: { select: { id: true } } } },
+      group: { include: { logEntries: true } },
+    },
   });
+
+  const { logEntries, start } = entry.group;
+
+  if (logEntries.length === 1) {
+    await deleteTimelineGroup(userId, start);
+  }
 
   await clearTimelineCache(userId);
 
