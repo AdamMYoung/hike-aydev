@@ -16,7 +16,6 @@ import {
 
 import { deleteUserProfile } from "@libs/actions";
 import { useTransition } from "react";
-import { redirect } from "next/navigation";
 import { signOut } from "next-auth/react";
 
 type DeleteAccountButtonProps = ElementProps<typeof Button> & {
