@@ -11,7 +11,7 @@ const NavigationEntries = async () => {
   const groups = await getCachedFlattenedTimelineEntries(user?.id);
 
   return (
-    <div className="flex flex-col text-left  rounded-lg p-2 gap-2 bg-white">
+    <div className="flex flex-col text-left divide-y rounded-lg p-2 bg-white">
       {entries
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((entry) => {
@@ -35,14 +35,11 @@ const NavigationEntries = async () => {
 
 const NavigationEntriesPlaceholder = () => {
   return (
-    <>
+    <div className="flex flex-col text-left divide-y rounded-lg gap-2 p-2 bg-white">
       {new Array(5).fill("").map((_, index) => (
-        <div key={index} className="flex flex-col gap-2 p-2 text-left border rounded-lg bg-white">
-          <Skeleton className="w-full h-[500px]" />
-          <Skeleton className="w-full h-[500px]" />
-        </div>
+        <Skeleton className="w-full h-[50px]" />
       ))}
-    </>
+    </div>
   );
 };
 

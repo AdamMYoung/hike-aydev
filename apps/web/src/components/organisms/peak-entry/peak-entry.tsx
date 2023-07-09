@@ -8,10 +8,7 @@ type PeakEntryProps = ElementProps<"div"> & {
 };
 
 export const PeakEntry = ({ className, title, children, href, ...rest }: PeakEntryProps) => {
-  const _className = cn(
-    "flex flex-col text-left transition-colors border rounded-lg bg-white hover:bg-gray-200 group",
-    className
-  );
+  const _className = cn("flex flex-col text-left transition-colors bg-white hover:bg-gray-100 group", className);
 
   return (
     <Link href={href}>
