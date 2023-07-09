@@ -3,7 +3,7 @@ import { FastifyInstance } from "fastify";
 
 import { getFellsOnPolyline } from "../../libs/geo";
 import { getStravaAccessToken, getUserSession } from "../../libs/user";
-import { prisma, constants, LogSource, createTimeout, clearTimelineCache } from "database";
+import { prisma, LogSource, clearTimelineCache } from "database";
 
 export async function routes(fastify: FastifyInstance, options: object) {
   fastify.post("/strava/history", async (request, reply) => {
@@ -12,16 +12,6 @@ export async function routes(fastify: FastifyInstance, options: object) {
 
     if (!user) {
       reply.status(401).send();
-      return;
-    }
-
-    const timeouts = await prisma.userEventTimeout.findFirst({
-      where: { userId: user.id, event: constants.GET_STRAVA_HISTORY_EVENT },
-    });
-
-    if (timeouts && timeouts.expires.getTime() > Date.now()) {
-      request.log.info("Stopping history sync, event is in timeout");
-      reply.status(400).send("Event in timeout, try again later");
       return;
     }
 
@@ -46,15 +36,6 @@ export async function routes(fastify: FastifyInstance, options: object) {
     }
 
     request.log.info("Found user with ID", user.id);
-
-    await createTimeout(user.id, {
-      event: constants.GET_STRAVA_HISTORY_EVENT,
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(),
-    });
-
-    request.log.info(`Created user event timeout for user ${user.id}`);
-
-    reply.status(200).send("Processing routes");
 
     const accessToken = await getStravaAccessToken({
       stravaId: stravaAccount.providerAccountId,
@@ -94,6 +75,8 @@ export async function routes(fastify: FastifyInstance, options: object) {
         .sort((a, b) => new Date(a.start_date).getTime() - new Date(b.start_date).getTime())
         .map(async (activity) => {
           const start = new Date(activity.start_date);
+          start.setHours(0, 0, 0, 0);
+
           const end = new Date(start.getTime() + activity.elapsed_time * 1000);
           const polyline = activity.map.summary_polyline as string;
           const fells = await getFellsOnPolyline(polyline);
@@ -136,5 +119,7 @@ export async function routes(fastify: FastifyInstance, options: object) {
     clearTimelineCache(user.id);
 
     request.log.info("Successfully synced strava history");
+
+    reply.status(200).send("Processing routes");
   });
 }

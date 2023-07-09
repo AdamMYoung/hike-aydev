@@ -1,6 +1,11 @@
 "use server";
 
-import { createTimelineEntry, deleteUser, updateTimelineEntry } from "database";
+import {
+  createTimelineEntry,
+  deleteUser,
+  updateTimelineEntry,
+  deleteTimelineGroup as deleteTimelineGroupDb,
+} from "database";
 import { revalidatePath } from "next/cache";
 
 export const toggleTimelineEntry = async (userId: string | null, fellId: number, checked: boolean) => {
@@ -31,4 +36,14 @@ export const deleteUserProfile = async (userId: string | null) => {
   }
 
   await deleteUser(userId);
+};
+
+export const deleteTimelineGroup = async (userId: string | null, start: Date | null) => {
+  if (!userId || !start) {
+    return;
+  }
+
+  console.log(userId, start);
+
+  await deleteTimelineGroupDb(userId, start);
 };

@@ -5,6 +5,7 @@ import { Separator, Skeleton } from "ui";
 import { TimelineCard } from "@views/timeline/timeline-card";
 import { getCachedCurrentUser, getCachedUserTimelineById } from "@libs/cache";
 import { ViewRouteButton } from "@views/timeline/view-route-button";
+import { DeleteTimelineEntryButton } from "@views/timeline/delete-timeline-entry-button";
 
 const TimelineEntries = async () => {
   const user = await getCachedCurrentUser();
@@ -21,7 +22,10 @@ const TimelineEntries = async () => {
         userEntries.map((group) => {
           return (
             <div key={group.id} className="p-1 border rounded-lg bg-white">
-              <h2 className="p-4 text-lg font-medium">{new Date(group.start).toLocaleDateString()}</h2>
+              <div className="p-4 flex items-center justify-between gap-2">
+                <h2 className="text-lg font-medium">{new Date(group.start).toLocaleDateString()}</h2>
+                <DeleteTimelineEntryButton userId={user.id} start={new Date(group.start)} />
+              </div>
               <div className="divide-y border-gray-50">
                 {group.entries.map((e) => (
                   <TimelineCard key={e.id} logId={e.id} fell={e.fell} comments={e.comments} />

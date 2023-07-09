@@ -66,6 +66,7 @@ export const createTimelineEntry = async (
   climbed: boolean
 ): Promise<TimelineEntryDTO> => {
   const start = new Date();
+  start.setHours(0, 0, 0, 0);
 
   const upsetGroupResult = await prisma.logGroup.upsert({
     where: { start_authorId: { start, authorId: userId } },
@@ -115,9 +116,14 @@ export const createTimelineEntry = async (
   };
 };
 
-export const deleteTimelineEntry = async (userId: string, timelineEntryId: string): Promise<TimelineEntryDTO> => {
+export const deleteTimelineEntry = async (userId: string, fellId: number): Promise<TimelineEntryDTO> => {
   const entry = await prisma.logEntry.delete({
-    where: { id: timelineEntryId },
+    where: {
+      authorId_fellId: {
+        authorId: userId,
+        fellId,
+      },
+    },
     include: { fell: { include: { fellGroups: { select: { id: true } } } } },
   });
 
@@ -179,5 +185,28 @@ export const updateTimelineEntry = async (
     climbed: entry.climbed,
     camped: entry.camped,
     comments: entry.comments,
+  };
+};
+
+export const deleteTimelineGroup = async (userId: string, date: Date): Promise<TimelineGroupDTO> => {
+  const entry = await prisma.logGroup.delete({
+    where: {
+      start_authorId: {
+        start: date,
+        authorId: userId,
+      },
+    },
+    include: { author: { select: { id: true } } },
+  });
+
+  await clearTimelineCache(userId);
+
+  return {
+    id: entry.id,
+    start: entry.start.toISOString(),
+    end: entry.end?.toISOString() ?? null,
+    source: entry.source,
+    polyline: entry.polyline,
+    entries: [],
   };
 };

@@ -36,6 +36,7 @@ export async function routes(fastify: FastifyInstance, options: object) {
 
     // Extract matched values
     const date = new Date(parsedGpxFile.gpx.metadata.time);
+    date.setHours(0, 0, 0, 0);
     const { trkseg } = parsedGpxFile.gpx.trk;
 
     const points: [number, number][] = trkseg.trkpt.map((t: any) => [parseFloat(t["@_lon"]), parseFloat(t["@_lat"])]);

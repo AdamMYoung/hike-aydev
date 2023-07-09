@@ -96,6 +96,7 @@ export async function routes(fastify: FastifyInstance, options: object) {
     const start = new Date(activity.data.start_date);
     const end = new Date(start.getTime() + activity.data.elapsed_time * 1000);
 
+    start.setHours(0, 0, 0, 0);
     // Get all fells from the fetched activity.
     const fellsOnPolyline = await getFellsOnPolyline(activity.data.map.summary_polyline);
 

@@ -77,7 +77,7 @@ model LogEntry {
 
   author User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   fell   Fell     @relation(fields: [fellId], references: [id])
-  group  LogGroup @relation(fields: [logGroupId], references: [id])
+  group  LogGroup @relation(fields: [logGroupId], references: [id], onDelete: Cascade)
 
   @@unique([authorId, fellId])
   @@map(name: "log_entries")
@@ -110,7 +110,6 @@ model User {
   logEntries      LogEntry[]
   account         Account[]
   session         Session[]
-  timeouts        UserEventTimeout[]
   userPreferences UserPreferences[]
   logGroups       LogGroup[]
 
@@ -130,17 +129,6 @@ model UserPreferences {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map(name: "user_preferences")
-}
-
-model UserEventTimeout {
-  id      String   @id @default(cuid())
-  userId  String
-  expires DateTime
-  event   String
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map(name: "user_event_timeouts")
 }
 
 model VerificationToken {

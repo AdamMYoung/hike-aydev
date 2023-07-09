@@ -5,23 +5,12 @@ import { StravaLoginButton } from "@views/auth/strava-login-button";
 import { SyncStravaHistoryCard } from "@views/data/sync-strava-history-card";
 import { UploadGpxCard } from "@views/data/upload-gpx-card";
 import { DataEntryCard, DataEntryCardDescription, DataEntryCardTitle } from "@organisms/data-entry-card";
-import { constants, getUserTimeouts } from "database";
 import { getCachedCurrentUser, getCachedUserStravaLinkStatus } from "@libs/cache";
 
 const DataCards = async () => {
   const user = await getCachedCurrentUser();
 
-  const [isStravaLinked, timeouts] = await Promise.all([
-    getCachedUserStravaLinkStatus(user?.id),
-    getUserTimeouts(user?.id),
-  ]);
-
-  const isStravaSyncTimedOut = !!timeouts.find(
-    (timeout) =>
-      timeout.event === constants.GET_STRAVA_HISTORY_EVENT && new Date(timeout.expires).getTime() > Date.now()
-  );
-
-  console.log(isStravaSyncTimedOut);
+  const isStravaLinked = await getCachedUserStravaLinkStatus(user?.id);
 
   return (
     <div className="flex flex-col p-2 gap-2">
@@ -35,7 +24,7 @@ const DataCards = async () => {
             <StravaLoginButton disabled>{"Connected"}</StravaLoginButton>
           </DataEntryCard>
 
-          <SyncStravaHistoryCard disabled={isStravaSyncTimedOut} />
+          <SyncStravaHistoryCard />
         </>
       ) : null}
 

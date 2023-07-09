@@ -39,8 +39,3 @@ export type TimelineEntryDTO = {
   camped: boolean;
   comments: string | null;
 };
-
-export type TimeoutDTO = {
-  expires: string;
-  event: string;
-};
