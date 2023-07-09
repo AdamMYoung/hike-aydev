@@ -21,7 +21,7 @@ const TimelineEntries = async () => {
       {userEntries.length > 0 ? (
         userEntries.map((group) => {
           return (
-            <div key={group.id} className="p-1 border rounded-lg bg-white">
+            <div key={group.id} className="group/delete p-1 border rounded-lg bg-white">
               <div className="p-4 flex items-center justify-between gap-2">
                 <h2 className="text-lg font-medium">{new Date(group.start).toLocaleDateString()}</h2>
                 <DeleteTimelineEntryButton userId={user.id} start={new Date(group.start)} />

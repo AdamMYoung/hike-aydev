@@ -29,8 +29,7 @@ export const SyncStravaHistoryCard = ({ disabled }: SyncStravaHistoryCardProps) 
     <DataEntryCard>
       <DataEntryCardTitle>Sync Strava History</DataEntryCardTitle>
       <DataEntryCardDescription>
-        Pull all hiking events from Strava, and sync them with hike.aydev.uk. (Note: This process can take a while with
-        many activities, and as such is limited to once a day.)
+        Pull all hiking events from Strava, and sync them with hike.aydev.uk. (Note: This process can take a while).
       </DataEntryCardDescription>
       <Button disabled={isMutating || disabled} onClick={() => trigger()} variant="outline">
         {isMutating ? <Loader className="animate-spin" /> : "Sync History"}

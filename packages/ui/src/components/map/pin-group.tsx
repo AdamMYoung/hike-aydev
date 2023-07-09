@@ -70,7 +70,10 @@ export const PinGroup = ({ children }: React.PropsWithChildren) => {
       }
 
       map.removeLayer(pinGroupId);
-      map.removeSource(pinGroupId);
+
+      try {
+        map.removeSource(pinGroupId);
+      } catch {}
     };
   }, [map]);
 

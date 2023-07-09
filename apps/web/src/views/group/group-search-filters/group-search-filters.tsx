@@ -70,11 +70,21 @@ export const GroupSearchFilters = ({ isUserAuthenticated }: GroupSearchFiltersPr
       {isUserAuthenticated ? (
         <>
           <div className="flex w-full items-center gap-2" onMouseOver={handleHideCompleteHover}>
-            <Checkbox id="hideComplete" defaultChecked={isHideComplete} onClick={handleHideCompleteChange} />
+            <Checkbox
+              id="hideComplete"
+              defaultChecked={isHideComplete}
+              disabled={isHideIncomplete}
+              onClick={handleHideCompleteChange}
+            />
             <Label htmlFor="hideComplete">Hide complete</Label>
           </div>
           <div className="flex w-full items-center gap-2" onMouseOver={handleHideIncompleteHover}>
-            <Checkbox id="hideIncomplete" defaultChecked={isHideIncomplete} onClick={handleHideIncompleteChange} />
+            <Checkbox
+              id="hideIncomplete"
+              defaultChecked={isHideIncomplete}
+              disabled={isHideComplete}
+              onClick={handleHideIncompleteChange}
+            />
             <Label htmlFor="hideIncomplete">Hide incomplete</Label>
           </div>
         </>

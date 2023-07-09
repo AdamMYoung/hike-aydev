@@ -28,7 +28,7 @@ export const DrawerNavigation = ({ children, ...rest }: DrawerProps) => {
 
 const DrawerNavigationButton = () => {
   return (
-    <SheetTrigger className="block md:hidden" aria-label="Open navigation menu">
+    <SheetTrigger className="block md:hidden py-2" aria-label="Open navigation menu">
       <Menu />
     </SheetTrigger>
   );
@@ -43,14 +43,32 @@ const DrawerNavigationContent = ({ isUserAuthenticated, children }: DrawerProps)
           <span className="font-light">.aydev</span>
         </span>
       </SheetHeader>
-      <div className="flex flex-col items-start grow">
-        <NavigationLink href="/">Fells</NavigationLink>
-        <NavigationLink href="/timeline" disabled={!isUserAuthenticated}>
-          Timeline
-        </NavigationLink>
-        <NavigationLink href="/data" disabled={!isUserAuthenticated}>
-          Data
-        </NavigationLink>
+      <div className="flex flex-col gap-2 text-light items-start grow">
+        <p className="font-semibold">Fells</p>
+        {isUserAuthenticated ? (
+          <NavigationLink className="text-gray-500" href="/timeline">
+            Timeline
+          </NavigationLink>
+        ) : null}
+
+        <NavigationLink href="/">All Groups</NavigationLink>
+        <NavigationLink href="/group/1">Wainwrights</NavigationLink>
+        <NavigationLink href="/group/2">Munros</NavigationLink>
+
+        {isUserAuthenticated ? (
+          <>
+            <p className="font-semibold">Gear</p>
+            <NavigationLink href="/profile">Your Gear</NavigationLink>
+            <NavigationLink href="/profile">Your Lists</NavigationLink>
+          </>
+        ) : null}
+
+        {isUserAuthenticated ? (
+          <>
+            <p className="font-semibold">Profile</p>
+            <NavigationLink href="/profile">Your Profile</NavigationLink>
+          </>
+        ) : null}
       </div>
 
       {children}

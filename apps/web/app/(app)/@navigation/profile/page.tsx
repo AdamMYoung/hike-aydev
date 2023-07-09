@@ -1,13 +1,16 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "ui";
+import { Avatar, AvatarFallback, AvatarImage, Separator } from "ui";
 
 import { DataEntryCard, DataEntryCardDescription, DataEntryCardTitle } from "@organisms/data-entry-card";
 
-import { getCachedCurrentUser } from "@libs/cache";
+import { getCachedCurrentUser, getCachedUserStravaLinkStatus } from "@libs/cache";
 import { SignOutButton } from "@views/layout/sign-out-button";
 
 import { DeleteAccountButton } from "@views/layout/delete-account-button";
+import { StravaLoginButton } from "@views/auth/strava-login-button";
+import { SyncStravaHistoryCard } from "@views/data/sync-strava-history-card";
+import { UploadGpxCard } from "@views/data/upload-gpx-card";
 
 const ProfileContent = async () => {
   const user = await getCachedCurrentUser();
@@ -16,68 +19,11 @@ const ProfileContent = async () => {
     notFound();
   }
 
+  const isStravaLinked = await getCachedUserStravaLinkStatus(user?.id);
+
   return (
-    <div className="flex flex-col gap-2 p-2">
-      {/* <DataEntryCard>
-        <DataEntryCardTitle>Share</DataEntryCardTitle>
-        <DataEntryCardDescription className="flex flex-col gap-4">
-          <p className="text-sm font-light">Share your progress using the link below.</p>
-          <input className="text-base border px-2.5 py-2 rounded" disabled value="https://hike.aydev.uk/dp123od" />
-        </DataEntryCardDescription>
-      </DataEntryCard> */}
-
-      {/* <DataEntryCard>
-        <DataEntryCardTitle>Profile Information</DataEntryCardTitle>
-        <DataEntryCardDescription className="flex flex-col gap-4">
-          <p className="text-sm font-light">
-            Update your profile information to ensure we can reach you with important updates, notifications, and more.
-          </p>
-          <form>
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="name">Name</Label>
-                <input
-                  name="name"
-                  id="name"
-                  className="text-base border px-2.5 py-2 rounded"
-                  defaultValue={user.name ?? ""}
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="email">Email</Label>
-                <input
-                  name="email"
-                  id="email"
-                  className="text-base border px-2.5 py-2 rounded"
-                  defaultValue={user.email ?? ""}
-                />
-              </div>
-            </div>
-            <div className="flex">
-              <Button type="submit" variant="outline" className="ml-auto mt-4">
-                Save
-              </Button>
-            </div>
-          </form>
-        </DataEntryCardDescription>
-      </DataEntryCard> */}
-
-      {/* <DataEntryCard>
-        <DataEntryCardTitle>Notifications</DataEntryCardTitle>
-        <DataEntryCardDescription className="flex flex-col gap-4">
-          <p className="text-sm font-light">
-            Choose the types of notifications you would like to receive from us. We will never share your email address.
-          </p>
-          <form>
-            <div className="flex items-center space-x-2">
-              <Switch id="fell-notifications" />
-              <Label htmlFor="fell-notifications">Fells Added</Label>
-            </div>
-          </form>
-        </DataEntryCardDescription>
-      </DataEntryCard> */}
-
-      <DataEntryCard className="gap-4">
+    <div className="flex flex-col gap-4 p-4">
+      <div className="gap-4 flex justify-between">
         <div className="flex flex-row items-center justify-center gap-2">
           <Avatar>
             <AvatarFallback>{user.name?.substring(0, 1)}</AvatarFallback>
@@ -87,19 +33,32 @@ const ProfileContent = async () => {
         </div>
         {/* @ts-expect-error Server Component */}
         <SignOutButton />
-      </DataEntryCard>
+      </div>
 
-      <DataEntryCard>
-        <DataEntryCardTitle>Delete Profile</DataEntryCardTitle>
-        <DataEntryCardDescription className="flex flex-col gap-4">
-          <p className="text-sm font-light">
-            Use the button below to delete your profile. This will remove all submitted data from the site.
-          </p>
-          <p>Note: This cannot be undone!</p>
-          {/* @ts-expect-error Server Component */}
-          <DeleteAccountButton userId={user.id} />
-        </DataEntryCardDescription>
-      </DataEntryCard>
+      <Separator />
+
+      {isStravaLinked ? (
+        <>
+          <DataEntryCard>
+            <DataEntryCardTitle>Strava</DataEntryCardTitle>
+            <DataEntryCardDescription>
+              Connect your Strava account to automatically track peaks using your events from Strava.
+            </DataEntryCardDescription>
+            <StravaLoginButton disabled>{"Connected"}</StravaLoginButton>
+          </DataEntryCard>
+
+          <SyncStravaHistoryCard />
+        </>
+      ) : null}
+
+      <UploadGpxCard />
+
+      <Separator />
+
+      <div>
+        {/* @ts-expect-error Server Component */}
+        <DeleteAccountButton userId={user.id} />
+      </div>
     </div>
   );
 };

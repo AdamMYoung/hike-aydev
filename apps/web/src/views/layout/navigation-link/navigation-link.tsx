@@ -24,12 +24,7 @@ export const NavigationLink = ({
   ...rest
 }: ElementProps<typeof Link> & { disabled?: boolean }) => {
   const pathname = usePathname();
-  const _className = cn(
-    "text-md p-2 font-normal",
-    isHrefMatching(href as string, pathname) && "font-semibold",
-    disabled && "text-gray-400",
-    className
-  );
+  const _className = cn("text-md text-gray-500 font-normal", className);
 
   if (disabled) {
     return (

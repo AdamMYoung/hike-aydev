@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { Button, cn, Map, useInitialLoadStatus, useInteractionProvider } from "ui";
 import { ResetViewButton } from "../reset-view-button";
 
-const blacklistRoutes = ["/profile", "/data"];
+const blacklistRoutes = ["/profile"];
 
 export const MobileMap = ({ children }: React.PropsWithChildren) => {
   const pathname = usePathname();

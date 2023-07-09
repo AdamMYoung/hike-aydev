@@ -27,3 +27,14 @@ export { useToast, toast } from "./use-toast";
 export { Textarea } from "./textarea";
 export { Skeleton } from "./skeleton";
 export { Switch } from "./switch";
+export {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+  navigationMenuTriggerStyle,
+} from "./navigation-menu";

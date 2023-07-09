@@ -1,13 +1,22 @@
 import { Menu } from "lucide-react";
 import { Suspense } from "react";
-import { cn, ElementProps, Separator, Skeleton } from "ui";
+import {
+  cn,
+  ElementProps,
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
+  Separator,
+  Skeleton,
+} from "ui";
 
 import { getCurrentUser } from "@libs/session";
-import { Profile } from "@views/layout/profile";
-import { SignOutButton } from "@views/layout/sign-out-button";
 
 import { DrawerNavigation } from "../drawer-navigation";
-import { NavigationLink } from "../navigation-link";
+
+import { DesktopLinks } from "./desktop-links";
+import { Profile } from "../profile";
 
 type TopNavigationProps = Omit<ElementProps<"div">, "children">;
 
@@ -18,39 +27,10 @@ const MobileNavigation = async () => {
   return <DrawerNavigation isUserAuthenticated={isUserAuthenticated} />;
 };
 
-const MobileNavigationPlaceholder = () => {
-  return (
-    <div className="block md:hidden">
-      <Menu />
-    </div>
-  );
-};
-
-const DesktopLinks = async () => {
+const DesktopNavigation = async () => {
   const user = await getCurrentUser();
-  const isUserAuthenticated = !!user;
 
-  return (
-    <div className="hidden md:flex gap-2 items-baseline">
-      <NavigationLink href="/">Fells</NavigationLink>
-      <NavigationLink href="/timeline" disabled={!isUserAuthenticated}>
-        Timeline
-      </NavigationLink>
-      <NavigationLink href="/data" disabled={!isUserAuthenticated}>
-        Data
-      </NavigationLink>
-    </div>
-  );
-};
-
-const DesktopLinksPlaceholder = () => {
-  return (
-    <div className="hidden md:flex gap-2 items-baseline">
-      <Skeleton className="h-6 w-12 rounded-full" />
-      <Skeleton className="h-6 w-12 rounded-full" />
-      <Skeleton className="h-6 w-12 rounded-full" />
-    </div>
-  );
+  return <DesktopLinks isUserAuthenticated={!!user} />;
 };
 
 const ProfilePlaceholder = () => {
@@ -63,33 +43,28 @@ const ProfilePlaceholder = () => {
 };
 
 export const TopNavigation = async ({ className, ...rest }: TopNavigationProps) => {
-  const _className = cn("w-full justify-between shadow flex px-4 py-2 items-center border-b", className);
+  const _className = cn("w-full justify-between shadow flex px-4 md:px-8 py-2 items-center border-b", className);
 
   return (
     <div className={_className} {...rest}>
-      <div className="flex gap-2 md:gap-6 items-center">
-        <Suspense fallback={<MobileNavigationPlaceholder />}>
-          {/* @ts-expect-error Server Component */}
-          <MobileNavigation />
-        </Suspense>
+      <div className="flex gap-4 md:gap-4 items-center w-full">
+        {/* @ts-expect-error Server Component */}
+        <MobileNavigation />
 
-        <span className="text-2xl md:text-3xl w-full">
+        <span className="text-xl">
           <span className="font-semibold">Hike</span>
           <span className="font-light">.aydev</span>
         </span>
 
-        <Separator className="h-12 hidden md:block" orientation="vertical" />
+        {/* @ts-expect-error Server Component */}
+        <DesktopNavigation />
 
-        <Suspense fallback={<DesktopLinksPlaceholder />}>
+        <div className="mx-auto" />
+        <Suspense fallback={<ProfilePlaceholder />}>
           {/* @ts-expect-error Server Component */}
-          <DesktopLinks />
+          <Profile />
         </Suspense>
       </div>
-
-      <Suspense fallback={<ProfilePlaceholder />}>
-        {/* @ts-expect-error Server Component */}
-        <Profile />
-      </Suspense>
     </div>
   );
 };

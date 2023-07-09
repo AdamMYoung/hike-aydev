@@ -34,7 +34,7 @@ export const DeleteTimelineEntryButton = ({ start, userId, className, ...rest }:
             disabled={isPending}
             type="submit"
             variant="ghost"
-            className={cn("px-2 text-gray-300", className)}
+            className={cn("px-2 text-gray-300 opacity-0 transition-opacity group-hover/delete:opacity-100", className)}
             {...rest}
           >
             <Trash className="h-6 w-6" />
