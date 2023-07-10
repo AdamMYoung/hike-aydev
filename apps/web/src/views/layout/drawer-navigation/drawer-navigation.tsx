@@ -59,7 +59,7 @@ const DrawerNavigationContent = ({ isUserAuthenticated, children }: DrawerProps)
           <>
             <p className="font-semibold">Gear</p>
             <NavigationLink href="/gear">Your Gear</NavigationLink>
-            <NavigationLink href="/gear/lists">Your Lists</NavigationLink>
+            <NavigationLink href="/gear/stats">Gear Statistics</NavigationLink>
           </>
         ) : null}
 

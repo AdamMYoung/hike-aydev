@@ -2,8 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["filteredRelationCount"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -112,6 +111,8 @@ model User {
   session         Session[]
   userPreferences UserPreferences[]
   logGroups       LogGroup[]
+  GearList        GearList[]
+  GearItem        GearItem[]
 
   @@map(name: "users")
 }
@@ -148,6 +149,80 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map(name: "sessions")
+}
+
+model GearList {
+  id     String @id @default(cuid())
+  userId String
+
+  name            String          @default("My List")
+  private         Boolean         @default(false)
+  measurementType MeasurementType @default(GRAM)
+
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  GearCategory GearCategory[]
+
+  @@map(name: "gear_lists")
+}
+
+model GearCategory {
+  id         String @id @default(cuid())
+  gearListId String
+
+  name String
+
+  list    GearList            @relation(fields: [gearListId], references: [id])
+  entries GearCategoryEntry[]
+
+  @@map("gear_categories")
+}
+
+model GearCategoryEntry {
+  id             String @id @default(cuid())
+  gearId         String
+  gearCategoryId String
+  gearItemId     String
+
+  quantity   Int
+  weightType WeightType @default(BASE_WEIGHT)
+
+  category GearCategory @relation(fields: [gearCategoryId], references: [id], onDelete: Cascade)
+  item     GearItem     @relation(fields: [gearItemId], references: [id], onDelete: Cascade)
+
+  @@map("gear_category_entries")
+}
+
+model GearItem {
+  id     String @id @default(cuid())
+  userId String
+
+  name         String
+  description  String
+  weightGrams  Float
+  trackingType TrackingType?
+
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  associatedEntries GearCategoryEntry[]
+
+  @@map("gear_items")
+}
+
+enum TrackingType {
+  DISTANCE
+  NIGHTS
+}
+
+enum WeightType {
+  BASE_WEIGHT
+  WORN
+  CONSUMABLE
+}
+
+enum MeasurementType {
+  GRAM
+  KG
+  OZ
+  LB
 }
 
 enum LogSource {
