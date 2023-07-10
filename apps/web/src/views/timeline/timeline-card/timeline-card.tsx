@@ -27,8 +27,8 @@ export const TimelineCard = ({ fell, comments, className, children, logId, ...re
 
   const _className = cn(
     "group px-4 py-1 flex flex-col gap-1",
-    isCommentEditing && "py-2 bg-muted",
-    !isCommentEditing && "hover:bg-muted",
+    isCommentEditing && "py-2 bg-border",
+    !isCommentEditing && "hover:bg-border",
     className
   );
 

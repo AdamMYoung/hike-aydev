@@ -159,8 +159,8 @@ model GearList {
   private         Boolean         @default(false)
   measurementType MeasurementType @default(GRAM)
 
-  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  GearCategory GearCategory[]
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categories GearCategory[]
 
   @@map(name: "gear_lists")
 }
@@ -171,15 +171,14 @@ model GearCategory {
 
   name String
 
-  list    GearList            @relation(fields: [gearListId], references: [id])
-  entries GearCategoryEntry[]
+  list                GearList            @relation(fields: [gearListId], references: [id], onDelete: Cascade)
+  gearCategoryEntries GearCategoryEntry[]
 
   @@map("gear_categories")
 }
 
 model GearCategoryEntry {
   id             String @id @default(cuid())
-  gearId         String
   gearCategoryId String
   gearItemId     String
 
@@ -201,8 +200,8 @@ model GearItem {
   weightGrams  Float
   trackingType TrackingType?
 
-  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  associatedEntries GearCategoryEntry[]
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gearCategoryEntries GearCategoryEntry[]
 
   @@map("gear_items")
 }

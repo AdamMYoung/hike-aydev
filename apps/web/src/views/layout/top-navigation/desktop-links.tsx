@@ -50,9 +50,9 @@ export const DesktopLinks = ({ isUserAuthenticated }: DesktopLinksProps) => {
                 <ListItem title="Your Gear" href="/gear">
                   Every piece of gear you&apos;ve logged, and all the lists you&apos;ve built.
                 </ListItem>
-                <ListItem title="Statistics" href="/gear/stats">
+                {/* <ListItem title="Statistics" href="/gear/stats">
                   Usage statistics on your gear, including miles walked and days used.
-                </ListItem>
+                </ListItem> */}
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
