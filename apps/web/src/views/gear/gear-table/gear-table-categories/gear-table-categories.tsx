@@ -7,14 +7,14 @@ import { nanoid } from "nanoid";
 import { GearTableEntries } from "../gear-table-entries";
 
 export const GearTableCategories = () => {
-  const { fields, append } = useFieldArray<GearListDetailDTO>({ name: "categories" });
+  const { fields, append, remove } = useFieldArray<GearListDetailDTO>({ name: "categories" });
 
   return (
     <div className="flex flex-col">
       <div className="divide-y">
         {fields.map((field, index) => (
           <div key={field.id} className="py-2 group/category">
-            <GearTableEntries categoryIndex={index} />
+            <GearTableEntries categoryIndex={index} removeCategory={() => remove(index)} />
           </div>
         ))}
       </div>

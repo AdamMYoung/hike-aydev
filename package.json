@@ -20,6 +20,8 @@
     "packages/*"
   ],
   "dependencies": {
-    "lodash.debounce": "^4.0.8"
+    "@types/lodash.flattendeep": "^4.4.7",
+    "lodash.debounce": "^4.0.8",
+    "lodash.flattendeep": "^4.4.0"
   }
 }

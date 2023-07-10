@@ -2,7 +2,7 @@ import { getCachedCurrentUser, getCachedUserGearList } from "@libs/cache";
 import { GearTable } from "@views/gear/gear-table";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Skeleton } from "ui";
+import { ScrollArea, Skeleton } from "ui";
 
 type GearListProps = {
   params: { id: string };
@@ -19,8 +19,10 @@ const GearListContent = async ({ params }: GearListProps) => {
 
   return (
     <div className="py-4 h-full relative">
-      <div className="absolute container overflow-y-auto top-0 left-0 right-0 bottom-0">
-        <GearTable userId={user.id} gearList={gearList} />
+      <div className="absolute container top-0 left-0 right-0 bottom-0">
+        <ScrollArea className="h-full">
+          <GearTable userId={user.id} gearList={gearList} />
+        </ScrollArea>
       </div>
     </div>
   );

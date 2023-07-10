@@ -1826,6 +1826,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash.flattendeep@npm:^4.4.7":
+  version: 4.4.7
+  resolution: "@types/lodash.flattendeep@npm:4.4.7"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 481aa05083b49445981a052ae0a88a51af313a1a236fcd6763a9fa820e3f7f712016fd01a5e7c734e2611d9d71961658fd951095a14821f391c8fb69c871c221
+  languageName: node
+  linkType: hard
+
 "@types/lodash@npm:*":
   version: 4.14.195
   resolution: "@types/lodash@npm:4.14.195"
@@ -4396,10 +4405,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "hike-aydev@workspace:."
   dependencies:
+    "@types/lodash.flattendeep": ^4.4.7
     dotenv-cli: ^7.2.1
     eslint: ^7.32.0
     eslint-config-custom: "*"
     lodash.debounce: ^4.0.8
+    lodash.flattendeep: ^4.4.0
     prettier: ^2.8.8
     turbo: ^1.10.7
   languageName: unknown
@@ -5055,6 +5066,13 @@ __metadata:
   version: 4.0.8
   resolution: "lodash.debounce@npm:4.0.8"
   checksum: a3f527d22c548f43ae31c861ada88b2637eb48ac6aa3eb56e82d44917971b8aa96fbb37aa60efea674dc4ee8c42074f90f7b1f772e9db375435f6c83a19b3bc6
+  languageName: node
+  linkType: hard
+
+"lodash.flattendeep@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "lodash.flattendeep@npm:4.4.0"
+  checksum: 8521c919acac3d4bcf0aaf040c1ca9cb35d6c617e2d72e9b4d51c9a58b4366622cd6077441a18be626c3f7b28227502b3bf042903d447b056ee7e0b11d45c722
   languageName: node
   linkType: hard
 

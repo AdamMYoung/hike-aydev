@@ -1,17 +1,31 @@
 "use client";
 
-import { GearListDetailDTO } from "database";
+import { deleteGearList, GearListDetailDTO } from "database";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { Button, Input } from "ui";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Button,
+  Input,
+} from "ui";
 import { nanoid } from "nanoid";
 import { Download, Plus, Trash } from "lucide-react";
-import { useMemo } from "react";
+import { startTransition, useMemo } from "react";
+import { redirect } from "next/navigation";
 
 type GearTableEntriesProps = {
+  removeCategory: () => void;
   categoryIndex: number;
 };
 
-export const GearTableEntries = ({ categoryIndex }: GearTableEntriesProps) => {
+export const GearTableEntries = ({ categoryIndex, removeCategory }: GearTableEntriesProps) => {
   const { register, watch } = useFormContext<GearListDetailDTO>();
   const { fields, append, remove } = useFieldArray<GearListDetailDTO, `categories.${number}.items`>({
     name: `categories.${categoryIndex}.items`,
@@ -45,7 +59,30 @@ export const GearTableEntries = ({ categoryIndex }: GearTableEntriesProps) => {
             <th></th>
             <th>Weight</th>
             <th>Quantity</th>
-            <th></th>
+            <th>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="opacity-0 px-2 h-8 group-hover/category:opacity-100 transition-opacity"
+                  >
+                    <Trash className="text-gray-400 w-4 h-4" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Delete category?</AlertDialogTitle>
+                    <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction asChild>
+                      <Button onClick={removeCategory}>Yes, delete category</Button>
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y">
@@ -66,7 +103,7 @@ export const GearTableEntries = ({ categoryIndex }: GearTableEntriesProps) => {
                 />
               </td>
               <td>
-                <div className="flex gap-1 px-2 self-center py-auto transition-opacity opacity-0 group-focus-within:opacity-100 group-hover:opacity-100">
+                <div className="hidden gap-1 px-2 self-center py-auto transition-opacity opacity-0 group-focus-within:opacity-100 group-hover:opacity-100">
                   <Button className="p-0 w-6 h-6" variant="outline" />
                   <Button className="p-0 w-6 h-6" variant="outline" />
                   <Button className="p-0 w-6 h-6" variant="outline" />
@@ -91,8 +128,12 @@ export const GearTableEntries = ({ categoryIndex }: GearTableEntriesProps) => {
                 />
               </td>
               <td className="px-2">
-                <Button variant="ghost" className="opacity-0 px-2 h-8 group-hover:opacity-100 transition-opacity">
-                  <Trash className="text-gray-400 w-4 h-4" onClick={() => remove(index)} />
+                <Button
+                  variant="ghost"
+                  className="opacity-0 px-2 h-8 group-hover:opacity-100 transition-opacity"
+                  onClick={() => remove(index)}
+                >
+                  <Trash className="text-gray-400 w-4 h-4" />
                 </Button>
               </td>
             </tr>

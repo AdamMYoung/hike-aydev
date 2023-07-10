@@ -56,7 +56,6 @@ export type GearItemDTO = {
 export type GearListItemDTO = GearItemDTO & {
   itemId: string;
   quantity: number;
-
   weightType: WeightType;
 };
 

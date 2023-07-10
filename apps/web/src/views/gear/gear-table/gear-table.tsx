@@ -38,7 +38,7 @@ export const GearTable = ({ gearList, userId }: GearTableProps) => {
           e.preventDefault();
         }}
       >
-        <div className="flex flex-col gap-2 pt-6 h-full">
+        <div className="flex flex-col gap-2 p-6 h-full">
           <GearTableTitle />
 
           <div className="pt-4 relative h-full">
