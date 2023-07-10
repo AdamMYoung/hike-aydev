@@ -1,5 +1,6 @@
-const Default = () => {
-  return <div />;
-};
+import Page from "./page";
 
-export default Default;
+export default function Default({ ...props }) {
+  // @ts-ignore
+  return <Page {...props} />;
+}

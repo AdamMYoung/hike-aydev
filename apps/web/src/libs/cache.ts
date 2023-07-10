@@ -6,6 +6,7 @@ import {
   getUserStravaLinkStatus,
   getUserTimelineById,
   TimelineEntryDTO,
+  getUserGearLists,
 } from "database";
 import { cache } from "react";
 import { getCurrentUser } from "./session";
@@ -39,3 +40,5 @@ export const getCachedFlattenedTimelineEntries = async (userId?: string | null) 
 
   return entries;
 };
+
+export const getCachedUserGearLists = cache((userId: string) => getUserGearLists(userId));
