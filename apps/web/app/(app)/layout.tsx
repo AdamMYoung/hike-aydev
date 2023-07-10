@@ -23,14 +23,14 @@ export default async function Layout({ children, navigation }: LayoutProps) {
   preload(user?.id);
 
   return (
-    <div className="flex flex-col fixed w-full h-full bg-background">
+    <div className="flex flex-col fixed w-full h-full  bg-background\">
       <DarkModeProvider>
         <MapProvider>
           {/* @ts-expect-error Server Component */}
           <TopNavigation />
           <div className="grid md:grid-cols-[300px_1fr] xl:grid-cols-[400px_1fr] shrink grow">
             <div className="relative w-full">
-              <div className="absolute top-0 bottom-0 left-0 right-0 border-r bg-background">
+              <div className="absolute top-0 bottom-0 left-0 right-0 border-r border-r-muted bg-background">
                 <SideNavigation>{navigation}</SideNavigation>
               </div>
               <MobileMap>{children}</MobileMap>

@@ -44,7 +44,7 @@ const DrawerNavigationContent = ({ isUserAuthenticated, children }: DrawerProps)
         </span>
       </SheetHeader>
       <div className="flex flex-col gap-2 text-light items-start grow">
-        <p className="font-semibold">Fells</p>
+        <p className="font-semibold">Tracking</p>
         {isUserAuthenticated ? (
           <NavigationLink className="text-gray-500" href="/timeline">
             Timeline

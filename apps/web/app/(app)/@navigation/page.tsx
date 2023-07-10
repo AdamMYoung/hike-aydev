@@ -11,7 +11,7 @@ const NavigationEntries = async () => {
   const groups = await getCachedFlattenedTimelineEntries(user?.id);
 
   return (
-    <div className="flex flex-col text-left divide-y rounded-lg p-2 bg-background">
+    <div className="flex flex-col text-left gap-2 rounded-lg p-2 bg-background">
       {entries
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((entry) => {
@@ -20,11 +20,11 @@ const NavigationEntries = async () => {
           return (
             <PeakEntry key={entry.id} href={`/group/${entry.id}`} title={entry.name}>
               {user ? (
-                <p className="text-sm">
+                <p className="text-sm text-muted-foreground">
                   {completedEntries.length}/{entry.fellCount} complete
                 </p>
               ) : (
-                <p className="text-sm">{entry.fellCount} fells</p>
+                <p className="text-sm text-muted-foreground">{entry.fellCount} fells</p>
               )}
             </PeakEntry>
           );
@@ -46,7 +46,9 @@ const NavigationEntriesPlaceholder = () => {
 const PeaksNavigation = async () => {
   return (
     <div>
-      <h1 className="text-2xl font-medium py-4 text-center shadow sticky bg-background z-10 top-0">All Groups</h1>
+      <h1 className="text-2xl font-medium py-4 text-center shadow dark:shadow-muted sticky bg-background z-10 top-0">
+        All Groups
+      </h1>
       <div className="p-2 flex flex-col gap-2">
         <Suspense fallback={<NavigationEntriesPlaceholder />}>
           {/* @ts-expect-error Server Component */}

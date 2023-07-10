@@ -13,10 +13,7 @@ export const DarkModeProvider = ({ children }: React.PropsWithChildren) => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsDarkMode(
-      localStorage?.theme === "dark" ||
-        (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
-    );
+    setIsDarkMode(localStorage?.theme === "dark");
   }, []);
 
   const setDarkMode = (isDarkMode: boolean) => {

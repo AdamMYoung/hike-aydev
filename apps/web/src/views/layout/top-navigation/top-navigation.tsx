@@ -45,7 +45,7 @@ const ProfilePlaceholder = () => {
 
 export const TopNavigation = async ({ className, ...rest }: TopNavigationProps) => {
   const _className = cn(
-    "w-full justify-between shadow flex px-4 md:pl-8 md:pr-2 py-2 items-center border-b",
+    "w-full justify-between flex px-4 md:pl-8 md:pr-2 py-2 items-center border-b border-b-muted",
     className
   );
 

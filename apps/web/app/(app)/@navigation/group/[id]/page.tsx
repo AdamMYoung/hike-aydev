@@ -99,7 +99,7 @@ const PeakDetailNavigationContentPlaceholder = () => {
             <Separator />
           </div>
 
-          <div className="flex flex-col gap-2 p-4 shadow">
+          <div className="flex flex-col gap-2 p-4 shadow dark:shadow-muted">
             <Skeleton className="w-16 h-2" />
             <Skeleton className="w-full h-8" />
             <Skeleton className="w-24 h-4" />
