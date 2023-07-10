@@ -46,7 +46,7 @@ const NavigationEntriesPlaceholder = () => {
 const PeaksNavigation = async () => {
   return (
     <div>
-      <h1 className="text-2xl font-medium py-4 text-center shadow sticky bg-white z-10 top-0">Fells</h1>
+      <h1 className="text-2xl font-medium py-4 text-center shadow sticky bg-white z-10 top-0">All Groups</h1>
       <div className="p-2 flex flex-col gap-2">
         <Suspense fallback={<NavigationEntriesPlaceholder />}>
           {/* @ts-expect-error Server Component */}
