@@ -37,7 +37,7 @@ const NavigationEntriesPlaceholder = () => {
   return (
     <div className="flex flex-col text-left divide-y rounded-lg gap-2 p-2 bg-white">
       {new Array(5).fill("").map((_, index) => (
-        <Skeleton className="w-full h-[50px]" />
+        <Skeleton key={index} className="w-full h-[50px]" />
       ))}
     </div>
   );
