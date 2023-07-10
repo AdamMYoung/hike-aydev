@@ -6,6 +6,10 @@ import { TimelineCard } from "@views/timeline/timeline-card";
 import { getCachedCurrentUser, getCachedUserTimelineById } from "@libs/cache";
 import { ViewRouteButton } from "@views/timeline/view-route-button";
 import { DeleteTimelineEntryButton } from "@views/timeline/delete-timeline-entry-button";
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+
+dayjs.extend(advancedFormat);
 
 const TimelineEntries = async () => {
   const user = await getCachedCurrentUser();
@@ -23,7 +27,7 @@ const TimelineEntries = async () => {
           return (
             <div key={group.id} className="group/delete p-1 border rounded-lg bg-background">
               <div className="p-4 flex items-center justify-between gap-2">
-                <h2 className="text-lg font-medium">{new Date(group.start).toLocaleDateString()}</h2>
+                <h2 className="text-lg font-medium">{dayjs(new Date(group.start)).format("Do MMMM, YYYY")}</h2>
                 <DeleteTimelineEntryButton userId={user.id} start={new Date(group.start)} />
               </div>
               <div className="divide-y border-muted">
