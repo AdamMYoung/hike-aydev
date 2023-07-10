@@ -69,11 +69,17 @@ export const PinGroup = ({ children }: React.PropsWithChildren) => {
         return;
       }
 
-      map.removeLayer(pinGroupId);
+      if (map.getLayer(pinGroupId)) {
+        try {
+          map.removeLayer(pinGroupId);
+        } catch {}
+      }
 
-      try {
-        map.removeSource(pinGroupId);
-      } catch {}
+      if (map.getSource(pinGroupId)) {
+        try {
+          map.removeSource(pinGroupId);
+        } catch {}
+      }
     };
   }, [map]);
 

@@ -68,11 +68,15 @@ export const ViewRouteButton = ({ polyline }: ViewRouteButtonProps) => {
     }
 
     if (map.getLayer(routeId)) {
-      map.removeLayer(routeId);
+      try {
+        map.removeLayer(routeId);
+      } catch {}
     }
 
     if (map.getSource(routeId)) {
-      map.removeSource(routeId);
+      try {
+        map.removeSource(routeId);
+      } catch {}
     }
   };
 
