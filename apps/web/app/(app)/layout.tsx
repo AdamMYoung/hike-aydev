@@ -23,7 +23,7 @@ export default async function Layout({ children, navigation }: LayoutProps) {
   preload(user?.id);
 
   return (
-    <div className="flex flex-col fixed w-full h-full">
+    <div className="flex flex-col fixed w-full h-full bg-background">
       <DarkModeProvider>
         <MapProvider>
           {/* @ts-expect-error Server Component */}
