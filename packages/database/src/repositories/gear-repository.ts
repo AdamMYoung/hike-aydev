@@ -164,7 +164,7 @@ export const updateGearList = async (userId: string, data: GearListDetailDTO) =>
         });
       },
       {
-        isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted,
+        isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
         maxWait: 5000, // default: 2000
         timeout: 10000, // default: 5000
       }
