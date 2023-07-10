@@ -56,7 +56,7 @@ export const GroupSearchFilters = ({ isUserAuthenticated }: GroupSearchFiltersPr
   };
 
   return (
-    <div className="p-4 shadow bg-white space-y-4">
+    <div className="p-4 shadow bg-background space-y-4">
       <div className="grid w-full max-w-sm items-center gap-2  ">
         <Label htmlFor="search">Search</Label>
         <Input

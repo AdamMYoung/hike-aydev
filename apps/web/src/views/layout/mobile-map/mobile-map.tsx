@@ -45,7 +45,7 @@ export const MobileMap = ({ children }: React.PropsWithChildren) => {
       {isLoaded ? (
         <div
           className={cn(
-            "absolute transition-opacity bg-white z-10 top-0 left-0 bottom-0 right-0",
+            "absolute transition-opacity bg-background z-10 top-0 left-0 bottom-0 right-0",
             isMobileMapOpen ? "opacity-100" : "pointer-events-none opacity-0"
           )}
         >

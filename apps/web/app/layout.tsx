@@ -4,6 +4,8 @@ import { Jost } from "next/font/google";
 import { Toaster } from "ui";
 
 import { Analytics } from "@vercel/analytics/react";
+import { DarkModeController } from "@views/layout/dark-mode-controller";
+import { Suspense } from "react";
 
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
 
@@ -23,7 +25,8 @@ export default function Layout({ children }: LayoutProps) {
         <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css" rel="stylesheet" />
       </head>
       <body className="font-sans">
-        {children}
+        <DarkModeController />
+        <Suspense>{children}</Suspense>
         <Toaster />
         <Analytics />
       </body>

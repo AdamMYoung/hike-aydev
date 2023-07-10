@@ -16,7 +16,7 @@ export const UploadGpxCard = () => {
     if (data) {
       toast({
         title: "Upload Successful!",
-        className: "bg-green-200 border-gray-500",
+        className: "bg-green-200 border-muted",
         description: `GPX file uploaded. Found ${data.total} fells along the route, ${
           data.inserted === 0 ? "but all were already tracked." : `and tracked ${data.inserted} new entries.`
         }`,

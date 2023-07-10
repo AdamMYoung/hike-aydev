@@ -35,7 +35,7 @@ export const PeakListEntry = ({
   const [isPending, startTransition] = useTransition();
 
   const _className = cn(
-    "group flex group py-1 px-1 gap-2 items-center justify-between text-sm xl:text-base hover:bg-gray-50",
+    "group flex group py-1 px-1 gap-2 items-center justify-between text-sm xl:text-base hover:bg-muted",
     className
   );
 
@@ -68,7 +68,7 @@ export const PeakListEntry = ({
             disabled={disabled || isPending}
             checked={checked}
             onClick={() => startTransition(() => toggleTimelineEntry(userId, fell.id, !checked))}
-            className="h-6 w-6 border-gray-400"
+            className="h-6 w-6 border-muted"
           />
         )}
         <label>

@@ -29,7 +29,7 @@ export default async function Layout({ children, navigation }: LayoutProps) {
       <div className="grid md:grid-cols-[300px_1fr] xl:grid-cols-[400px_1fr] shrink grow">
         <MapProvider>
           <div className="relative w-full">
-            <div className="absolute top-0 bottom-0 left-0 right-0 border-r bg-white">
+            <div className="absolute top-0 bottom-0 left-0 right-0 border-r bg-background">
               <SideNavigation>{navigation}</SideNavigation>
             </div>
             <MobileMap>{children}</MobileMap>

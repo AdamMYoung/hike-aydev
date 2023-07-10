@@ -21,12 +21,12 @@ const TimelineEntries = async () => {
       {userEntries.length > 0 ? (
         userEntries.map((group) => {
           return (
-            <div key={group.id} className="group/delete p-1 border rounded-lg bg-white">
+            <div key={group.id} className="group/delete p-1 border rounded-lg bg-background">
               <div className="p-4 flex items-center justify-between gap-2">
                 <h2 className="text-lg font-medium">{new Date(group.start).toLocaleDateString()}</h2>
                 <DeleteTimelineEntryButton userId={user.id} start={new Date(group.start)} />
               </div>
-              <div className="divide-y border-gray-50">
+              <div className="divide-y border-muted">
                 {group.entries.map((e) => (
                   <TimelineCard key={e.id} logId={e.id} fell={e.fell} comments={e.comments} />
                 ))}
@@ -56,9 +56,9 @@ const TimelineEntriesPlaceholder = () => {
     <div className="flex flex-col gap-2 p-2">
       {new Array(5).fill("").map((_, index) => {
         return (
-          <div key={index} className="p-4 flex flex-col gap-4 border rounded-lg bg-white">
+          <div key={index} className="p-4 flex flex-col gap-4 border rounded-lg bg-background">
             <Skeleton className="w-48 h-10" />
-            <div className="divide-y flex flex-col gap-4 border-gray-50">
+            <div className="divide-y flex flex-col gap-4 border-muted">
               <Skeleton className="w-full h-6" />
               <Skeleton className="w-full h-6" />
               <Skeleton className="w-full h-6" />
@@ -75,7 +75,7 @@ const TimelineEntriesPlaceholder = () => {
 const Timeline = async () => {
   return (
     <div>
-      <h1 className="text-2xl font-medium py-4 text-center shadow sticky bg-white z-10 top-0">Your Timeline</h1>
+      <h1 className="text-2xl font-medium py-4 text-center shadow sticky bg-background z-10 top-0">Your Timeline</h1>
       <Suspense fallback={<TimelineEntriesPlaceholder />}>
         {/* @ts-expect-error Server Component */}
         <TimelineEntries />

@@ -70,7 +70,7 @@ const ProfileContentPlaceholder = () => {
 const Profile = async () => {
   return (
     <div>
-      <h1 className="text-2xl font-medium py-4 text-center shadow sticky bg-white z-10 top-0">Profile</h1>
+      <h1 className="text-2xl font-medium py-4 text-center shadow sticky bg-background z-10 top-0">Profile</h1>
       <Suspense fallback={<ProfileContentPlaceholder />}>
         {/* @ts-expect-error Server Component */}
         <ProfileContent />

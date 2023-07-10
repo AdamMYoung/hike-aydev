@@ -19,7 +19,7 @@ export const SyncStravaHistoryCard = ({ disabled }: SyncStravaHistoryCardProps) 
     if (isMutating) {
       toast({
         title: "Strava data syncing...",
-        className: "bg-green-200 border-gray-500",
+        className: "bg-green-200 border-muted",
         description: `This process can take a while, check back for updates!`,
       });
     }

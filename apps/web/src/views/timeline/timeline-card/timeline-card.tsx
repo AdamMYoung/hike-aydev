@@ -27,8 +27,8 @@ export const TimelineCard = ({ fell, comments, className, children, logId, ...re
 
   const _className = cn(
     "group px-4 py-1 flex flex-col gap-1",
-    isCommentEditing && "py-2 bg-gray-50",
-    !isCommentEditing && "hover:bg-gray-50",
+    isCommentEditing && "py-2 bg-muted",
+    !isCommentEditing && "hover:bg-muted",
     className
   );
 
@@ -91,12 +91,16 @@ export const TimelineCard = ({ fell, comments, className, children, logId, ...re
 
       {isCommentEditing ? (
         <div className="flex flex-col gap-2">
-          <Textarea className="bg-white" value={editComment ?? ""} onChange={(e) => setEditComment(e.target.value)} />
+          <Textarea
+            className="bg-background"
+            value={editComment ?? ""}
+            onChange={(e) => setEditComment(e.target.value)}
+          />
           <div className="flex gap-2 ml-auto">
             <Button
               aria-label="Cancel"
               variant="outline"
-              className="hover:bg-red-50 bg-white h-auto w-auto p-2"
+              className=" bg-background h-auto w-auto p-2"
               disabled={isPending}
               onClick={handleReset}
             >
@@ -105,7 +109,7 @@ export const TimelineCard = ({ fell, comments, className, children, logId, ...re
             <Button
               aria-label="Save"
               variant="outline"
-              className="hover:bg-green-50 bg-white h-auto w-auto p-2"
+              className="bg-background h-auto w-auto p-2"
               disabled={isPending}
               onClick={handleSave}
             >

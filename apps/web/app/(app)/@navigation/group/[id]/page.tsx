@@ -36,9 +36,9 @@ const PeakDetailNavigationContent = async ({
   const entries = await getCachedFlattenedTimelineEntries(user?.id);
 
   return (
-    <div className="bg-white">
+    <div className="bg-background">
       <div className="h-full relative">
-        <div className="bg-white pt-4 sticky top-0 z-10 ">
+        <div className="bg-background pt-4 sticky top-0 z-10 ">
           <div className="px-4 space-y-4">
             <div className="flex gap-4 items-center">
               <Link href="/">
@@ -88,9 +88,9 @@ const PeakDetailNavigationContent = async ({
 
 const PeakDetailNavigationContentPlaceholder = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-background">
       <div className="h-full relative">
-        <div className="bg-white pt-4 sticky top-0 z-10 ">
+        <div className="bg-background pt-4 sticky top-0 z-10 ">
           <div className="px-4 space-y-4">
             <div className="flex gap-4 items-center">
               <Skeleton className="w-24 h-8" />

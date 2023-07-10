@@ -17,6 +17,7 @@ import { DrawerNavigation } from "../drawer-navigation";
 
 import { DesktopLinks } from "./desktop-links";
 import { Profile } from "../profile";
+import { DarkModeToggle } from "../dark-mode-toggle/dark-mode-toggle";
 
 type TopNavigationProps = Omit<ElementProps<"div">, "children">;
 
@@ -43,7 +44,10 @@ const ProfilePlaceholder = () => {
 };
 
 export const TopNavigation = async ({ className, ...rest }: TopNavigationProps) => {
-  const _className = cn("w-full justify-between shadow flex px-4 md:px-8 py-2 items-center border-b", className);
+  const _className = cn(
+    "w-full justify-between shadow flex px-4 md:pl-8 md:pr-2 py-2 items-center border-b",
+    className
+  );
 
   return (
     <div className={_className} {...rest}>
@@ -64,6 +68,7 @@ export const TopNavigation = async ({ className, ...rest }: TopNavigationProps) 
           {/* @ts-expect-error Server Component */}
           <Profile />
         </Suspense>
+        <DarkModeToggle />
       </div>
     </div>
   );
