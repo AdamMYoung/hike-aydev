@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useEffect, useId } from "react";
-import { useMapProvider } from "../../context";
+import { useDarkMode, useMapProvider } from "../../context";
 import { PinProps } from "./pin";
 
 export const PinGroup = ({ children }: React.PropsWithChildren) => {
   const pinGroupId = useId();
   const { map } = useMapProvider();
+  const { isDarkMode } = useDarkMode();
 
   useEffect(() => {
     if (!map) {
@@ -50,6 +51,9 @@ export const PinGroup = ({ children }: React.PropsWithChildren) => {
         id: pinGroupId,
         type: "symbol",
         source: pinGroupId,
+        paint: {
+          "text-color": isDarkMode ? "white" : "black",
+        },
         layout: {
           "text-field": ["get", "name"],
           "text-variable-anchor": ["top"],
@@ -81,7 +85,7 @@ export const PinGroup = ({ children }: React.PropsWithChildren) => {
         } catch {}
       }
     };
-  }, [map]);
+  }, [map, isDarkMode]);
 
   return null;
 };

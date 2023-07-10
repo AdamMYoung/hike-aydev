@@ -1,5 +1,5 @@
 import { RefreshCw } from "lucide-react";
-import { MapProvider } from "ui";
+import { DarkModeProvider, MapProvider } from "ui";
 
 import { DesktopMap } from "@views/layout/desktop-map";
 import { MobileMap } from "@views/layout/mobile-map";
@@ -24,27 +24,29 @@ export default async function Layout({ children, navigation }: LayoutProps) {
 
   return (
     <div className="flex flex-col fixed w-full h-full">
-      {/* @ts-expect-error Server Component */}
-      <TopNavigation />
-      <div className="grid md:grid-cols-[300px_1fr] xl:grid-cols-[400px_1fr] shrink grow">
+      <DarkModeProvider>
         <MapProvider>
-          <div className="relative w-full">
-            <div className="absolute top-0 bottom-0 left-0 right-0 border-r bg-background">
-              <SideNavigation>{navigation}</SideNavigation>
+          {/* @ts-expect-error Server Component */}
+          <TopNavigation />
+          <div className="grid md:grid-cols-[300px_1fr] xl:grid-cols-[400px_1fr] shrink grow">
+            <div className="relative w-full">
+              <div className="absolute top-0 bottom-0 left-0 right-0 border-r bg-background">
+                <SideNavigation>{navigation}</SideNavigation>
+              </div>
+              <MobileMap>{children}</MobileMap>
             </div>
-            <MobileMap>{children}</MobileMap>
+            <main className="flex-col w-full h-full hidden md:flex">
+              <DesktopMap>{children}</DesktopMap>
+              <div className="hidden md:block absolute bottom-4 ml-4 z-20">
+                <ResetViewButton>
+                  <RefreshCw className="mr-2" />
+                  Reset Position
+                </ResetViewButton>
+              </div>
+            </main>
           </div>
-          <main className="flex-col w-full h-full hidden md:flex">
-            <DesktopMap>{children}</DesktopMap>
-            <div className="hidden md:block absolute bottom-4 ml-4 z-20">
-              <ResetViewButton>
-                <RefreshCw className="mr-2" />
-                Reset Position
-              </ResetViewButton>
-            </div>
-          </main>
         </MapProvider>
-      </div>
+      </DarkModeProvider>
     </div>
   );
 }

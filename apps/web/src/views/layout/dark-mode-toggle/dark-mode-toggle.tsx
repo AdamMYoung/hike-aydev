@@ -1,29 +1,15 @@
 "use client";
 
+"use client";
+
 import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Button } from "ui";
+import { Button, useDarkMode } from "ui";
 
 export const DarkModeToggle = () => {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>();
-
-  useEffect(() => {
-    setIsDarkMode(
-      localStorage.theme === "dark" ||
-        (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
-    );
-  }, []);
+  const { isDarkMode, setDarkMode } = useDarkMode();
 
   const toggleDarkMode = () => {
-    if (isDarkMode) {
-      localStorage.theme = "light";
-      document.documentElement.classList.remove("dark");
-      setIsDarkMode(false);
-    } else {
-      localStorage.theme = "dark";
-      document.documentElement.classList.add("dark");
-      setIsDarkMode(true);
-    }
+    setDarkMode(!isDarkMode);
   };
 
   return (
