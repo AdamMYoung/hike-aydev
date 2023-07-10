@@ -35,7 +35,7 @@ export const PeakListEntry = ({
   const [isPending, startTransition] = useTransition();
 
   const _className = cn(
-    "group flex group py-1 px-1 gap-2 items-center justify-between text-sm xl:text-base hover:bg-muted",
+    "group flex group py-1 px-1 gap-2 items-center justify-between text-sm xl:text-base hover:bg-border",
     className
   );
 

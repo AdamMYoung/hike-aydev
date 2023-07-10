@@ -1,4 +1,4 @@
-import { LogSource } from "@prisma/client";
+import { LogSource, WeightType, MeasurementType } from "@prisma/client";
 
 export type UserDTO = {
   name: string;
@@ -38,4 +38,34 @@ export type TimelineEntryDTO = {
   climbed: boolean;
   camped: boolean;
   comments: string | null;
+};
+
+export type GearListDTO = {
+  id: string;
+  name: string;
+  measurementType: MeasurementType;
+};
+
+export type GearItemDTO = {
+  id: string;
+  name: string;
+  description: string;
+  weight: number;
+};
+
+export type GearListItemDTO = GearItemDTO & {
+  itemId: string;
+  quantity: number;
+
+  weightType: WeightType;
+};
+
+export type GearListCategoryDTO = {
+  id: string;
+  name: string;
+  items: GearListItemDTO[];
+};
+
+export type GearListDetailDTO = GearListDTO & {
+  categories: GearListCategoryDTO[];
 };
