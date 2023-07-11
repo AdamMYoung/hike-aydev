@@ -31,6 +31,8 @@ export const GearTable = ({ gearList, userId }: GearTableProps) => {
     if (JSON.stringify(prevData.current) !== JSON.stringify(data)) {
       onChange(data);
     }
+
+    prevData.current = JSON.parse(JSON.stringify(data));
   }, [data]);
 
   return (
