@@ -46,7 +46,7 @@ export const GearTable = ({ gearList, userId }: GearTableProps) => {
 
       prevData.current = JSON.parse(compNewData);
     }
-  }, [data]);
+  }, [data, isReadOnly, onChange, userId]);
 
   if (!isClient) {
     return null;

@@ -19,7 +19,7 @@ export const MobileMap = ({ children }: React.PropsWithChildren) => {
     if (!isMobile) {
       setIsMobileMapOpen(false);
     }
-  }, [isMobile]);
+  }, [isMobile, setIsMobileMapOpen]);
 
   if (pathname && blacklistRoutes.includes(pathname)) {
     return null;

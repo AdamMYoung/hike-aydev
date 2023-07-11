@@ -39,7 +39,7 @@ export const GearTableEntries = ({ categoryIndex, removeCategory }: GearTableEnt
     return data.categories[categoryIndex].items.reduce((prev, curr) => {
       return prev + curr.weight * curr.quantity;
     }, 0);
-  }, [data]);
+  }, [data, categoryIndex]);
 
   const measurementType = useMemo(() => {
     return "g";
