@@ -1,8 +1,13 @@
 "use server";
 
 import { Prisma } from "@prisma/client";
+import { clearCachedEntry, getCachedEntry } from "../libs/cache";
 import { prisma } from "../libs/db";
 import { GearItemDTO, GearListDetailDTO, GearListDTO, GearListItemDTO } from "../types";
+
+const clearGearListCache = async (gearListId: string) => {
+  return Promise.all([clearCachedEntry(`get-user-by-id-${gearListId}`)]);
+};
 
 export const getUserGearLists = async (userId: string): Promise<GearListDTO[]> => {
   const gearLists = await prisma.gearList.findMany({
@@ -19,46 +24,53 @@ export const getUserGearLists = async (userId: string): Promise<GearListDTO[]> =
 };
 
 export const getUserGearList = async (gearListId: string, userId?: string | null): Promise<GearListDetailDTO> => {
-  const gearList = await prisma.gearList.findUnique({
-    where: {
-      id: gearListId,
-    },
-    include: {
-      categories: {
-        orderBy: { order: "asc" },
-        include: { gearCategoryEntries: { orderBy: { order: "asc" }, include: { item: true } } },
-      },
-    },
+  const isPrivate = await prisma.gearList.findUnique({
+    where: { id: gearListId },
+    select: { private: true, userId: true },
   });
 
-  if (!gearList) {
+  if (!isPrivate) {
     throw new Error(`Cannot find gear list with ID ${gearListId}`);
   }
 
-  if (gearList?.private && gearList.userId !== userId) {
+  if (isPrivate?.private && isPrivate.userId !== userId) {
     throw new Error("Cannot access another user's list flagged as private.");
   }
 
-  return {
-    id: gearList.id,
-    name: gearList.name,
-    measurementType: gearList.measurementType,
-    categories: gearList.categories.map((category) => ({
-      id: category.id,
-      name: category.name,
-      order: category.order,
-      items: category.gearCategoryEntries.map((entry) => ({
-        id: entry.id,
-        itemId: entry.gearItemId,
-        name: entry.item.name,
-        order: entry.order,
-        description: entry.item.description,
-        quantity: entry.quantity,
-        weight: entry.item.weightGrams,
-        weightType: entry.weightType,
+  return getCachedEntry(`get-user-by-id-${gearListId}`, async () => {
+    const gearList = await prisma.gearList.findUnique({
+      where: {
+        id: gearListId,
+      },
+      include: {
+        categories: {
+          orderBy: { order: "asc" },
+          include: { gearCategoryEntries: { orderBy: { order: "asc" }, include: { item: true } } },
+        },
+      },
+    });
+
+    return {
+      id: gearList!.id,
+      name: gearList!.name,
+      measurementType: gearList!.measurementType,
+      categories: gearList!.categories.map((category) => ({
+        id: category.id,
+        name: category.name,
+        order: category.order,
+        items: category.gearCategoryEntries.map((entry) => ({
+          id: entry.id,
+          itemId: entry.gearItemId,
+          name: entry.item.name,
+          order: entry.order,
+          description: entry.item.description,
+          quantity: entry.quantity,
+          weight: entry.item.weightGrams,
+          weightType: entry.weightType,
+        })),
       })),
-    })),
-  };
+    };
+  });
 };
 
 export const getUserGearItems = async (userId: string): Promise<GearItemDTO[]> => {
@@ -111,8 +123,6 @@ export const updateGearList = async (userId: string, data: GearListDetailDTO): P
   const permissionCheck = await prisma.gearList.findFirst({
     where: { id: data.id },
   });
-
-  console.log("Updating gear list");
 
   if (!permissionCheck) {
     throw new Error(`Cannot find gear list with ID ${data.id}`);
@@ -188,6 +198,8 @@ export const updateGearList = async (userId: string, data: GearListDetailDTO): P
   if (!gearList) {
     throw new Error("Error updating gear list");
   }
+
+  clearGearListCache(data.id);
 
   return {
     id: gearList.id,
