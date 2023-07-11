@@ -36,8 +36,8 @@ model Account {
 model FellGroup {
   id          Int     @id @default(autoincrement())
   name        String  @unique
-  description String?
-  imageUrl    String?
+  description String? @db.VarChar(1000)
+  imageUrl    String? @db.VarChar(1000)
   published   Boolean @default(true)
 
   fells Fell[]
@@ -47,9 +47,9 @@ model FellGroup {
 
 model Fell {
   id             Int     @id @default(autoincrement())
-  name           String
-  description    String?
-  imageUrl       String?
+  name           String  @db.VarChar(1000)
+  description    String? @db.VarChar(1000)
+  imageUrl       String? @db.VarChar(1000)
   metres         Int
   feet           Int
   lat            Float
@@ -66,7 +66,7 @@ model Fell {
 
 model LogEntry {
   id         String  @id @default(cuid())
-  comments   String?
+  comments   String? @db.VarChar(1000)
   climbed    Boolean @default(false)
   camped     Boolean @default(false)
   logGroupId String
@@ -85,7 +85,7 @@ model LogGroup {
   id       String    @id @default(cuid())
   start    DateTime
   end      DateTime?
-  polyline String?
+  polyline String?   @db.VarChar(2000)
   authorId String
   source   LogSource
 
@@ -98,10 +98,10 @@ model LogGroup {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
+  name          String?   @db.VarChar(1000)
   email         String?   @unique
   emailVerified DateTime?
-  image         String?
+  image         String?   @db.VarChar(1000)
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
 
@@ -168,7 +168,7 @@ model GearCategory {
   id         String @id @default(cuid())
   gearListId String
 
-  name String
+  name String @db.VarChar(1000)
 
   list                GearList            @relation(fields: [gearListId], references: [id], onDelete: Cascade)
   gearCategoryEntries GearCategoryEntry[]
@@ -194,8 +194,8 @@ model GearItem {
   id     String @id @default(cuid())
   userId String
 
-  name         String
-  description  String
+  name         String        @db.VarChar(1000)
+  description  String        @db.VarChar(1000)
   weightGrams  Float
   trackingType TrackingType?
 
