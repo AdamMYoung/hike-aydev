@@ -133,7 +133,7 @@ export const updateGearList = async (userId: string, data: GearListDetailDTO) =>
                 weightGrams: item.weight,
                 userId,
               },
-              update: { name: item.name, description: item.description, weightGrams: item.weight, userId },
+              update: { name: item.name, description: item.description, weightGrams: item.weight },
             })
           )
         );
