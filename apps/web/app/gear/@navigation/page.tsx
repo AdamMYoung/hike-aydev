@@ -30,7 +30,7 @@ const GearNavigation = async () => {
         <div className="flex flex-col text-left gap-2 rounded-lg px-2 bg-background">
           {lists.map((list) => (
             <div key={list.id} className="group flex gap-2 items-center justify-between">
-              <Link href={`/gear/${list.id}`} className="text-lg w-full hover:underline">
+              <Link href={`/gear/${list.id}`} className="text-base w-full hover:underline">
                 {list.name}
               </Link>
 
@@ -55,9 +55,9 @@ const GearNavigation = async () => {
           ) : null}
           {items.map((item) => (
             <div key={item.id} className="group flex flex-col gap-1 py-2">
-              <div className="flex gap-2  items-center justify-between">
+              <div className="flex gap-2 text-sm items-center justify-between">
                 <h3 className="font-semibold">{item.name}</h3>
-                <p className="text-sm">{item.weight}g</p>
+                <p className="">{item.weight}g</p>
               </div>
               <p className="text-xs">{item.description}</p>
             </div>
