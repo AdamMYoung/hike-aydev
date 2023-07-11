@@ -10,15 +10,17 @@ import { updateGearList } from "@libs/actions";
 import { GearTableGraph } from "./gear-table-graph";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useIsClient } from "@/hooks/use-is-client";
+import { useReadOnly } from "@/context/read-only-context";
 
 type GearTableProps = {
-  userId: string | null;
+  userId?: string | null;
   gearList: GearListDetailDTO;
 };
 
 export const GearTable = ({ gearList, userId }: GearTableProps) => {
   const [isTransitioning, startTransition] = useTransition();
   const isClient = useIsClient();
+  const { isReadOnly } = useReadOnly();
   const prevData = useRef<GearListDetailDTO>();
   const methods = useForm<GearListDetailDTO>({ defaultValues: gearList, mode: "all", reValidateMode: "onChange" });
 
@@ -26,21 +28,24 @@ export const GearTable = ({ gearList, userId }: GearTableProps) => {
 
   const onChange = useCallback(
     debounce((newData: GearListDetailDTO) => {
-      startTransition(() => updateGearList(userId, newData));
+      if (userId) {
+        startTransition(() => updateGearList(userId, newData));
+      }
     }, 2000),
     [userId]
   );
 
   useEffect(() => {
-    const compOldData = JSON.stringify(prevData.current);
-    const compNewData = JSON.stringify(data);
+    if (!isReadOnly && userId) {
+      const compOldData = JSON.stringify(prevData.current);
+      const compNewData = JSON.stringify(data);
 
-    if (prevData.current && compOldData !== compNewData) {
-      console.log(data);
-      onChange(data);
+      if (prevData.current && compOldData !== compNewData) {
+        onChange(data);
+      }
+
+      prevData.current = JSON.parse(compNewData);
     }
-
-    prevData.current = JSON.parse(compNewData);
   }, [data]);
 
   if (!isClient) {
