@@ -1,5 +1,6 @@
 "use client";
 
+import { useReadOnly } from "@/context/read-only-context";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { GearListDetailDTO } from "database";
 import { useFormContext } from "react-hook-form";
@@ -7,6 +8,7 @@ import { cn, ElementProps, Input } from "ui";
 
 export const GearTableTitle = ({ className, ...rest }: ElementProps<typeof Input>) => {
   const isMobile = useIsMobile();
+  const { isReadOnly } = useReadOnly();
   const { register } = useFormContext<GearListDetailDTO>();
 
   const _className = cn(
@@ -15,5 +17,5 @@ export const GearTableTitle = ({ className, ...rest }: ElementProps<typeof Input
     className
   );
 
-  return <Input className={_className} {...rest} {...register("name")} />;
+  return <Input readOnly={isReadOnly} className={_className} {...rest} {...register("name")} />;
 };
