@@ -89,6 +89,13 @@ export const getUserGearItems = async (userId: string): Promise<GearItemDTO[]> =
 export const deleteUserGearItem = async (userId: string, itemId: string): Promise<GearItemDTO> => {
   const gearItem = await prisma.gearItem.findFirst({
     where: { id: itemId, userId },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      weightGrams: true,
+      gearCategoryEntries: { select: { category: { select: { gearListId: true } } } },
+    },
   });
 
   if (!gearItem) {
@@ -96,6 +103,8 @@ export const deleteUserGearItem = async (userId: string, itemId: string): Promis
   }
 
   await prisma.gearItem.delete({ where: { id: itemId } });
+
+  await Promise.all(gearItem.gearCategoryEntries.map((entry) => clearGearListCache(entry.category.gearListId)));
 
   return {
     id: gearItem.id,
@@ -199,7 +208,7 @@ export const updateGearList = async (userId: string, data: GearListDetailDTO): P
     throw new Error("Error updating gear list");
   }
 
-  clearGearListCache(data.id);
+  await clearGearListCache(data.id);
 
   return {
     id: gearList.id,
@@ -237,6 +246,8 @@ export const deleteGearList = async (userId: string, listId: string): Promise<Ge
   }
 
   await prisma.gearList.delete({ where: { id: listId } });
+
+  await clearGearListCache(listId);
 
   return {
     id: gearList.id,
