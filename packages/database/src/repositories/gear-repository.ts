@@ -23,7 +23,12 @@ export const getUserGearList = async (gearListId: string, userId?: string | null
     where: {
       id: gearListId,
     },
-    include: { categories: { include: { gearCategoryEntries: { include: { item: true } } } } },
+    include: {
+      categories: {
+        orderBy: { order: "asc" },
+        include: { gearCategoryEntries: { orderBy: { order: "asc" }, include: { item: true } } },
+      },
+    },
   });
 
   if (!gearList) {
@@ -41,10 +46,12 @@ export const getUserGearList = async (gearListId: string, userId?: string | null
     categories: gearList.categories.map((category) => ({
       id: category.id,
       name: category.name,
+      order: category.order,
       items: category.gearCategoryEntries.map((entry) => ({
         id: entry.id,
         itemId: entry.item.id,
         name: entry.item.name,
+        order: entry.order,
         description: entry.item.description,
         quantity: entry.quantity,
         weight: entry.item.weightGrams,
@@ -100,7 +107,7 @@ export const createGearList = async (userId: string): Promise<GearListDTO> => {
   };
 };
 
-export const updateGearList = async (userId: string, data: GearListDetailDTO) => {
+export const updateGearList = async (userId: string, data: GearListDetailDTO): Promise<GearListDetailDTO> => {
   const permissionCheck = await prisma.gearList.findFirst({
     where: { id: data.id },
   });
@@ -117,82 +124,89 @@ export const updateGearList = async (userId: string, data: GearListDetailDTO) =>
     return [...prev, ...curr.items.filter((item) => item.name || item.description)];
   }, [] as GearListItemDTO[]);
 
-  try {
-    const gearList = await prisma.$transaction(
-      async (tx) => {
-        await Promise.all(
-          flattenedItems.map((item) =>
-            tx.gearItem.upsert({
-              where: { id: item.itemId },
-              create: {
-                id: item.itemId,
-                name: item.name,
-                description: item.description,
-                weightGrams: item.weight,
-                userId,
-              },
-              update: { name: item.name, description: item.description, weightGrams: item.weight },
-            })
-          )
-        );
-
-        await tx.gearList.delete({ where: { id: data.id } });
-
-        return await tx.gearList.create({
-          data: {
-            id: data.id,
-            userId: userId,
-            name: data.name,
-            measurementType: data.measurementType,
-            categories: {
-              create: data.categories.map((category) => ({
-                id: category.id,
-                name: category.name,
-                gearCategoryEntries: {
-                  create: category.items
-                    .filter((item) => item.name || item.description)
-                    .map((item) => ({
-                      quantity: item.quantity,
-                      weightType: item.weightType,
-                      gearItemId: item.itemId,
-                    })),
-                },
-              })),
+  const gearList = await prisma.$transaction(
+    async (tx) => {
+      await Promise.all(
+        flattenedItems.map((item) =>
+          tx.gearItem.upsert({
+            where: { id: item.itemId },
+            create: {
+              id: item.itemId,
+              name: item.name,
+              description: item.description,
+              weightGrams: item.weight,
+              userId,
             },
+            update: { name: item.name, description: item.description, weightGrams: item.weight },
+          })
+        )
+      );
+
+      await tx.gearList.delete({ where: { id: data.id } });
+
+      return await tx.gearList.create({
+        data: {
+          id: data.id,
+          userId: userId,
+          name: data.name,
+          measurementType: data.measurementType,
+          categories: {
+            create: data.categories.map((category, categoryIndex) => ({
+              id: category.id,
+              name: category.name,
+              order: categoryIndex,
+              gearCategoryEntries: {
+                create: category.items
+                  .filter((item) => item.name || item.description)
+                  .map((item, itemIndex) => ({
+                    order: itemIndex,
+                    quantity: item.quantity,
+                    weightType: item.weightType,
+                    gearItemId: item.itemId,
+                  })),
+              },
+            })),
           },
-          include: { categories: { include: { gearCategoryEntries: { include: { item: true } } } } },
-        });
-      },
-      {
-        isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
-        maxWait: 5000, // default: 2000
-        timeout: 10000, // default: 5000
-      }
-    );
-
-    if (!gearList) {
-      throw new Error("Error updating gear list");
+        },
+        include: {
+          categories: {
+            orderBy: { order: "asc" },
+            include: { gearCategoryEntries: { orderBy: { order: "asc" }, include: { item: true } } },
+          },
+        },
+      });
+    },
+    {
+      isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+      maxWait: 5000, // default: 2000
+      timeout: 10000, // default: 5000
     }
+  );
 
-    return {
-      id: gearList.id,
-      name: gearList.name,
-      measurementType: gearList.measurementType,
-      categories: gearList.categories.map((category) => ({
-        id: category.id,
-        name: category.name,
-        items: category.gearCategoryEntries.map((entry) => ({
-          id: entry.id,
-          itemId: entry.item.id,
-          name: entry.item.name,
-          description: entry.item.description,
-          quantity: entry.quantity,
-          weight: entry.item.weightGrams,
-          weightType: entry.weightType,
-        })),
+  if (!gearList) {
+    throw new Error("Error updating gear list");
+  }
+
+  return {
+    id: gearList.id,
+    name: gearList.name,
+    measurementType: gearList.measurementType,
+    categories: gearList.categories.map((category) => ({
+      id: category.id,
+      name: category.name,
+      order: category.order,
+      items: category.gearCategoryEntries.map((entry) => ({
+        id: entry.id,
+        order: entry.order,
+        itemId: entry.item.id,
+        name: entry.item.name,
+        description: entry.item.description,
+        quantity: entry.quantity,
+        weight: entry.item.weightGrams,
+        weightType: entry.weightType,
       })),
-    };
-  } catch {}
+    })),
+  };
 };
 
 export const deleteGearList = async (userId: string, listId: string): Promise<GearListDTO> => {

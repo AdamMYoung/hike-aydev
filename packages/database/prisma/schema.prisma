@@ -176,7 +176,8 @@ model GearCategory {
   id         String @id @default(cuid())
   gearListId String
 
-  name String @db.VarChar(1000)
+  name  String @db.VarChar(1000)
+  order Int    @default(0)
 
   list                GearList            @relation(fields: [gearListId], references: [id], onDelete: Cascade)
   gearCategoryEntries GearCategoryEntry[]
@@ -190,6 +191,7 @@ model GearCategoryEntry {
   gearCategoryId String
   gearItemId     String
 
+  order      Int        @default(0)
   quantity   Int
   weightType WeightType @default(BASE_WEIGHT)
 

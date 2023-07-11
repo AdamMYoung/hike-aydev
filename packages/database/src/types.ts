@@ -57,11 +57,13 @@ export type GearListItemDTO = GearItemDTO & {
   itemId: string;
   quantity: number;
   weightType: WeightType;
+  order: number;
 };
 
 export type GearListCategoryDTO = {
   id: string;
   name: string;
+  order: number;
   items: GearListItemDTO[];
 };
 
