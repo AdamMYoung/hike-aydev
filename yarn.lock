@@ -5076,6 +5076,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.isequal@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.isequal@npm:4.5.0"
+  checksum: da27515dc5230eb1140ba65ff8de3613649620e8656b19a6270afe4866b7bd461d9ba2ac8a48dcc57f7adac4ee80e1de9f965d89d4d81a0ad52bb3eec2609644
+  languageName: node
+  linkType: hard
+
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
@@ -7867,6 +7874,7 @@ __metadata:
     database: "*"
     dayjs: ^1.11.9
     eslint-config-custom: "*"
+    lodash.isequal: ^4.5.0
     lucide-react: ^0.259.0
     nanoid: ^4.0.2
     next: ^13.4.9
