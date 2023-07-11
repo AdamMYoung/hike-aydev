@@ -49,7 +49,7 @@ export const getUserGearList = async (gearListId: string, userId?: string | null
       order: category.order,
       items: category.gearCategoryEntries.map((entry) => ({
         id: entry.id,
-        itemId: entry.item.id,
+        itemId: entry.gearItemId,
         name: entry.item.name,
         order: entry.order,
         description: entry.item.description,
@@ -111,6 +111,8 @@ export const updateGearList = async (userId: string, data: GearListDetailDTO): P
   const permissionCheck = await prisma.gearList.findFirst({
     where: { id: data.id },
   });
+
+  console.log("Updating gear list");
 
   if (!permissionCheck) {
     throw new Error(`Cannot find gear list with ID ${data.id}`);

@@ -1953,6 +1953,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-beautiful-dnd@npm:^13.1.4":
+  version: 13.1.4
+  resolution: "@types/react-beautiful-dnd@npm:13.1.4"
+  dependencies:
+    "@types/react": "*"
+  checksum: 76220f1031721e73f712cf0021de6a3cf4049260ec29996cd587876ebd6ed01b9c31d8efb5cf230eb4d2b6259525ffe0f3054667732d30c79df37e49f9398c5e
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:^18.2.6":
   version: 18.2.6
   resolution: "@types/react-dom@npm:18.2.6"
@@ -8338,6 +8347,7 @@ __metadata:
     "@turf/line-split": ^6.5.0
     "@types/node": ^17.0.45
     "@types/react": ^18.2.14
+    "@types/react-beautiful-dnd": ^13.1.4
     "@types/react-dom": ^18.2.6
     "@vercel/analytics": ^1.0.1
     autoprefixer: ^10.4.14

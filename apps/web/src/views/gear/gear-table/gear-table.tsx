@@ -8,6 +8,8 @@ import { GearTableCategories } from "./gear-table-categories";
 import { GearTableTitle } from "./gear-table-title";
 import { updateGearList } from "@libs/actions";
 import { GearTableGraph } from "./gear-table-graph";
+import { DragDropContext } from "react-beautiful-dnd";
+import { useIsClient } from "@/hooks/use-is-client";
 
 type GearTableProps = {
   userId: string | null;
@@ -16,6 +18,7 @@ type GearTableProps = {
 
 export const GearTable = ({ gearList, userId }: GearTableProps) => {
   const [isTransitioning, startTransition] = useTransition();
+  const isClient = useIsClient();
   const prevData = useRef<GearListDetailDTO>();
   const methods = useForm<GearListDetailDTO>({ defaultValues: gearList, mode: "all", reValidateMode: "onChange" });
 
@@ -29,12 +32,20 @@ export const GearTable = ({ gearList, userId }: GearTableProps) => {
   );
 
   useEffect(() => {
-    if (JSON.stringify(prevData.current) !== JSON.stringify(data)) {
+    const compOldData = JSON.stringify(prevData.current);
+    const compNewData = JSON.stringify(data);
+
+    if (prevData.current && compOldData !== compNewData) {
+      console.log(data);
       onChange(data);
     }
 
-    prevData.current = JSON.parse(JSON.stringify(data));
+    prevData.current = JSON.parse(compNewData);
   }, [data]);
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <FormProvider {...methods}>

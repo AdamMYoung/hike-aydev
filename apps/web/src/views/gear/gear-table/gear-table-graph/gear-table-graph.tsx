@@ -1,6 +1,5 @@
 "use client";
 
-import { useIsClient } from "@/hooks/use-is-client";
 import { GearListDetailDTO } from "database";
 import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
@@ -10,8 +9,6 @@ const graphColors = ["#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f9
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
-    console.log(payload);
-
     return (
       <div className="bg-background text-foreground px-4 rounded border border-foreground">
         <p className="label">{`${payload[0].name} : ${payload[0].value}g`}</p>
@@ -24,7 +21,6 @@ const CustomTooltip = ({ active, payload }) => {
 
 export const GearTableGraph = () => {
   const { watch } = useFormContext<GearListDetailDTO>();
-  const isClient = useIsClient();
 
   const data = watch();
 
@@ -79,10 +75,6 @@ export const GearTableGraph = () => {
       </table>
     );
   };
-
-  if (!isClient) {
-    return null;
-  }
 
   return (
     <div className="mx-auto w-full">
