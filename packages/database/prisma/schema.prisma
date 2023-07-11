@@ -30,6 +30,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
   @@map(name: "accounts")
 }
 
@@ -78,6 +79,9 @@ model LogEntry {
   group  LogGroup @relation(fields: [logGroupId], references: [id], onDelete: Cascade)
 
   @@unique([authorId, fellId])
+  @@index([authorId])
+  @@index([fellId])
+  @@index([logGroupId])
   @@map(name: "log_entries")
 }
 
@@ -93,6 +97,7 @@ model LogGroup {
   author     User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   @@unique([start, authorId])
+  @@index([authorId])
   @@map(name: "log_groups")
 }
 
@@ -128,6 +133,7 @@ model UserPreferences {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
   @@map(name: "user_preferences")
 }
 
@@ -147,6 +153,7 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
   @@map(name: "sessions")
 }
 
@@ -161,6 +168,7 @@ model GearList {
   user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   categories GearCategory[]
 
+  @@index([userId])
   @@map(name: "gear_lists")
 }
 
@@ -173,6 +181,7 @@ model GearCategory {
   list                GearList            @relation(fields: [gearListId], references: [id], onDelete: Cascade)
   gearCategoryEntries GearCategoryEntry[]
 
+  @@index([gearListId])
   @@map("gear_categories")
 }
 
@@ -187,6 +196,8 @@ model GearCategoryEntry {
   category GearCategory @relation(fields: [gearCategoryId], references: [id], onDelete: Cascade)
   item     GearItem     @relation(fields: [gearItemId], references: [id], onDelete: Cascade)
 
+  @@index([gearCategoryId])
+  @@index([gearItemId])
   @@map("gear_category_entries")
 }
 
@@ -202,6 +213,7 @@ model GearItem {
   user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   gearCategoryEntries GearCategoryEntry[]
 
+  @@index([userId])
   @@map("gear_items")
 }
 
