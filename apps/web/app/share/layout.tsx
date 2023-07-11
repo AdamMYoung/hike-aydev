@@ -22,7 +22,7 @@ export default async function Layout({ children, navigation }: LayoutProps) {
       <DarkModeProvider>
         {/* @ts-expect-error Server Component */}
         <TopNavigation />
-        <main className="flex-col w-full h-full hidden md:flex">{children}</main>
+        <main className="flex-col w-full h-full flex">{children}</main>
       </DarkModeProvider>
     </div>
   );

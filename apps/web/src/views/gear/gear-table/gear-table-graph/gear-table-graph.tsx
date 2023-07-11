@@ -1,9 +1,11 @@
 "use client";
 
+import { useIsMobile } from "@/hooks/use-is-mobile";
 import { GearListDetailDTO } from "database";
 import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts";
+import { cn } from "ui";
 
 const graphColors = ["#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600"];
 
@@ -20,6 +22,7 @@ const CustomTooltip = ({ active, payload }) => {
 };
 
 export const GearTableGraph = () => {
+  const isMobile = useIsMobile();
   const { watch } = useFormContext<GearListDetailDTO>();
 
   const data = watch();
@@ -77,8 +80,8 @@ export const GearTableGraph = () => {
   };
 
   return (
-    <div className="mx-auto w-full">
-      <PieChart width={500} height={300}>
+    <div className="mx-auto">
+      <PieChart width={isMobile ? 250 : 500} height={isMobile ? 500 : 300} className={cn(isMobile && "mx-auto")}>
         <Pie data={categoriesToRender} dataKey="sum" nameKey="name">
           {categoriesToRender.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={graphColors[index % graphColors.length]} />
@@ -87,7 +90,12 @@ export const GearTableGraph = () => {
 
         {/* @ts-ignore */}
         <Tooltip content={<CustomTooltip />} />
-        <Legend content={renderLegend} layout="vertical" align="right" verticalAlign="middle" />
+        <Legend
+          content={renderLegend}
+          layout={isMobile ? "horizontal" : "vertical"}
+          align={isMobile ? "center" : "right"}
+          verticalAlign={isMobile ? "bottom" : "middle"}
+        />
       </PieChart>
     </div>
   );

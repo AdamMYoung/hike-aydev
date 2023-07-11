@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteGearList, GearListDetailDTO } from "database";
+import { GearListDetailDTO } from "database";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import {
   AlertDialog,
@@ -16,9 +16,8 @@ import {
   Input,
 } from "ui";
 import { nanoid } from "nanoid";
-import { Download, Grip, Plus, Trash } from "lucide-react";
-import { startTransition, useMemo } from "react";
-import { redirect } from "next/navigation";
+import { Grip, Plus, Trash } from "lucide-react";
+import { useMemo } from "react";
 import { DragDropContext, Draggable, Droppable, OnDragEndResponder } from "react-beautiful-dnd";
 import { useReadOnly } from "@/context/read-only-context";
 
@@ -105,9 +104,9 @@ export const GearTableEntries = ({ categoryIndex, removeCategory }: GearTableEnt
             {(provided) => (
               <tbody ref={provided.innerRef} {...provided.droppableProps} className="divide-y">
                 {fields.map((field, index) => (
-                  <Draggable draggableId={field.id} index={index} isDragDisabled={isReadOnly}>
+                  <Draggable draggableId={field.id} index={index} isDragDisabled={isReadOnly} key={field.id}>
                     {(provided) => (
-                      <tr className="group" key={field.id} ref={provided.innerRef} {...provided.draggableProps}>
+                      <tr className="group" ref={provided.innerRef} {...provided.draggableProps}>
                         <td>
                           {!isReadOnly ? (
                             <div {...provided.dragHandleProps}>
