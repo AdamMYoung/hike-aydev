@@ -79,9 +79,7 @@ export const updateGearList = async (userId: string | null, data: GearListDetail
     return;
   }
 
-  console.log("Updating...");
   await updateGearListDb(userId, data);
-  console.log("Updated!");
 
   revalidatePath("/gear");
   revalidatePath(`/gear/${data.id}`);
