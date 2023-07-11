@@ -5,7 +5,6 @@ import { getCachedCurrentUser, preload } from "@libs/cache";
 
 type LayoutProps = {
   children: React.ReactNode;
-  navigation: React.ReactNode;
 };
 
 export const metadata = {
@@ -13,7 +12,7 @@ export const metadata = {
   description: "Track and manage everything to do with hiking in the UK.",
 };
 
-export default async function Layout({ children, navigation }: LayoutProps) {
+export default async function Layout({ children }: LayoutProps) {
   const user = await getCachedCurrentUser();
   preload(user?.id);
 
