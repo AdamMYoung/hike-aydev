@@ -120,8 +120,6 @@ export const updateGearList = async (userId: string, data: GearListDetailDTO) =>
   try {
     const gearList = await prisma.$transaction(
       async (tx) => {
-        await tx.gearList.delete({ where: { id: data.id } });
-
         await Promise.all(
           flattenedItems.map((item) =>
             tx.gearItem.upsert({
@@ -137,6 +135,8 @@ export const updateGearList = async (userId: string, data: GearListDetailDTO) =>
             })
           )
         );
+
+        await tx.gearList.delete({ where: { id: data.id } });
 
         return await tx.gearList.create({
           data: {

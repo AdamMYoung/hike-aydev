@@ -1,9 +1,8 @@
 "use client";
 
 import { GearListDetailDTO } from "database";
-import { useCallback, useEffect, useTransition } from "react";
+import { useCallback, useEffect, useRef, useTransition } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Separator } from "ui";
 import debounce from "lodash.debounce";
 import { GearTableCategories } from "./gear-table-categories";
 import { GearTableTitle } from "./gear-table-title";
@@ -16,20 +15,23 @@ type GearTableProps = {
 
 export const GearTable = ({ gearList, userId }: GearTableProps) => {
   const [isTransitioning, startTransition] = useTransition();
+  const prevData = useRef<GearListDetailDTO>();
   const methods = useForm<GearListDetailDTO>({ defaultValues: gearList, mode: "all", reValidateMode: "onChange" });
 
   const data = methods.watch();
 
   const onChange = useCallback(
-    debounce((data: GearListDetailDTO) => {
-      startTransition(() => updateGearList(userId, data));
-    }, 3000),
+    debounce((newData: GearListDetailDTO) => {
+      startTransition(() => updateGearList(userId, newData));
+    }, 2000),
     [userId]
   );
 
   useEffect(() => {
-    onChange(data);
-  }, [data, onChange]);
+    if (JSON.stringify(prevData.current) !== JSON.stringify(data)) {
+      onChange(data);
+    }
+  }, [data]);
 
   return (
     <FormProvider {...methods}>
