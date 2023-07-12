@@ -22,7 +22,6 @@ const GearListContent = async ({ params }: GearListProps) => {
     <div className="py-4 h-full relative">
       <div className="absolute container top-0 left-0 right-0 bottom-0">
         <ScrollArea className="h-full">
-          <GearShareInput gearListId={params.id} />
           <GearTable userId={user.id} gearList={gearList} />
         </ScrollArea>
       </div>

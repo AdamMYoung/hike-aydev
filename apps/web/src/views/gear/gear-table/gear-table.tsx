@@ -11,6 +11,8 @@ import { GearTableGraph } from "./gear-table-graph";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useIsClient } from "@/hooks/use-is-client";
 import { useReadOnly } from "@/context/read-only-context";
+import { GearShareInput } from "../gear-share-input";
+import { cn } from "ui";
 
 type GearTableProps = {
   userId?: string | null;
@@ -61,8 +63,9 @@ export const GearTable = ({ gearList, userId }: GearTableProps) => {
       >
         <div className="flex flex-col gap-2 p-6 h-full">
           <GearTableTitle />
-          <div className="py-4">
+          <div className={cn("py-4 flex flex-col", !isReadOnly && "mx-auto")}>
             <GearTableGraph />
+            {!isReadOnly ? <GearShareInput gearListId={gearList.id} /> : null}
           </div>
 
           <div className="pt-4 relative h-full">
