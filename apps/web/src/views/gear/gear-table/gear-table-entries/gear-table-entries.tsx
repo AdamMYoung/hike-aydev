@@ -20,6 +20,7 @@ import { Grip, Plus, Trash } from "lucide-react";
 import { useMemo } from "react";
 import { DragDropContext, Draggable, Droppable, OnDragEndResponder } from "react-beautiful-dnd";
 import { useReadOnly } from "@/context/read-only-context";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 
 type GearTableEntriesProps = {
   removeCategory: () => void;
@@ -28,6 +29,7 @@ type GearTableEntriesProps = {
 
 export const GearTableEntries = ({ categoryIndex, removeCategory }: GearTableEntriesProps) => {
   const { isReadOnly } = useReadOnly();
+  const isMobile = useIsMobile();
   const { register, watch } = useFormContext<GearListDetailDTO>();
   const { fields, append, remove, move } = useFieldArray<GearListDetailDTO, `categories.${number}.items`>({
     name: `categories.${categoryIndex}.items`,
@@ -60,7 +62,7 @@ export const GearTableEntries = ({ categoryIndex, removeCategory }: GearTableEnt
           <thead>
             <tr>
               <th />
-              <th colSpan={2}>
+              <th colSpan={isReadOnly && isMobile ? 1 : 2}>
                 <Input
                   readOnly={isReadOnly}
                   className="text-lg font-semibold py-0 h-auto border-transparent transition-colors hover:border-muted-foreground focus:border-muted-foreground"
@@ -71,7 +73,7 @@ export const GearTableEntries = ({ categoryIndex, removeCategory }: GearTableEnt
 
               <th></th>
               <th>Weight</th>
-              <th>Quantity</th>
+              {isReadOnly && isMobile ? null : <th>Quantity</th>}
               <th>
                 {!isReadOnly ? (
                   <AlertDialog>
@@ -122,14 +124,16 @@ export const GearTableEntries = ({ categoryIndex, removeCategory }: GearTableEnt
                             {...register(`categories.${categoryIndex}.items.${index}.name`)}
                           />
                         </td>
-                        <td>
-                          <Input
-                            readOnly={isReadOnly}
-                            className="rounded-none border-transparent border-dashed hover:border-gray-500 h-auto py-0"
-                            placeholder="Description"
-                            {...register(`categories.${categoryIndex}.items.${index}.description`)}
-                          />
-                        </td>
+                        {isReadOnly && isMobile ? null : (
+                          <td>
+                            <Input
+                              readOnly={isReadOnly}
+                              className="rounded-none border-transparent border-dashed hover:border-gray-500 h-auto py-0"
+                              placeholder="Description"
+                              {...register(`categories.${categoryIndex}.items.${index}.description`)}
+                            />
+                          </td>
+                        )}
                         <td>
                           <div className="hidden gap-1 px-2 self-center py-auto transition-opacity opacity-0 group-focus-within:opacity-100 group-hover:opacity-100">
                             <Button className="p-0 w-6 h-6" variant="outline" />
@@ -151,16 +155,18 @@ export const GearTableEntries = ({ categoryIndex, removeCategory }: GearTableEnt
                             <p>{measurementType}</p>
                           </div>
                         </td>
-                        <td className="w-20">
-                          <Input
-                            readOnly={isReadOnly}
-                            type="number"
-                            className="rounded-none appearance-none text-right border-transparent border-dashed hover:border-gray-500 h-auto p-0"
-                            {...register(`categories.${categoryIndex}.items.${index}.quantity`, {
-                              valueAsNumber: true,
-                            })}
-                          />
-                        </td>
+                        {isReadOnly && isMobile ? null : (
+                          <td className="w-20">
+                            <Input
+                              readOnly={isReadOnly}
+                              type="number"
+                              className="rounded-none appearance-none text-right border-transparent border-dashed hover:border-gray-500 h-auto p-0"
+                              {...register(`categories.${categoryIndex}.items.${index}.quantity`, {
+                                valueAsNumber: true,
+                              })}
+                            />
+                          </td>
+                        )}
                         <td className="px-2">
                           {!isReadOnly ? (
                             <Button
@@ -183,7 +189,7 @@ export const GearTableEntries = ({ categoryIndex, removeCategory }: GearTableEnt
           <tfoot>
             <tr>
               <th />
-              <th colSpan={3}>
+              <th colSpan={isReadOnly && isMobile ? 2 : 3}>
                 {!isReadOnly ? (
                   <div className="flex gap-2">
                     <Button

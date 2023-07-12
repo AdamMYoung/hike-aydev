@@ -14,7 +14,7 @@ const GearListContent = async ({ params }: GearListProps) => {
 
   return (
     <div className="py-4 h-full relative">
-      <div className="absolute container top-0 left-0 right-0 bottom-0">
+      <div className="absolute md:container top-0 left-0 right-0 bottom-0">
         <ScrollArea className="h-full">
           <ReadOnlyProvider isReadOnly>
             <GearTable gearList={gearList} />
@@ -27,7 +27,7 @@ const GearListContent = async ({ params }: GearListProps) => {
 
 const GearListPlaceholder = () => {
   return (
-    <div className="py-4 container mx-auto">
+    <div className="py-4 md:container md:mx-auto">
       <Skeleton className="w-full h-12" />
     </div>
   );

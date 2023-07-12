@@ -1,8 +1,9 @@
 import { getCachedCurrentUser, getCachedUserGearList } from "@libs/cache";
+import { GearShareInput } from "@views/gear/gear-share-input";
 import { GearTable } from "@views/gear/gear-table";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { ScrollArea, Skeleton } from "ui";
+import { Input, ScrollArea, Skeleton } from "ui";
 
 type GearListProps = {
   params: { id: string };
@@ -21,6 +22,7 @@ const GearListContent = async ({ params }: GearListProps) => {
     <div className="py-4 h-full relative">
       <div className="absolute container top-0 left-0 right-0 bottom-0">
         <ScrollArea className="h-full">
+          <GearShareInput gearListId={params.id} />
           <GearTable userId={user.id} gearList={gearList} />
         </ScrollArea>
       </div>
